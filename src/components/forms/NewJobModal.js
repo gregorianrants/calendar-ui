@@ -1,4 +1,3 @@
-
 import React from "react";
 import {createJob} from "../../Model/Jobs";
 import JobForm from './JobForm'
@@ -18,13 +17,17 @@ export default function NewJobModal({addToEvents,toggleModal,data}) {
             .catch(console.error)
     }
 
+
+
     return (
         <Modal>
             <Card style={{width: 600}}>
                 <CardContent>
                     <JobForm handleSubmit={handleSubmit}
                              addToEvents={addToEvents}
-                             toggleModal={toggleModal}/>
+                             toggleModal={toggleModal}
+
+                    />
                 </CardContent>
             </Card>
         </Modal>

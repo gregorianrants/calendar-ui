@@ -2,7 +2,19 @@ const mongoose = require('mongoose')
 const cuid = require("cuid");
 /*const addGcalEvent = require('./../googleCalendar')*/
 
+const setHours = require('date-fns/setHours')
 
+
+
+function createStart(){
+    return setHours(new Date(),10)
+}
+
+function createEnd(){
+    return setHours(new Date(),10)
+}
+
+console.log(createStart())
 
 const addressSchema = new mongoose.Schema({
     _id: {
@@ -17,17 +29,23 @@ const addressSchema = new mongoose.Schema({
 
 
 const jobSchema = new mongoose.Schema({
-    start: Date,
-    end: Date,
+    start: {
+        type: Date,
+        default: createStart,
+    },
+    end:  {
+        type: Date,
+        default: createEnd,
+    },
     customer: {
-        name: String,
-        mobile: Number,
-        email: String,
+        name: {type: String, default: null},
+        mobile: {type: String, default: null},
+        email: {type: String, default: null},
     },
     charges: {
-        hourlyRate: Number,
-        fuelCharge: Number,
-        travelTime: Number,
+        hourlyRate: {type: Number, default: null},
+        fuelCharge: {type: Number, default: null},
+        travelTime: {type: Number, default: null},
     },
     operatives: [],
     items: [],
@@ -82,7 +100,8 @@ module.exports = {
     get,
     remove,
     resetData,
-    edit
+    edit,
+    jobSchema
 }
 
 
