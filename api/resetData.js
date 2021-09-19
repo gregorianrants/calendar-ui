@@ -4,8 +4,17 @@ console.log(process.env.DB_PASSWORD)
 require('./model/db')
 let Job = require('./model/job')
 let fs = require('fs/promises')
+const cuid = require("cuid");
 
 const {addDays} =require("date-fns");
+
+function wrapInObject(el){
+    return {
+        value: el,
+        id: cuid()
+    }
+}
+
 
 
 const jobs =    [
@@ -23,7 +32,9 @@ const jobs =    [
           travelTime: 30,
         },
         operatives: ['fenwick','dave'],
-        addresses: ['19 coral glen','4 craigie avenue'],
+        addresses: [
+            {value: '19 coral glen'},
+            {value: '4 craigie avenue'}],
         items: ['fridge is 5ft',
             'sent list as photo so can paste in',
             'lawnmower',
@@ -55,7 +66,9 @@ const jobs =    [
                 travelTime: 30,
             },
             operatives: ['fenwick','dave'],
-            addresses: ['19 coral glen','4 craigie avenue'],
+            addresses: [
+                {value: '19 coral glen'},
+                {value: '4 craigie avenue'}],
             items: ['fridge is 5ft',
                 'sent list as photo so can paste in',
                 'lawnmower',
@@ -87,7 +100,9 @@ const jobs =    [
                 travelTime: 30,
             },
             operatives: ['fenwick','dave'],
-            addresses: ['19 coral glen','4 craigie avenue'],
+            addresses: [
+                {value: '19 coral glen'},
+                {value: '4 craigie avenue'}],
             items: ['fridge is 5ft',
                 'sent list as photo so can paste in',
                 'lawnmower',
@@ -119,7 +134,9 @@ const jobs =    [
                 travelTime: 30,
             },
             operatives: ['fenwick','dave'],
-            addresses: ['19 coral glen','4 craigie avenue'],
+            addresses:  [
+                {value: '19 coral glen'},
+                {value: '4 craigie avenue'}],
             items: ['fridge is 5ft',
                 'sent list as photo so can paste in',
                 'lawnmower',

@@ -1,5 +1,19 @@
 const mongoose = require('mongoose')
+const cuid = require("cuid");
 /*const addGcalEvent = require('./../googleCalendar')*/
+
+
+
+const addressSchema = new mongoose.Schema({
+    _id: {
+        type: String,
+        default: cuid
+    },
+    value: {
+        type: String,
+    }
+})
+
 
 
 const jobSchema = new mongoose.Schema({
@@ -17,7 +31,7 @@ const jobSchema = new mongoose.Schema({
     },
     operatives: [],
     items: [],
-    addresses: []
+    addresses: [addressSchema]
 })
 
 let Job =  mongoose.model('Job',jobSchema,'jobs')

@@ -1,7 +1,10 @@
 import React, {useReducer} from "react";
 import {useInput} from '../hooks/useInput'
 import {useArray} from '../hooks/useArray'
-
+import {startEndChange, StartEndInput} from './StartEndInput'
+import styled from "styled-components";
+import {useImmerReducer} from "use-immer";
+import camelCase from "camelcase";
 
 
 import {AddressInput} from "./AddressInput";
@@ -21,7 +24,12 @@ import {
 
 import {Typography} from "@material-ui/core";
 
-
+const FieldSet = styled.fieldset`
+  padding: 0;
+  margin: 0;
+  border: none 0;
+  display: ${props=>props.inline ? 'flex' : 'block'};
+`
 
 
 
@@ -35,63 +43,34 @@ function dateTimeFromInput(date, time) {
 }
 
 
-
-export default function JobForm({handleSubmit,toggleModal,initialValues}){
-    const name = useInput(initialValues?.customer?.name)
-    const mobile = useInput(initialValues?.customer?.mobile)
-    const [dateValue,setDateValue] = React.useState(initialValues?.start || new Date())
-    const [startValue,setStartValue] = React.useState(initialValues?.start || new Date())
-    const [endValue,setEndValue] = React.useState(initialValues?.end || new Date())
+export default function JobForm({handleSubmit, toggleModal, initialValues}) {
     const addresses = useArray(initialValues?.addresses)
 
-    const [state,dispatch] = React.useReducer(rootReducer,initialValues)  //TODO should i be clonong initial values
+    const [state, dispatch] = useImmerReducer(rootReducer, initialValues)  //TODO should i be clonong initial values
     console.log(state)
 
-    function data(){
-        return {
-            start: dateTimeFromInput(dateValue, startValue),
-            end: dateTimeFromInput(dateValue, endValue),
-            customer: {
-                name: name.value,
-                mobile: mobile.value,
-            },
-            charges: {
-                hourlyRate: 50,
-                fuelCharge: 5,
-                travelTime: 20,
-            },
-            operatives: ['gregor', 'rupert'],
-            items: ['this', 'that', 'the next thing'],
-            addresses: addresses.value.map(el => el.value),
+    function groupItemChange(e) {
+        const group = e.target.dataset?.group
+        if(!group) throw new Error('a group item must have a data-group attribute')
+        dispatch({
+            type: 'GROUP CHANGE',
+            payload: {
+                field: camelCase(e.target.name),
+                value: e.target.value,
+                group: camelCase(group)
+            }
+        })
+    }
+
+    function itemChange(e) {
+        if(e.target.dataset?.group){
+            throw new Error('should not be calling itemChange on a group input')
         }
-    }
-
-    /*const [addressesState,addressesUi] = AddressInput(initialValues?.addresses || [])*/
-    /*const [addressesUi] = AddressInput(initialValues?.addresses || [])*/
-
-    function customerInput(e){
-        dispatch({type: 'CUSTOMER/INPUT',
-            payload: {field: e.target.name, value: e.target.value}})
-    }
-
-    function startInput(e){
         dispatch({
-            type: 'START/INPUT',
-            payload: {value: e}
-        })
-    }
-
-    function endInput(e){
-        dispatch({
-            type: 'END/INPUT',
-            payload: {value: e}
-        })
-    }
-
-    function dateInput(e){
-        dispatch({
-            type: 'DATE/INPUT',
-            payload: {value: e}
+            type: 'ITEM CHANGE',
+            payload: {
+                field: camelCase(e.target.name),
+                value: e.target.value}
         })
     }
 
@@ -99,76 +78,61 @@ export default function JobForm({handleSubmit,toggleModal,initialValues}){
         <>
             <Typography variant='h4'>Create Job</Typography>
             <form action="">
-                <Grid container direction='column' spacing={1}>
-                        <Grid item>
-                            <TextField name='name' label='name'
-                                       value={state.customer.name}
-                                       onChange={customerInput}
-                                       fullWidth
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField name='mobile' label='mobile'
-                                       value={state.customer.mobile}
-                                       onChange={customerInput}
-                                       fullWidth/>
-                        </Grid>
-                   <Grid item>
-                       <Grid container spacing={2}>
-                           <Grid item xs={4} >
-                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                   <DatePicker
-                                       value={state.start}
-                                       onChange={dateInput}
-                                       label='date'/>
-                               </MuiPickersUtilsProvider>
-                           </Grid>
-                           <Grid item xs={4} >
-                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                   <TimePicker
-                                       value={state.start}
-                                       onChange={startInput}
-                                       label='start'/>
-                               </MuiPickersUtilsProvider>
-                           </Grid>
-                           <Grid item xs={4} >
-                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                   <TimePicker
-                                       value={state.end}
-                                       onChange={endInput}
-                                       label='end'/>
-                               </MuiPickersUtilsProvider>
-                           </Grid>
-                       </Grid>
-
-                    </Grid>
-                   {/* <Grid>
-                        <AddressInput addresses={addresses}/>
-                    </Grid>*/}
-                   {/* <Grid>
-                        <Grid container>
-                            <Grid item xs={4}>
-                                <TextField label='hourly rate' {...name} fullWidth/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextField label='fuel charge' {...mobile} fullWidth/>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextField label='travel time' {...name} fullWidth/>
-                            </Grid>
-                        </Grid>
-
-                    </Grid>*/}
-                    <Grid>
-                        <Button onClick={
-                            (e)=>{e.preventDefault()
-                                console.log(data())
-                                handleSubmit(state)  //TODO should i be cloning object before apssing it about
-                            }
-                        } variant='contained' color='primary' fullWidth>save</Button>
-                    </Grid>
-                </Grid>
+                <FieldSet name='customer'>
+                    <TextField inputProps={{'data-group': 'customer'}}
+                               name='name' label='name'
+                               value={state.customer.name}
+                               onChange={groupItemChange}
+                               fullWidth
+                    />
+                    <TextField inputProps={{'data-group': 'customer'}}
+                               name='mobile' label='mobile'
+                               value={state.customer.mobile}
+                               onChange={groupItemChange}
+                               fullWidth/>
+                    <TextField inputProps={{'data-group': 'customer'}}
+                               name='email' label='email'
+                               value={state.customer.email}
+                               onChange={groupItemChange}
+                               fullWidth/>
+                </FieldSet>
+                <StartEndInput
+                    startName={'start'}
+                    startValue={state.start}
+                    onStartChange={itemChange}
+                    endName={'end'}
+                    endValue={state.end}
+                    onEndChange={itemChange}
+                />
+                <FieldSet inline>
+                    <TextField inputProps={{'data-group': 'charges'}}
+                               name='hourly-rate' label='Hourly Rate'
+                               value={state.charges.hourlyRate}
+                               onChange={groupItemChange}
+                               fullWidth
+                    />
+                    <TextField inputProps={{'data-group': 'charges'}}
+                               name='fuel-charge' label='Fuel Charge'
+                               value={state.charges.fuelCharge}
+                               onChange={groupItemChange}
+                               fullWidth/>
+                    <TextField inputProps={{'data-group': 'charges'}}
+                               name='travel-time' label='Travel Time'
+                               value={state.charges.travelTime}
+                               onChange={groupItemChange}
+                               fullWidth/>
+                </FieldSet>
+                <AddressInput value={state.addresses}
+                              onChange={itemChange}
+                              name='addresses'
+                />
+                <Button onClick={
+                    (e) => {
+                        e.preventDefault()
+                        handleSubmit(state)  //TODO should i be cloning object before apssing it about
+                    }
+                } variant='contained' color='primary' fullWidth>save</Button>
             </form>
         </>
-        )
+    )
 }
