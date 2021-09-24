@@ -2,19 +2,20 @@ require('dotenv').config()
 const db = require('./model/db')
 const express = require('express')
 const jobs = require('./routes/jobsRoute')
-
 const cors = require('cors')
-
-
 const app = express()
 const http = require('http');
 const server = http.createServer(app);
 const path = require('path');
+const errorHandlers = require('./middleware/errorHandlers')
 
 app.use(cors())
+
+/*
 const { Server } = require("socket.io");
 
 const {sockets} = require('./sockets')
+
 
 
 const io = new Server(server,{
@@ -28,6 +29,8 @@ io.on('connection',(socket)=>{
     sockets.push(socket)
 })
 
+*/
+
 app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/', function (req, res) {
@@ -36,14 +39,11 @@ app.get('/', function (req, res) {
 
 const port = process.env.PORT || 3000
 
-
-
 app.use(express.json());
-
-
-
-
 app.use('/api/v1/jobs',jobs)
+app.use(errorHandlers.handleValidationError)
+app.use(errorHandlers.handleError)
+app.use(errorHandlers.notFound)
 
 
 server.listen(port,()=>{

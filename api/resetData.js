@@ -31,7 +31,7 @@ const jobs =    [
           fuelCharge: 20,
           travelTime: 30,
         },
-        operatives: ['fenwick','dave'],
+        operatives: [{value: 'fenwick'}, {value: 'dave'}],
         addresses: [
             {value: '19 coral glen'},
             {value: '4 craigie avenue'}],
@@ -65,7 +65,7 @@ const jobs =    [
                 fuelCharge: 20,
                 travelTime: 30,
             },
-            operatives: ['fenwick','dave'],
+            operatives: [{value: 'fenwick'}, {value: 'dave'}],
             addresses: [
                 {value: '19 coral glen'},
                 {value: '4 craigie avenue'}],
@@ -99,7 +99,7 @@ const jobs =    [
                 fuelCharge: 20,
                 travelTime: 30,
             },
-            operatives: ['fenwick','dave'],
+            operatives: [{value: 'fenwick'}, {value: 'dave'}],
             addresses: [
                 {value: '19 coral glen'},
                 {value: '4 craigie avenue'}],
@@ -133,7 +133,7 @@ const jobs =    [
                 fuelCharge: 20,
                 travelTime: 30,
             },
-            operatives: ['fenwick','dave'],
+            operatives: [{value: 'fenwick'}, {value: 'dave'}],
             addresses:  [
                 {value: '19 coral glen'},
                 {value: '4 craigie avenue'}],

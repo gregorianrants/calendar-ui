@@ -5,17 +5,6 @@ const cuid = require("cuid");
 const setHours = require('date-fns/setHours')
 
 
-
-function createStart(){
-    return setHours(new Date(),10)
-}
-
-function createEnd(){
-    return setHours(new Date(),10)
-}
-
-console.log(createStart())
-
 const addressSchema = new mongoose.Schema({
     _id: {
         type: String,
@@ -26,31 +15,56 @@ const addressSchema = new mongoose.Schema({
     }
 })
 
+const operativesSchema = new mongoose.Schema({
+    _id: {
+        type: String,
+        default: cuid
+    },
+    value: {
+        type: String,
+    }
+})
 
+const chargesSchema = new mongoose.Schema(
+    {
+        hourlyRate: {type: Number},
+        fuelCharge: {type: Number},
+        travelTime: {type: Number},}
+)
 
 const jobSchema = new mongoose.Schema({
+    _id: {
+      type: String,
+      default: cuid
+    },
     start: {
         type: Date,
-        default: createStart,
+        required: true,
     },
     end:  {
         type: Date,
-        default: createEnd,
+        required: true,
     },
     customer: {
-        name: {type: String, default: null},
-        mobile: {type: String, default: null},
-        email: {type: String, default: null},
+        name: {
+            type: String,
+            validate: {
+                validator: (v)=> {
+                    console.log('v',v)
+                    return (v.length > 4)
+                },
+                message: `name must have more than 4 characters`
+            }
+        },
+        mobile: {type: String},
+        email: {type: String},
     },
-    charges: {
-        hourlyRate: {type: Number, default: null},
-        fuelCharge: {type: Number, default: null},
-        travelTime: {type: Number, default: null},
-    },
-    operatives: [],
+    charges: chargesSchema,
+    operatives: [operativesSchema],
     items: [],
     addresses: [addressSchema]
 })
+
 
 let Job =  mongoose.model('Job',jobSchema,'jobs')
 
