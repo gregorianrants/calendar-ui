@@ -59,9 +59,7 @@ export async function setUpGapi(updateSigninStatus) {
     if (!window.gapi.auth2.getAuthInstance().isSignedIn.get()) {
         window.gapi.auth2.getAuthInstance().signIn();
     }
-
 }
-
 
 export function useGapi() {
     const [authed, setAuthed] = React.useState(false)
@@ -103,7 +101,6 @@ export function useGapi() {
         return cleanUpFunction
     }, [])
     return {authed, listEvents, signOut}
-
 }
 
 //a component to test gapi

@@ -1,15 +1,15 @@
-require('dotenv').config()
-const db = require('./model/db')
-const express = require('express')
-const jobs = require('./routes/jobsRoute')
-const cors = require('cors')
-const app = express()
-const http = require('http');
+require("dotenv").config();
+const db = require("./model/db");
+const express = require("express");
+const jobs = require("./routes/jobsRoute");
+const cors = require("cors");
+const app = express();
+const http = require("http");
 const server = http.createServer(app);
-const path = require('path');
-const errorHandlers = require('./middleware/errorHandlers')
+const path = require("path");
+const errorHandlers = require("./controllers/errorControllers");
 
-app.use(cors())
+app.use(cors());
 
 /*
 const { Server } = require("socket.io");
@@ -31,30 +31,25 @@ io.on('connection',(socket)=>{
 
 */
 
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, "../build")));
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use('/api/v1/jobs',jobs)
-app.use(errorHandlers.handleValidationError)
-app.use(errorHandlers.handleError)
-app.use(errorHandlers.notFound)
+app.use("/api/v1/jobs", jobs);
 
+app.all("*", (req, res, next) => {
+  next(new AppError(`Cant't find ${req.originalUrl} on this server`, 404));
+});
 
-server.listen(port,()=>{
-    console.log(`listening on port ${port}`)
-})
+app.use(errorHandlers.handleValidationError);
+app.use(errorHandlers.handleNotFoundError);
+app.use(errorHandlers.handleError);
 
-
-
-
-
-
-
-
-
+server.listen(port, () => {
+  console.log(`listening on port ${port}`);
+});

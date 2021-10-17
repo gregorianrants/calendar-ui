@@ -19,7 +19,5 @@ export default function useDetectBottomEdge(){
         setOverEdge(false)
     }
 
-
-
     return {isCursorOverEdgeState: overEdge,handleMouseMove,handleMouseLeave}
 }
