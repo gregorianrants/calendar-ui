@@ -12,7 +12,7 @@ function handleValidationError(err, req, res, next) {
   });
 }
 
-function notFound(err, req, res, next) {
+function handleNotFoundError(err, req, res, next) {
   if (!err.Status === 404) return next(err);
   res.status(err.statusCode).json({
     status: err.status,
