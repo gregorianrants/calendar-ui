@@ -38,6 +38,10 @@ function dateTimeFromInput(date, time) {
   return res;
 }
 
+function errorsReducer(){
+  
+}
+
 export default function JobForm({
   updateEvent,
   close,
@@ -46,10 +50,9 @@ export default function JobForm({
 }) {
   const addresses = useArray(initialValues?.addresses);
 
-  
+  const [errors,setErrors]=useReducer(errorsReducer,{})
 
   const [state, dispatch] = useImmerReducer(rootReducer, initialValues); //TODO should i be clonong initial values
-  console.log(state);
 
   const handleSubmit = (data) => {
     console.log(data);

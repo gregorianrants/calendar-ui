@@ -17,7 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core/styles";
-import JobForm from "./EditJobForm";
+import JobForm from "./JobForm";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -71,7 +71,7 @@ export default function JobModal({ displayEvent, close, updateEvent }) {
         <Card style={{ width: 600, backgroundColor: "#F3F3FB" }}>
           <CardContent>
             <JobForm
-              title='Edit Job'
+              title="Edit Job"
               initialValues={displayEvent}
               updateEvent={updateEvent}
               close={close}

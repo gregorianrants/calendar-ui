@@ -103,7 +103,9 @@ export default function Calendar() {
       console.log(events.length);
       const remainder = events.filter((event) => event._id !== id);
       console.log(remainder.length);
-      return [...remainder, data];
+      const result = [...remainder, data];
+      console.log("res", result);
+      return result;
     });
   };
 
