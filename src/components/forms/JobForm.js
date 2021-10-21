@@ -5,6 +5,9 @@ import { startEndChange, StartEndInput } from "./StartEndInput";
 import styled from "styled-components";
 import { useImmerReducer } from "use-immer";
 import camelCase from "camelcase";
+import { Formik, Field } from "formik";
+import { cloneDeep, values, flatten } from "lodash";
+//import { styled } from "@mui/material/styles";
 
 import { AddressInput } from "./AddressInput";
 
@@ -22,13 +25,6 @@ import {
 
 import { Typography } from "@material-ui/core";
 
-const FieldSet = styled.fieldset`
-  padding: 0;
-  margin: 0;
-  border: none 0;
-  display: ${(props) => (props.inline ? "flex" : "block")};
-`;
-
 function dateTimeFromInput(date, time) {
   const hours = time.getHours();
   const minutes = time.getMinutes();
@@ -38,9 +34,10 @@ function dateTimeFromInput(date, time) {
   return res;
 }
 
-function errorsReducer(){
-  
-}
+
+const StyledTextInput = styled(TextField)`
+  margin-bottom: 20px;
+`;
 
 export default function JobForm({
   updateEvent,
@@ -49,10 +46,6 @@ export default function JobForm({
   initialValues,
 }) {
   const addresses = useArray(initialValues?.addresses);
-
-  const [errors,setErrors]=useReducer(errorsReducer,{})
-
-  const [state, dispatch] = useImmerReducer(rootReducer, initialValues); //TODO should i be clonong initial values
 
   const handleSubmit = (data) => {
     console.log(data);
@@ -76,72 +69,113 @@ export default function JobForm({
     close();
   }
 
-  function groupItemChange(e) {
-    const group = e.target.dataset?.group;
-    if (!group)
-      throw new Error("a group item must have a data-group attribute");
-    dispatch({
-      type: "GROUP CHANGE",
-      payload: {
-        field: camelCase(e.target.name),
-        value: e.target.value,
-        group: camelCase(group),
-      },
-    });
-  }
+  const validator = (values) => {
+    const result = {
+      customer: {},
+    };
 
-  function itemChange(e) {
-    if (e.target.dataset?.group) {
-      throw new Error("should not be calling itemChange on a group input");
+    if (values.customer.name.length < 5) {
+      result.customer.name = "must be longer than 5";
     }
-    dispatch({
-      type: "ITEM CHANGE",
-      payload: {
-        field: camelCase(e.target.name),
-        value: e.target.value,
-      },
-    });
-  }
+
+    return result;
+  };
+
+  console.log(initialValues);
 
   return (
-    <>
-      <Typography variant="h4">Create Job</Typography>
-      <form action="">
-        <FieldSet name="customer">
-          <TextField
-            inputProps={{ "data-group": "customer" }}
-            name="name"
+    <Formik initialValues={cloneDeep(initialValues)} onSubmit={handleSubmit}>
+      {(props) => (
+        //<Typography variant="h4">Create Job</Typography>
+        <form onSubmit={props.handleSubmit}>
+          <Field
+            as={StyledTextInput}
+            name="customer.name"
             label="name"
-            value={state.customer.name}
-            onChange={groupItemChange}
+            error={props.errors?.customer?.name}
+            helperText={props.errors?.customer?.name}
             fullWidth
           />
-          <TextField
-            inputProps={{ "data-group": "customer" }}
-            name="mobile"
+          <Field
+            as={StyledTextInput}
+            name="customer.mobile"
             label="mobile"
-            value={state.customer.mobile}
-            onChange={groupItemChange}
             fullWidth
           />
-          <TextField
-            inputProps={{ "data-group": "customer" }}
-            name="email"
+          <Field
+            as={StyledTextInput}
+            name="customer.email"
             label="email"
-            value={state.customer.email}
-            onChange={groupItemChange}
             fullWidth
           />
-        </FieldSet>
-        <StartEndInput
-          startName={"start"}
-          startValue={state.start}
-          onStartChange={itemChange}
-          endName={"end"}
-          endValue={state.end}
-          onEndChange={itemChange}
+
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <TimePicker
+              value={props.values.start}
+              onChange={props.handleChange}
+              label="date"
+            />
+          </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <TimePicker
+              value={props.values.end}
+              onChange={props.handleChange}
+              label="date"
+            />
+          </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <DatePicker
+              value={props.values.start}
+              onChange={(date) => {
+                props.setFieldValue(
+                  "start",
+                  dateTimeFromInput(date, props.values.start),
+                  true
+                );
+                props.setFieldValue(
+                  "end",
+                  dateTimeFromInput(date, props.values.end),
+                  true
+                );
+                console.log("hello");
+              }}
+              label="end"
+            />
+          </MuiPickersUtilsProvider>
+          <Field
+            as={StyledTextInput}
+            name="charges.hourlyRate"
+            label="hourly rate"
+            error={props.errors?.charges?.hourlyRate}
+            helperText={props.errors?.charges?.hourlyRate}
+          />
+          <Field
+            as={StyledTextInput}
+            name="charges.fuelCharge"
+            label="mobile"
+            error={props.errors?.charges?.fuelCharge}
+            helperText={props.errors?.charges?.fuelCharge}
+          />
+          <Field
+            as={StyledTextInput}
+            name="charges.travelTime"
+            label="mobile"
+            error={props.errors?.charges?.travelTime}
+            helperText={props.errors?.charges?.travelTime}
+          />
+          
+          {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <TimePicker
+          value={startValue}
+          onChange={onStartChange}
+          label="start"
         />
-        <FieldSet inline>
+      </MuiPickersUtilsProvider>
+
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <TimePicker value={endValue} onChange={onEndChange} label="end" />
+      </MuiPickersUtilsProvider> */}
+          {/*<FieldSet inline>
           <TextField
             inputProps={{ "data-group": "charges" }}
             name="hourly-rate"
@@ -171,19 +205,21 @@ export default function JobForm({
           value={state.addresses}
           onChange={itemChange}
           name="addresses"
-        />
-        <Button
-          onClick={(e) => {
-            e.preventDefault();
-            handleSubmit(state); //TODO should i be cloning object before apssing it about
-          }}
-          variant="contained"
-          color="primary"
-          fullWidth
-        >
-          save
-        </Button>
-      </form>
-    </>
+        /> */}
+          <button
+            type="submit"
+            // onClick={(e) => {
+            //    e.preventDefault();
+            //    props.handleSubmit(values); //TODO should i be cloning object before apssing it about
+            //  }}
+            variant="contained"
+            color="primary"
+            fullWidth
+          >
+            save
+          </button>
+        </form>
+      )}
+    </Formik>
   );
 }
