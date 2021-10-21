@@ -18,6 +18,7 @@ import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core/styles";
 import JobForm from "./JobForm";
+import { PersonOutline } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -51,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2), //TODO use row class for top margin
     textAlign: "center",
   },
+  items: {
+    whiteSpace: "pre-line",
+  },
   row: {
     marginTop: theme.spacing(2),
   },
@@ -62,6 +66,8 @@ export default function JobModal({ displayEvent, close, updateEvent }) {
 
   const { start, end, customer, charges, operatives, items, addresses } =
     displayEvent;
+
+  console.log(items);
   //const { customer } = displayEvent;
   console.log(displayEvent);
   //TODO: map over operatives
@@ -166,13 +172,7 @@ export default function JobModal({ displayEvent, close, updateEvent }) {
                 <Grid item xs={4}>
                   <Card>
                     <CardHeader title={"Items"} />
-                    <CardContent>
-                      <ul className={classes.li}>
-                        {items.map((line) => (
-                          <li>{line}</li>
-                        ))}
-                      </ul>
-                    </CardContent>
+                    <CardContent className={classes.items}>{items}</CardContent>
                   </Card>
                 </Grid>
                 <Grid item xs={4}>

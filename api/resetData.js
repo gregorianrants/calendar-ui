@@ -35,22 +35,25 @@ const jobs =    [
         addresses: [
             {value: '19 coral glen'},
             {value: '4 craigie avenue'}],
-        items: ['fridge is 5ft',
-            'sent list as photo so can paste in',
-            'lawnmower',
-            'fridge 5ft',
-           ' strimmer',
-           ' 2 rugs',
-            'black bag',
-            '2 vacuam bags',
-            'excercise mat',
-            'xmas tree',
-            '4 suits in bags',
-            'coff table',
-            '8 boxes',
-            'prety chunky weights bench',
-            'bike',
-            'rucksack']
+        items:`fridge is 5ft
+        sent list as photo so can paste in
+        lawnmower
+        fridge 5ft
+        strimmer
+        2 rugs
+        black bag
+        2 vacuam bags
+        excercise mat 
+        xmas tree
+        4 suits in bags
+        coff table
+        8 boxes
+        prety chunky weights bench
+        bike
+        rucksackf
+        bag
+        shopping
+        marsbar`
     },
         {
             "start": new Date().setHours(12),
@@ -69,22 +72,25 @@ const jobs =    [
             addresses: [
                 {value: '19 coral glen'},
                 {value: '4 craigie avenue'}],
-            items: ['fridge is 5ft',
-                'sent list as photo so can paste in',
-                'lawnmower',
-                'fridge 5ft',
-                ' strimmer',
-                ' 2 rugs',
-                'black bag',
-                '2 vacuam bags',
-                'excercise mat',
-                'xmas tree',
-                '4 suits in bags',
-                'coff table',
-                '8 boxes',
-                'prety chunky weights bench',
-                'bike',
-                'rucksack']
+            items:`fridge is 5ft
+            sent list as photo so can paste in
+            lawnmower
+            fridge 5ft
+            strimmer
+            2 rugs
+            black bag
+            2 vacuam bags
+            excercise mat 
+            xmas tree
+            4 suits in bags
+            coff table
+            8 boxes
+            prety chunky weights bench
+            bike
+            rucksackf
+            bag
+            shopping
+            marsbar`
         },
         {
             "start": new Date().setHours(14),
@@ -103,22 +109,25 @@ const jobs =    [
             addresses: [
                 {value: '19 coral glen'},
                 {value: '4 craigie avenue'}],
-            items: ['fridge is 5ft',
-                'sent list as photo so can paste in',
-                'lawnmower',
-                'fridge 5ft',
-                ' strimmer',
-                ' 2 rugs',
-                'black bag',
-                '2 vacuam bags',
-                'excercise mat',
-                'xmas tree',
-                '4 suits in bags',
-                'coff table',
-                '8 boxes',
-                'prety chunky weights bench',
-                'bike',
-                'rucksack']
+            items:`fridge is 5ft
+            sent list as photo so can paste in
+            lawnmower
+            fridge 5ft
+            strimmer
+            2 rugs
+            black bag
+            2 vacuam bags
+            excercise mat 
+            xmas tree
+            4 suits in bags
+            coff table
+            8 boxes
+            prety chunky weights bench
+            bike
+            rucksackf
+            bag
+            shopping
+            marsbar`
         },
         {
             "start": addDays(new Date().setHours(14),1),
@@ -137,22 +146,25 @@ const jobs =    [
             addresses:  [
                 {value: '19 coral glen'},
                 {value: '4 craigie avenue'}],
-            items: ['fridge is 5ft',
-                'sent list as photo so can paste in',
-                'lawnmower',
-                'fridge 5ft',
-                ' strimmer',
-                ' 2 rugs',
-                'black bag',
-                '2 vacuam bags',
-                'excercise mat',
-                'xmas tree',
-                '4 suits in bags',
-                'coff table',
-                '8 boxes',
-                'prety chunky weights bench',
-                'bike',
-                'rucksack']
+            items:`fridge is 5ft
+            sent list as photo so can paste in
+            lawnmower
+            fridge 5ft
+            strimmer
+            2 rugs
+            black bag
+            2 vacuam bags
+            excercise mat 
+            xmas tree
+            4 suits in bags
+            coff table
+            8 boxes
+            prety chunky weights bench
+            bike
+            rucksackf
+            bag
+            shopping
+            marsbar`
         }
     ]
 
