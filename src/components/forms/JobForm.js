@@ -9,9 +9,10 @@ import { Formik, Field } from "formik";
 import { cloneDeep, values, flatten } from "lodash";
 //import { styled } from "@mui/material/styles";
 
-import { AddressInput } from "./AddressInput";
+import { ListBuilder } from "./AddressInput";
 
 import { TextField, Grid, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 
 import { rootReducer } from "./reducer";
@@ -34,10 +35,26 @@ function dateTimeFromInput(date, time) {
   return res;
 }
 
-
-const StyledTextInput = styled(TextField)`
-  margin-bottom: 20px;
+const FlexRow = styled.div`
+  display: flex;
 `;
+
+const useStyles = makeStyles({
+  flexItem: {
+    flex: "1 1 0",
+    "&:not(:last-child)": {
+      marginRight: "10px",
+    },
+  },
+  inputRow: {
+    marginBottom: "10px",
+  },
+  textField: {
+    "& textarea": {
+      whiteSpace: "pre-line",
+    },
+  },
+});
 
 export default function JobForm({
   updateEvent,
@@ -45,7 +62,7 @@ export default function JobForm({
   toggleModal,
   initialValues,
 }) {
-  const addresses = useArray(initialValues?.addresses);
+  const classes = useStyles();
 
   const handleSubmit = (data) => {
     console.log(data);
@@ -89,7 +106,8 @@ export default function JobForm({
         //<Typography variant="h4">Create Job</Typography>
         <form onSubmit={props.handleSubmit}>
           <Field
-            as={StyledTextInput}
+            as={TextField}
+            className={classes.inputRow}
             name="customer.name"
             label="name"
             error={props.errors?.customer?.name}
@@ -97,73 +115,112 @@ export default function JobForm({
             fullWidth
           />
           <Field
-            as={StyledTextInput}
+            as={TextField}
+            className={classes.inputRow}
             name="customer.mobile"
             label="mobile"
             fullWidth
           />
           <Field
-            as={StyledTextInput}
+            as={TextField}
+            className={classes.inputRow}
             name="customer.email"
             label="email"
             fullWidth
           />
+          <FlexRow className={classes.inputRow}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <TimePicker
+                className={classes.flexItem}
+                value={props.values.start}
+                onChange={props.handleChange}
+                label="date"
+              />
+            </MuiPickersUtilsProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <TimePicker
+                className={classes.flexItem}
+                value={props.values.end}
+                onChange={props.handleChange}
+                label="date"
+              />
+            </MuiPickersUtilsProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <DatePicker
+                className={classes.flexItem}
+                value={props.values.start}
+                onChange={(date) => {
+                  props.setFieldValue(
+                    "start",
+                    dateTimeFromInput(date, props.values.start),
+                    true
+                  );
+                  props.setFieldValue(
+                    "end",
+                    dateTimeFromInput(date, props.values.end),
+                    true
+                  );
+                  console.log("hello");
+                }}
+                label="end"
+              />
+            </MuiPickersUtilsProvider>
+          </FlexRow>
 
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <TimePicker
-              value={props.values.start}
-              onChange={props.handleChange}
-              label="date"
+          <FlexRow className={classes.inputRow}>
+            <Field
+              className={classes.flexItem}
+              as={TextField}
+              name="charges.hourlyRate"
+              label="hourly rate"
+              error={props.errors?.charges?.hourlyRate}
+              helperText={props.errors?.charges?.hourlyRate}
+              fullWidth
             />
-          </MuiPickersUtilsProvider>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <TimePicker
-              value={props.values.end}
-              onChange={props.handleChange}
-              label="date"
+            <Field
+              className={classes.flexItem}
+              as={TextField}
+              name="charges.fuelCharge"
+              label="fuelCharge"
+              error={props.errors?.charges?.fuelCharge}
+              helperText={props.errors?.charges?.fuelCharge}
+              fullWidth
             />
-          </MuiPickersUtilsProvider>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker
-              value={props.values.start}
-              onChange={(date) => {
-                props.setFieldValue(
-                  "start",
-                  dateTimeFromInput(date, props.values.start),
-                  true
-                );
-                props.setFieldValue(
-                  "end",
-                  dateTimeFromInput(date, props.values.end),
-                  true
-                );
-                console.log("hello");
-              }}
-              label="end"
+            <Field
+              className={classes.flexItem}
+              as={TextField}
+              name="charges.travelTime"
+              label="travelTime"
+              error={props.errors?.charges?.travelTime}
+              helperText={props.errors?.charges?.travelTime}
+              fullWidth
             />
-          </MuiPickersUtilsProvider>
+          </FlexRow>
+
           <Field
-            as={StyledTextInput}
-            name="charges.hourlyRate"
-            label="hourly rate"
-            error={props.errors?.charges?.hourlyRate}
-            helperText={props.errors?.charges?.hourlyRate}
+            as={TextField}
+            className={classes.inputRow}
+            name="items"
+            label="items"
+            error={props.errors?.items}
+            helperText={props.errors?.items}
+            fullWidth
+            multiline
+            rows={5}
           />
-          <Field
-            as={StyledTextInput}
-            name="charges.fuelCharge"
-            label="mobile"
-            error={props.errors?.charges?.fuelCharge}
-            helperText={props.errors?.charges?.fuelCharge}
+          <ListBuilder
+            value={props.values.addresses}
+            onChange={props.handleChange}
+            label="add address"
+            name="addresses"
           />
-          <Field
-            as={StyledTextInput}
-            name="charges.travelTime"
-            label="mobile"
-            error={props.errors?.charges?.travelTime}
-            helperText={props.errors?.charges?.travelTime}
+          <ListBuilder
+            value={props.values.operatives}
+            onChange={props.handleChange}
+            label='add operative'
+            name="operatives"
           />
-          
+
           {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <TimePicker
           value={startValue}
@@ -206,7 +263,7 @@ export default function JobForm({
           onChange={itemChange}
           name="addresses"
         /> */}
-          <button
+          <Button
             type="submit"
             // onClick={(e) => {
             //    e.preventDefault();
@@ -217,7 +274,7 @@ export default function JobForm({
             fullWidth
           >
             save
-          </button>
+          </Button>
         </form>
       )}
     </Formik>

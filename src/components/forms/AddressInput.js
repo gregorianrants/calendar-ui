@@ -25,7 +25,7 @@ const useStyles = makeStyles(() =>
 );
 
 
-export function AddressInput({name, value, onChange}) {
+export function ListBuilder({name, value, onChange,label}) {
     //TODO should maybe be thinking about a shared constructor for this
     //we are making an object like this on api as well
     function wrap(value) {
@@ -93,7 +93,7 @@ export function AddressInput({name, value, onChange}) {
                 ))}
             </List>
             <Grid item>
-                <TextField label='Add Address' value={input} fullWidth
+                <TextField label={label} value={input} fullWidth
                            onChange={(e) => {
                                setInput(e.target.value)
                            }}
