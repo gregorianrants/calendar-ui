@@ -1,0 +1,23 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "api for VanCal app",
+  "main": "main.js",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cuid": "^2.1.8",
+    "date-fns": "^2.21.3",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "immer": "^9.0.6",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.0.7",
+    "socket.io": "^4.1.2"
+  },
+  "scripts": {
+    "start": "nodemon api/main.js",
+    "reset-data": "node api/resetData.js"
+  }
+}
