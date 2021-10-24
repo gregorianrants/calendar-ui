@@ -54,12 +54,13 @@ function buildSchema(mongoose) {
             },
             message: `name must have more than 4 characters`,
           },
-          {
-            validator: (v) => {
-              return v[0] === "A";
-            },
-            message: `first letter must be A`,
-          },
+          // this validator was used to look at how multiple validators are handled
+          // {
+          //   validator: (v) => {
+          //     return v[0] === "A";
+          //   },
+          //   message: `first letter must be A`,
+          // },
         ],
       },
       mobile: { type: String },
