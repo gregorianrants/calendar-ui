@@ -27,7 +27,7 @@ import {
 
 import { Typography } from "@material-ui/core";
 
-import { buildSchema } from "api/model/job"; //TODO change name of buildSchema
+import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
 
 function dateTimeFromInput(date, time) {
   const hours = time.getHours();
@@ -90,7 +90,7 @@ export default function JobForm({
   }
 
   const validator = (values) => {
-    const doc = new mongoose.Document(values, buildSchema(mongoose));
+    const doc = new mongoose.Document(values, jobSchema);
 
     const result = doc.validateSync();
     const pretty = JSON.stringify(result || {}, null, 2);

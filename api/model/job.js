@@ -4,78 +4,73 @@ const cuid = require("cuid");
 
 const setHours = require("date-fns/setHours");
 
-function buildSchema(mongoose) {
-  const addressSchema = new mongoose.Schema({
-    _id: {
-      type: String,
-      default: cuid,
-    },
-    value: {
-      type: String,
-    },
-  });
+const addressSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: cuid,
+  },
+  value: {
+    type: String,
+  },
+});
 
-  const operativesSchema = new mongoose.Schema({
-    _id: {
-      type: String,
-      default: cuid,
-    },
-    value: {
-      type: String,
-    },
-  });
+const operativesSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: cuid,
+  },
+  value: {
+    type: String,
+  },
+});
 
-  const chargesSchema = new mongoose.Schema({
-    hourlyRate: { type: Number },
-    fuelCharge: { type: Number },
-    travelTime: { type: Number },
-  });
+const chargesSchema = new mongoose.Schema({
+  hourlyRate: { type: Number },
+  fuelCharge: { type: Number },
+  travelTime: { type: Number },
+});
 
-  const jobSchema = new mongoose.Schema({
-    _id: {
+const jobSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: cuid,
+  },
+  start: {
+    type: Date,
+    required: true,
+  },
+  end: {
+    type: Date,
+    required: true,
+  },
+  customer: {
+    name: {
       type: String,
-      default: cuid,
-    },
-    start: {
-      type: Date,
-      required: true,
-    },
-    end: {
-      type: Date,
-      required: true,
-    },
-    customer: {
-      name: {
-        type: String,
-        validate: [
-          {
-            validator: (v) => {
-              return v.length > 4;
-            },
-            message: `name must have more than 4 characters`,
+      validate: [
+        {
+          validator: (v) => {
+            return v.length > 4;
           },
-          // this validator was used to look at how multiple validators are handled
-          // {
-          //   validator: (v) => {
-          //     return v[0] === "A";
-          //   },
-          //   message: `first letter must be A`,
-          // },
-        ],
-      },
-      mobile: { type: String },
-      email: { type: String },
+          message: `name must have more than 4 characters`,
+        },
+        // this validator was used to look at how multiple validators are handled
+        // removing comment will show that only on error is ever returned for a path
+        // {
+        //   validator: (v) => {
+        //     return v[0] === "A";
+        //   },
+        //   message: `first letter must be A`,
+        // },
+      ],
     },
-    charges: chargesSchema,
-    operatives: [operativesSchema],
-    items: String,
-    addresses: [addressSchema],
-  });
-
-  return jobSchema;
-}
-
-const jobSchema = buildSchema(mongoose);
+    mobile: { type: String },
+    email: { type: String },
+  },
+  charges: chargesSchema,
+  operatives: [operativesSchema],
+  items: String,
+  addresses: [addressSchema],
+});
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 
@@ -126,7 +121,6 @@ module.exports = {
   resetData,
   edit,
   jobSchema,
-  buildSchema,
 };
 
 exports.Job = Job;
