@@ -47,13 +47,20 @@ function buildSchema(mongoose) {
     customer: {
       name: {
         type: String,
-        validate: {
-          validator: (v) => {
-            console.log("v", v);
-            return v.length > 4;
+        validate: [
+          {
+            validator: (v) => {
+              return v.length > 4;
+            },
+            message: `name must have more than 4 characters`,
           },
-          message: `name must have more than 4 characters`,
-        },
+          {
+            validator: (v) => {
+              return v[0] === "A";
+            },
+            message: `first letter must be A`,
+          },
+        ],
       },
       mobile: { type: String },
       email: { type: String },
