@@ -67,9 +67,8 @@ export default function JobModal({ displayEvent, close, updateEvent }) {
   const { start, end, customer, charges, operatives, items, addresses } =
     displayEvent;
 
-  console.log(items);
   //const { customer } = displayEvent;
-  console.log(displayEvent);
+
   //TODO: map over operatives
   return (
     <Modal>

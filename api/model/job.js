@@ -4,64 +4,70 @@ const cuid = require("cuid");
 
 const setHours = require("date-fns/setHours");
 
-const addressSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    default: cuid,
-  },
-  value: {
-    type: String,
-  },
-});
-
-const operativesSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    default: cuid,
-  },
-  value: {
-    type: String,
-  },
-});
-
-const chargesSchema = new mongoose.Schema({
-  hourlyRate: { type: Number },
-  fuelCharge: { type: Number },
-  travelTime: { type: Number },
-});
-
-const jobSchema = new mongoose.Schema({
-  _id: {
-    type: String,
-    default: cuid,
-  },
-  start: {
-    type: Date,
-    required: true,
-  },
-  end: {
-    type: Date,
-    required: true,
-  },
-  customer: {
-    name: {
+function buildSchema(mongoose) {
+  const addressSchema = new mongoose.Schema({
+    _id: {
       type: String,
-      validate: {
-        validator: (v) => {
-          console.log("v", v);
-          return v.length > 4;
-        },
-        message: `name must have more than 4 characters`,
-      },
+      default: cuid,
     },
-    mobile: { type: String },
-    email: { type: String },
-  },
-  charges: chargesSchema,
-  operatives: [operativesSchema],
-  items: String,
-  addresses: [addressSchema],
-});
+    value: {
+      type: String,
+    },
+  });
+
+  const operativesSchema = new mongoose.Schema({
+    _id: {
+      type: String,
+      default: cuid,
+    },
+    value: {
+      type: String,
+    },
+  });
+
+  const chargesSchema = new mongoose.Schema({
+    hourlyRate: { type: Number },
+    fuelCharge: { type: Number },
+    travelTime: { type: Number },
+  });
+
+  const jobSchema = new mongoose.Schema({
+    _id: {
+      type: String,
+      default: cuid,
+    },
+    start: {
+      type: Date,
+      required: true,
+    },
+    end: {
+      type: Date,
+      required: true,
+    },
+    customer: {
+      name: {
+        type: String,
+        validate: {
+          validator: (v) => {
+            console.log("v", v);
+            return v.length > 4;
+          },
+          message: `name must have more than 4 characters`,
+        },
+      },
+      mobile: { type: String },
+      email: { type: String },
+    },
+    charges: chargesSchema,
+    operatives: [operativesSchema],
+    items: String,
+    addresses: [addressSchema],
+  });
+
+  return jobSchema;
+}
+
+const jobSchema = buildSchema(mongoose);
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 
@@ -112,6 +118,7 @@ module.exports = {
   resetData,
   edit,
   jobSchema,
+  buildSchema,
 };
 
 exports.Job = Job;

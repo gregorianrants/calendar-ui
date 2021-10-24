@@ -54,9 +54,7 @@ function processResponse(res){
 }
 
 export function editJob({ _id, data }) {
-  console.log("editJob");
-  console.log(_id);
-  console.log(data);
+
 
   return fetch(`http://localhost:8000/api/v1/jobs/${_id}`, {
     method: "PUT",

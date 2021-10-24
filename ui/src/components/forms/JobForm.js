@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import mongoose from "mongoose/browser";
 import { useInput } from "../hooks/useInput";
 import { useArray } from "../hooks/useArray";
 import { startEndChange, StartEndInput } from "./StartEndInput";
@@ -26,9 +27,7 @@ import {
 
 import { Typography } from "@material-ui/core";
 
-import { jobSchema } from "api/model/job";
-
-console.log(jobSchema);
+import { buildSchema } from "api/model/job"; //TODO change name of buildSchema
 
 function dateTimeFromInput(date, time) {
   const hours = time.getHours();
@@ -91,21 +90,21 @@ export default function JobForm({
   }
 
   const validator = (values) => {
-    const result = {
-      customer: {},
-    };
+    const doc = new mongoose.Document(values, buildSchema(mongoose));
 
-    if (values.customer.name.length < 5) {
-      result.customer.name = "must be longer than 5";
-    }
+    const result = doc.validateSync();
+    const pretty = JSON.stringify(result || {}, null, 2);
+    console.log(pretty);
 
-    return result;
+    return {};
   };
 
-  console.log(initialValues);
-
   return (
-    <Formik initialValues={cloneDeep(initialValues)} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={cloneDeep(initialValues)}
+      onSubmit={handleSubmit}
+      validate={validator}
+    >
       {(props) => (
         //<Typography variant="h4">Create Job</Typography>
         <form onSubmit={props.handleSubmit}>
