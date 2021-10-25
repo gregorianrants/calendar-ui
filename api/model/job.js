@@ -4,31 +4,76 @@ const cuid = require("cuid");
 
 const setHours = require("date-fns/setHours");
 
-const addressSchema = new mongoose.Schema({
+const addressObj = {
   _id: {
     type: String,
     default: cuid,
   },
   value: {
+    validate: {
+      validator: (v) => {
+        return v.length > 4;
+      },
+      message: `name must have more than 4 characters`,
+    },
     type: String,
   },
-});
+};
 
-const operativesSchema = new mongoose.Schema({
+const addressSchema = mongoose.Schema(addressObj);
+
+const operativeObj = {
   _id: {
     type: String,
     default: cuid,
   },
   value: {
+    validate: {
+      validator: (v) => {
+        return v.length > 3;
+      },
+      message: `operative must have more than 3 characters`,
+    },
     type: String,
   },
-});
+};
 
-const chargesSchema = new mongoose.Schema({
+const operativeSchema = mongoose.Schema(operativeObj);
+
+const chargesObj = {
   hourlyRate: { type: Number },
   fuelCharge: { type: Number },
   travelTime: { type: Number },
-});
+};
+
+const chargesSchema = mongoose.Schema(chargesObj);
+
+const customerObj = {
+  name: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => {
+        return v.length > 4;
+      },
+      message: `name must have more than 4 characters`,
+    },
+  },
+  mobile: {
+    type: String,
+    validate: [
+      {
+        validator: (v) => {
+          return v.length > 4;
+        },
+        message: `name must have more than 4 characters`,
+      },
+    ],
+  },
+  email: { type: String },
+};
+
+const customerSchema = mongoose.Schema(customerObj);
 
 const jobSchema = new mongoose.Schema({
   _id: {
@@ -43,33 +88,11 @@ const jobSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  customer: {
-    name: {
-      type: String,
-      validate: [
-        {
-          validator: (v) => {
-            return v.length > 4;
-          },
-          message: `name must have more than 4 characters`,
-        },
-        // this validator was used to look at how multiple validators are handled
-        // removing comment will show that only on error is ever returned for a path
-        // {
-        //   validator: (v) => {
-        //     return v[0] === "A";
-        //   },
-        //   message: `first letter must be A`,
-        // },
-      ],
-    },
-    mobile: { type: String },
-    email: { type: String },
-  },
-  charges: chargesSchema,
-  operatives: [operativesSchema],
+  customer: customerSchema,
+  charges: chargesObj,
+  operatives: [operativeObj],
   items: String,
-  addresses: [addressSchema],
+  addresses: [addressObj],
 });
 
 let Job = mongoose.model("Job", jobSchema, "jobs");

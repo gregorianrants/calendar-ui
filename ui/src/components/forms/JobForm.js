@@ -67,6 +67,8 @@ export default function JobForm({
 }) {
   const classes = useStyles();
 
+  console.log(initialValues)
+
   const handleSubmit = (data) => {
     console.log(data);
     const { _id } = data;
@@ -89,8 +91,16 @@ export default function JobForm({
     close();
   }
 
+  function handleNested(error,formikErrors) {
+
+
+  }
+
   const validator = (values) => {
     const doc = new mongoose.Document(values, jobSchema);
+    console.log(jobSchema.path("customer"));
+    console.log(jobSchema.path("customer.name"));
+    console.log(jobSchema.path("charges"));
 
     const result = doc.validateSync();
     const pretty = JSON.stringify(result || {}, null, 2);
