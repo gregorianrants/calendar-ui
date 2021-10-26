@@ -28,6 +28,7 @@ import {
 import { Typography } from "@material-ui/core";
 
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
+import processMongooseError from "./../../utilities/processMongooseError";
 
 function dateTimeFromInput(date, time) {
   const hours = time.getHours();
@@ -67,7 +68,7 @@ export default function JobForm({
 }) {
   const classes = useStyles();
 
-  console.log(initialValues)
+  console.log(initialValues);
 
   const handleSubmit = (data) => {
     console.log(data);
@@ -91,22 +92,14 @@ export default function JobForm({
     close();
   }
 
-  function handleNested(error,formikErrors) {
-
-
-  }
-
   const validator = (values) => {
     const doc = new mongoose.Document(values, jobSchema);
-    console.log(jobSchema.path("customer"));
-    console.log(jobSchema.path("customer.name"));
-    console.log(jobSchema.path("charges"));
 
-    const result = doc.validateSync();
-    const pretty = JSON.stringify(result || {}, null, 2);
-    console.log(pretty);
+    const validationResult = doc.validateSync();
 
-    return {};
+    if (!validationResult) return null;
+
+    return processMongooseError(validationResult);
   };
 
   return (

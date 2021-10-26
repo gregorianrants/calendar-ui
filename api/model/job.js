@@ -89,7 +89,7 @@ const jobSchema = new mongoose.Schema({
     required: true,
   },
   customer: customerSchema,
-  charges: chargesObj,
+  charges: chargesSchema,
   operatives: [operativeObj],
   items: String,
   addresses: [addressObj],
