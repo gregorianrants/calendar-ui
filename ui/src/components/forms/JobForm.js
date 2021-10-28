@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import mongoose from "mongoose/browser";
+import mongoose from "mongoose";
 import { useInput } from "../hooks/useInput";
 import { useArray } from "../hooks/useArray";
 import { startEndChange, StartEndInput } from "./StartEndInput";
@@ -28,7 +28,7 @@ import {
 import { Typography } from "@material-ui/core";
 
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
-import processMongooseError from "./../../utilities/processMongooseError";
+import { processMongooseError } from "./../../utilities/processMongooseError";
 
 function dateTimeFromInput(date, time) {
   const hours = time.getHours();
@@ -92,14 +92,22 @@ export default function JobForm({
     close();
   }
 
-  const validator = (values) => {
+  function printAsPlainObject(err) {
+    const result =
+      typeof err === "object" ? JSON.parse(JSON.stringify(err)) : null;
+    console.log(result);
+  }
+
+  const validator = async (values) => {
     const doc = new mongoose.Document(values, jobSchema);
 
-    const validationResult = doc.validateSync();
+    const validationResult = await doc.validateSync();
+    console.log(validationResult);
 
-    if (!validationResult) return null;
+    const processed = processMongooseError(validationResult);
+    console.log(processed);
 
-    return processMongooseError(validationResult);
+    return processed;
   };
 
   return (
@@ -116,10 +124,11 @@ export default function JobForm({
             className={classes.inputRow}
             name="customer.name"
             label="name"
-            error={props.errors?.customer?.name}
+            error={true || props.errors?.customer?.name}
             helperText={props.errors?.customer?.name}
             fullWidth
           />
+          <p>server error - name is required for an invoice</p>
           <Field
             as={TextField}
             className={classes.inputRow}
@@ -138,8 +147,10 @@ export default function JobForm({
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <TimePicker
                 className={classes.flexItem}
-                value={props.values.start}
-                onChange={props.handleChange}
+                value={new Date(props.values.start)}
+                onChange={(date) => {
+                  props.setFieldValue("start", date, true);
+                }}
                 label="date"
               />
             </MuiPickersUtilsProvider>
@@ -147,7 +158,9 @@ export default function JobForm({
               <TimePicker
                 className={classes.flexItem}
                 value={props.values.end}
-                onChange={props.handleChange}
+                onChange={(date) => {
+                  props.setFieldValue("start", date, true);
+                }}
                 label="date"
               />
             </MuiPickersUtilsProvider>

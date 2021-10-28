@@ -90,9 +90,9 @@ const jobSchema = new mongoose.Schema({
   },
   customer: customerSchema,
   charges: chargesSchema,
-  operatives: [operativeObj],
+  operatives: [operativeSchema],
   items: String,
-  addresses: [addressObj],
+  addresses: [addressSchema],
 });
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
