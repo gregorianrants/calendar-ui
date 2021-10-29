@@ -1,8 +1,51 @@
 const mongoose = require("mongoose");
 const cuid = require("cuid");
 /*const addGcalEvent = require('./../googleCalendar')*/
+const validator = require("validator"); //todo can we inmport only a subset
 
 const setHours = require("date-fns/setHours");
+const { nextDay } = require("date-fns");
+
+const customerObj = {
+  name: {
+    type: String,
+    required: true,
+    validate: [
+      {
+        validator: (v) => {
+          return v.length > 4;
+        },
+        message: `name must have more than 4 characters`,
+      },
+    ],
+  },
+  mobile: {
+    type: String,
+    validate: {
+      validator: (v) => {
+        return validator.isMobilePhone(v, ["en-GB"]);
+      }, //TODO restrict this to uk and have anohter field for other phone numbers.
+      message: `must be a valid mobile number`,
+    },
+  },
+  email: {
+    type: String,
+    validate: {
+      validator: validator.isEmail,
+      message: "must be a valid email",
+    },
+  },
+};
+
+const customerSchema = mongoose.Schema(customerObj);
+
+const chargesObj = {
+  hourlyRate: { type: Number },
+  fuelCharge: { type: Number },
+  travelTime: { type: Number },
+};
+
+const chargesSchema = mongoose.Schema(chargesObj);
 
 const addressObj = {
   _id: {
@@ -14,7 +57,7 @@ const addressObj = {
       validator: (v) => {
         return v.length > 4;
       },
-      message: `name must have more than 4 characters`,
+      message: `address must have more than 4 characters`,
     },
     type: String,
   },
@@ -40,41 +83,6 @@ const operativeObj = {
 
 const operativeSchema = mongoose.Schema(operativeObj);
 
-const chargesObj = {
-  hourlyRate: { type: Number },
-  fuelCharge: { type: Number },
-  travelTime: { type: Number },
-};
-
-const chargesSchema = mongoose.Schema(chargesObj);
-
-const customerObj = {
-  name: {
-    type: String,
-    required: true,
-    validate: {
-      validator: (v) => {
-        return v.length > 4;
-      },
-      message: `name must have more than 4 characters`,
-    },
-  },
-  mobile: {
-    type: String,
-    validate: [
-      {
-        validator: (v) => {
-          return v.length > 4;
-        },
-        message: `name must have more than 4 characters`,
-      },
-    ],
-  },
-  email: { type: String },
-};
-
-const customerSchema = mongoose.Schema(customerObj);
-
 const jobSchema = new mongoose.Schema({
   _id: {
     type: String,
@@ -90,9 +98,10 @@ const jobSchema = new mongoose.Schema({
   },
   customer: customerSchema,
   charges: chargesSchema,
-  operatives: [operativeSchema],
   items: String,
   addresses: [addressSchema],
+  operatives: [operativeSchema],
+  markCompleted: Boolean,
 });
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
@@ -122,12 +131,17 @@ async function remove(id) {
 }
 
 async function edit(_id, change) {
-  const product = await get(_id);
+  // let job = await Job.findByIdAndUpdate(_id, change, {
+  //   new: true,
+  //   runValidators: true,
+  // });
+  // return job;
+  const job = await get(_id);
   Object.keys(change).forEach(function (key) {
-    product[key] = change[key];
+    job[key] = change[key];
   });
-  await product.save();
-  return product;
+  await job.save();
+  return job;
 }
 
 async function resetData(data) {

@@ -124,14 +124,15 @@ export default function JobForm({
             className={classes.inputRow}
             name="customer.name"
             label="name"
-            error={true || props.errors?.customer?.name}
+            error={props.errors?.customer?.name}
             helperText={props.errors?.customer?.name}
             fullWidth
           />
-          <p>server error - name is required for an invoice</p>
           <Field
             as={TextField}
             className={classes.inputRow}
+            error={props.errors?.customer?.mobile}
+            helperText={props.errors?.customer?.mobile}
             name="customer.mobile"
             label="mobile"
             fullWidth
@@ -141,6 +142,8 @@ export default function JobForm({
             className={classes.inputRow}
             name="customer.email"
             label="email"
+            error={props.errors?.customer?.email}
+            helperText={props.errors?.customer?.email}
             fullWidth
           />
           <FlexRow className={classes.inputRow}>
@@ -161,7 +164,7 @@ export default function JobForm({
                 onChange={(date) => {
                   props.setFieldValue("start", date, true);
                 }}
-                label="date"
+                label="start time"
               />
             </MuiPickersUtilsProvider>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -181,7 +184,7 @@ export default function JobForm({
                   );
                   console.log("hello");
                 }}
-                label="end"
+                label="end time"
               />
             </MuiPickersUtilsProvider>
           </FlexRow>
@@ -232,12 +235,15 @@ export default function JobForm({
             onChange={props.handleChange}
             label="add address"
             name="addresses"
+            itemName='address'
+            errors={props.errors?.addresses}
           />
           <ListBuilder
             value={props.values.operatives}
             onChange={props.handleChange}
             label="add operative"
             name="operatives"
+            itemName='operative'
           />
 
           {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
