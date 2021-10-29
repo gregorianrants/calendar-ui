@@ -9,5 +9,6 @@
   "workspaces": [
     "api",
     "ui"
-  ]
+  ],
+  "dependencies": {}
 }

@@ -43,7 +43,6 @@ async function deleteJob(req, res) {
 async function editJob(req, res) {
   const id = req.params.id;
   const data = await Job.edit(id, req.body);
-  console.log(req.body);
   res.status(200).json({ status: "success", data: data });
 }
 

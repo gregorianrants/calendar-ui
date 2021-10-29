@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import mongoose from "mongoose/browser";
+import mongoose from "mongoose";
 import { useInput } from "../hooks/useInput";
 import { useArray } from "../hooks/useArray";
 import { startEndChange, StartEndInput } from "./StartEndInput";
@@ -27,7 +27,8 @@ import {
 
 import { Typography } from "@material-ui/core";
 
-import { buildSchema } from "api/model/job"; //TODO change name of buildSchema
+import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
+import { processMongooseError } from "./../../utilities/processMongooseError";
 
 function dateTimeFromInput(date, time) {
   const hours = time.getHours();
@@ -67,6 +68,8 @@ export default function JobForm({
 }) {
   const classes = useStyles();
 
+  console.log(initialValues);
+
   const handleSubmit = (data) => {
     console.log(data);
     const { _id } = data;
@@ -89,14 +92,22 @@ export default function JobForm({
     close();
   }
 
-  const validator = (values) => {
-    const doc = new mongoose.Document(values, buildSchema(mongoose));
+  function printAsPlainObject(err) {
+    const result =
+      typeof err === "object" ? JSON.parse(JSON.stringify(err)) : null;
+    console.log(result);
+  }
 
-    const result = doc.validateSync();
-    const pretty = JSON.stringify(result || {}, null, 2);
-    console.log(pretty);
+  const validator = async (values) => {
+    const doc = new mongoose.Document(values, jobSchema);
 
-    return {};
+    const validationResult = await doc.validateSync();
+    console.log(validationResult);
+
+    const processed = processMongooseError(validationResult);
+    console.log(processed);
+
+    return processed;
   };
 
   return (
@@ -120,6 +131,8 @@ export default function JobForm({
           <Field
             as={TextField}
             className={classes.inputRow}
+            error={props.errors?.customer?.mobile}
+            helperText={props.errors?.customer?.mobile}
             name="customer.mobile"
             label="mobile"
             fullWidth
@@ -129,14 +142,18 @@ export default function JobForm({
             className={classes.inputRow}
             name="customer.email"
             label="email"
+            error={props.errors?.customer?.email}
+            helperText={props.errors?.customer?.email}
             fullWidth
           />
           <FlexRow className={classes.inputRow}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <TimePicker
                 className={classes.flexItem}
-                value={props.values.start}
-                onChange={props.handleChange}
+                value={new Date(props.values.start)}
+                onChange={(date) => {
+                  props.setFieldValue("start", date, true);
+                }}
                 label="date"
               />
             </MuiPickersUtilsProvider>
@@ -144,8 +161,10 @@ export default function JobForm({
               <TimePicker
                 className={classes.flexItem}
                 value={props.values.end}
-                onChange={props.handleChange}
-                label="date"
+                onChange={(date) => {
+                  props.setFieldValue("start", date, true);
+                }}
+                label="start time"
               />
             </MuiPickersUtilsProvider>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -165,7 +184,7 @@ export default function JobForm({
                   );
                   console.log("hello");
                 }}
-                label="end"
+                label="end time"
               />
             </MuiPickersUtilsProvider>
           </FlexRow>
@@ -216,12 +235,16 @@ export default function JobForm({
             onChange={props.handleChange}
             label="add address"
             name="addresses"
+            itemName="address"
+            errors={props.errors?.addresses}
           />
           <ListBuilder
             value={props.values.operatives}
             onChange={props.handleChange}
             label="add operative"
             name="operatives"
+            itemName="operative"
+            errors={props.errors?.operatives}
           />
 
           {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>

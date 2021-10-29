@@ -8,7 +8,8 @@ function handleValidationError(err, req, res, next) {
     status: "fail",
     name: "validationError", //TODO i have changed case in error names to camel case in mongo they are capitalised is this the right decision.
     message: err.message,
-    errors: processValidationErrors(err.errors),
+    //errors: processValidationErrors(err.errors),
+    errors: err.errors,
   });
 }
 

@@ -1,73 +1,108 @@
 const mongoose = require("mongoose");
 const cuid = require("cuid");
 /*const addGcalEvent = require('./../googleCalendar')*/
+const validator = require("validator"); //todo can we inmport only a subset
 
 const setHours = require("date-fns/setHours");
+const { nextDay } = require("date-fns");
 
-function buildSchema(mongoose) {
-  const addressSchema = new mongoose.Schema({
-    _id: {
-      type: String,
-      default: cuid,
-    },
-    value: {
-      type: String,
-    },
-  });
-
-  const operativesSchema = new mongoose.Schema({
-    _id: {
-      type: String,
-      default: cuid,
-    },
-    value: {
-      type: String,
-    },
-  });
-
-  const chargesSchema = new mongoose.Schema({
-    hourlyRate: { type: Number },
-    fuelCharge: { type: Number },
-    travelTime: { type: Number },
-  });
-
-  const jobSchema = new mongoose.Schema({
-    _id: {
-      type: String,
-      default: cuid,
-    },
-    start: {
-      type: Date,
-      required: true,
-    },
-    end: {
-      type: Date,
-      required: true,
-    },
-    customer: {
-      name: {
-        type: String,
-        validate: {
-          validator: (v) => {
-            console.log("v", v);
-            return v.length > 4;
-          },
-          message: `name must have more than 4 characters`,
+const customerObj = {
+  name: {
+    type: String,
+    required: true,
+    validate: [
+      {
+        validator: (v) => {
+          return v.length > 4;
         },
+        message: `name must have more than 4 characters`,
       },
-      mobile: { type: String },
-      email: { type: String },
+    ],
+  },
+  mobile: {
+    type: String,
+    validate: {
+      validator: (v) => {
+        return validator.isMobilePhone(v, ["en-GB"]);
+      }, //TODO restrict this to uk and have anohter field for other phone numbers.
+      message: `must be a valid mobile number`,
     },
-    charges: chargesSchema,
-    operatives: [operativesSchema],
-    items: String,
-    addresses: [addressSchema],
-  });
+  },
+  email: {
+    type: String,
+    validate: {
+      validator: validator.isEmail,
+      message: "must be a valid email",
+    },
+  },
+};
 
-  return jobSchema;
-}
+const customerSchema = mongoose.Schema(customerObj);
 
-const jobSchema = buildSchema(mongoose);
+const chargesObj = {
+  hourlyRate: { type: Number },
+  fuelCharge: { type: Number },
+  travelTime: { type: Number },
+};
+
+const chargesSchema = mongoose.Schema(chargesObj);
+
+const addressObj = {
+  _id: {
+    type: String,
+    default: cuid,
+  },
+  value: {
+    validate: {
+      validator: (v) => {
+        return v.length > 4;
+      },
+      message: `address must have more than 4 characters`,
+    },
+    type: String,
+  },
+};
+
+const addressSchema = mongoose.Schema(addressObj);
+
+const operativeObj = {
+  _id: {
+    type: String,
+    default: cuid,
+  },
+  value: {
+    validate: {
+      validator: (v) => {
+        return v.length > 3;
+      },
+      message: `operative must have more than 3 characters`,
+    },
+    type: String,
+  },
+};
+
+const operativeSchema = mongoose.Schema(operativeObj);
+
+const jobSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: cuid,
+  },
+  start: {
+    type: Date,
+    required: true,
+  },
+  end: {
+    type: Date,
+    required: true,
+  },
+  customer: customerSchema,
+  charges: chargesSchema,
+  items: String,
+  addresses: [addressSchema],
+  operatives: [operativeSchema],
+  markCompleted: Boolean,
+});
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 
@@ -96,12 +131,17 @@ async function remove(id) {
 }
 
 async function edit(_id, change) {
-  const product = await get(_id);
+  // let job = await Job.findByIdAndUpdate(_id, change, {
+  //   new: true,
+  //   runValidators: true,
+  // });
+  // return job;
+  const job = await get(_id);
   Object.keys(change).forEach(function (key) {
-    product[key] = change[key];
+    job[key] = change[key];
   });
-  await product.save();
-  return product;
+  await job.save();
+  return job;
 }
 
 async function resetData(data) {
@@ -118,7 +158,6 @@ module.exports = {
   resetData,
   edit,
   jobSchema,
-  buildSchema,
 };
 
 exports.Job = Job;
