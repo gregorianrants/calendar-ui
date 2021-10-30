@@ -21,6 +21,7 @@ export default function Week({gcalEvents,events,days,updateDisplayEvent,updateEv
                     key={i}
                     updateDisplayEvent={updateDisplayEvent}
                     updateEvent={updateEvent}
+                    date={date}
                 />
             ))}
         </WeekStyled>

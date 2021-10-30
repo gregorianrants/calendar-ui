@@ -112,7 +112,7 @@ export default function JobForm({
 
   return (
     <Formik
-      initialValues={cloneDeep(initialValues)}
+      initialValues={cloneDeep(initialValues || {})}
       onSubmit={handleSubmit}
       validate={validator}
     >

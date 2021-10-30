@@ -15,6 +15,7 @@ import { fitsInWeek } from "../../utilities/dateUtilities.js";
 
 import JobModal from "../forms/JobModal";
 
+
 //import socketIOClient from "socket.io-client";
 
 import { useWeek } from "./reducer";
@@ -34,6 +35,11 @@ export default function Calendar() {
   const [displayEvent, setDisplayEvent] = React.useState(null);
   const [events, setEvents] = React.useState([]);
   const [gcalEvents, setGcalEvents] = React.useState([]);
+
+  function handleSetInitialDate(day,month,year,hour){
+       return new Date(day,month,year,hour) 
+  }
+
   //TODO have a think about what you are using/nameing current day. what does that mean
 
   //useGapi also returns a sign out function

@@ -20,7 +20,7 @@ const DayStyled = styled.div`
 
 
 
-export default function Day({gcalEvents,events,updateDisplayEvent,updateEvent}) {
+export default function Day({gcalEvents,events,updateDisplayEvent,updateEvent,date}) {
     return (
         <DayStyled>
                     <Events
@@ -30,7 +30,7 @@ export default function Day({gcalEvents,events,updateDisplayEvent,updateEvent}) 
                             updateDisplayEvent={updateDisplayEvent}
                             updateEvent={updateEvent}
                     />
-                    <Hours/>
+                    <Hours date={date}/>
         </DayStyled>
     )
 }
