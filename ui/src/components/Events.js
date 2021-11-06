@@ -48,11 +48,6 @@ export default function Events({gcalEvents,events,updateEvent,updateDisplayEvent
                     />
                 }
             )
-
-
-
             ]
-
-
     )
 }

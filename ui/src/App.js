@@ -58,20 +58,6 @@ function App() {
             </Toolbar>
           </AppBar>
         </div>
-
-        {/* <div>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to='/'>Calendar</Link>
-                            </li>
-                            <li>
-                                <Link to='/table'>Table</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>*/}
-
         <Switch>
           <Route path="/job-form">
             {/* <NewJobModal

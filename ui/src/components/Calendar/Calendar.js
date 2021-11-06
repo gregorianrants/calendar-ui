@@ -104,13 +104,9 @@ export default function Calendar() {
   };
 
   const updateEvent = (id, data) => {
-    console.log(data);
     setEvents((events) => {
-    
       const remainder = events.filter((event) => event._id !== id);
-     
       const result = [...remainder, data];
-     
       return result;
     });
   };
