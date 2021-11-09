@@ -20,7 +20,6 @@ export default function Week({gcalEvents,events,days,updateDisplayEvent,updateEv
                     events={events.filter(event => event.start.getDay() === date.getDay())}
                     key={i}
                     updateDisplayEvent={updateDisplayEvent}
-                    updateEvent={updateEvent}
                     date={date}
                 />
             ))}

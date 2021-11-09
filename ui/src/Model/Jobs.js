@@ -67,3 +67,9 @@ export function editJob({ _id, data }) {
     .then((res) => processResponse(res))
     .catch((err) => console.error(err));
 }
+
+
+export default {
+  editJob,
+  fetchDays
+}

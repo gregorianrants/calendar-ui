@@ -19,6 +19,9 @@ import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import { rootReducer } from "./reducer";
 import { editJob } from "../../Model/Jobs";
 
+import { editJobThunk } from "../Calendar/calendarSlice";
+import { useDispatch } from "react-redux";
+
 import {
   DatePicker,
   TimePicker,
@@ -60,37 +63,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function JobForm({
-  updateEvent,
-  close,
-  toggleModal,
-  initialValues,
-}) {
+export default function JobForm({ close, toggleModal, initialValues }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  console.log(initialValues);
 
   const handleSubmit = (data) => {
-    console.log(data);
-    const { _id } = data;
-    editJob({ _id: _id, data: data })
-      .then((response) => {
-        if (response.status === "success") {
-          onSuccess(_id, response.data);
-        } else if (
-          response.status === "fail" &&
-          response.name === "validationError"
-        ) {
-          console.log("i need validation");
-        }
-      })
-      .catch(console.error);
+    dispatch(editJobThunk(data));
   };
-
-  function onSuccess(_id, data) {
-    updateEvent(_id, data);
-    close();
-  }
 
   function printAsPlainObject(err) {
     const result =
@@ -154,7 +134,7 @@ export default function JobForm({
                 onChange={(date) => {
                   props.setFieldValue("start", date, true);
                 }}
-                label="date"
+                label="start time"
               />
             </MuiPickersUtilsProvider>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -162,9 +142,9 @@ export default function JobForm({
                 className={classes.flexItem}
                 value={props.values.end}
                 onChange={(date) => {
-                  props.setFieldValue("start", date, true);
+                  props.setFieldValue("end", date, true);
                 }}
-                label="start time"
+                label="end time"
               />
             </MuiPickersUtilsProvider>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -184,7 +164,7 @@ export default function JobForm({
                   );
                   console.log("hello");
                 }}
-                label="end time"
+                label="date"
               />
             </MuiPickersUtilsProvider>
           </FlexRow>

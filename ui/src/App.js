@@ -10,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
+import { JobDetails } from "./components/forms/JobDetails";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -59,6 +60,12 @@ function App() {
           </AppBar>
         </div>
         <Switch>
+          <Route path="/job-details/:id">
+            <SettingsContext.Provider value={settingsValue}>
+              <Calendar />
+            </SettingsContext.Provider>
+            <JobDetails />
+          </Route>
           <Route path="/job-form">
             {/* <NewJobModal
               addToEvents={addToEvents}

@@ -28,7 +28,6 @@ export default function Day({gcalEvents,events,updateDisplayEvent,updateEvent,da
                         events={events}
                             /*updateEvent={updateEvent}*/
                             updateDisplayEvent={updateDisplayEvent}
-                            updateEvent={updateEvent}
                     />
                     <Hours date={date}/>
         </DayStyled>
