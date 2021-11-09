@@ -12,6 +12,7 @@ import useDetectBottomEdge from "./useDetectBottomEdge";
 
 import { editJobThunk } from "./Calendar/calendarSlice";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 const StyledEvent = styled.div`
   position: absolute;
@@ -29,11 +30,12 @@ export default function Event({
   start,
   end,
   backgroundColor = "red",
-  updateDisplayEvent,
 }) {
   const [top, setTop] = React.useState(topProp);
   const [bottom, setBottom] = React.useState(bottomProp);
   const { hourHeight } = React.useContext(settingsContext);
+
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -41,6 +43,10 @@ export default function Event({
     setTop(topProp);
     setBottom(bottomProp);
   }, [topProp, bottomProp]);
+
+  const updateDisplayEvent = () => {
+    history.push(`calendar/job-details/${_id}`);
+  };
 
   /*
     TODO: write code that doesnt need this comment to make sense, once you can figure out how to.

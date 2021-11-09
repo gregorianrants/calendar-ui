@@ -54,6 +54,9 @@ const calendarSlice = createSlice({
         state.events[idToChange] = cloneDeep(payload);
       }
     },
+    createJob(state, action) {
+      state.events.push(action.payload);
+    },
   },
 });
 
@@ -91,6 +94,22 @@ export const editJobThunk = (data) => (dispatch, getState) => {
     .then((response) => {
       if (response.status === "success") {
         dispatch(actions.editJob(data));
+      } else if (
+        response.status === "fail" &&
+        response.name === "validationError"
+      ) {
+        console.log("i need validation");
+      }
+    })
+    .catch(console.error);
+};
+
+export const createJobThunk = (data) => (dispatch, getState) => {
+  model
+    .createJob(data)
+    .then((response) => {
+      if (response.status === "success") {
+        dispatch(actions.createJob(data));
       } else if (
         response.status === "fail" &&
         response.name === "validationError"

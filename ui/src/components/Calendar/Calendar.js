@@ -18,7 +18,7 @@ import JobModal from "../forms/JobModal";
 //import socketIOClient from "socket.io-client";
 
 import { useWeek } from "./reducer";
-import { useGapi } from "../../useGapi/useGapi";
+//import { useGapi } from "../../useGapi/useGapi";
 
 import { incrementWeekThunk, decrementWeekThunk } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,7 +41,7 @@ export default function Calendar() {
 
   const dispatch = useDispatch();
 
-  const { authed, listEvents } = useGapi();
+  //const { authed, listEvents } = useGapi();
 
   const { hourHeight } = React.useContext(settingsContext);
 
@@ -67,24 +67,6 @@ export default function Calendar() {
     setDisplayEvent(null);
   };
 
-  // const addToEvents = (event) => {
-  //   if (fitsInWeek(daysOnCal.firstDay, event.start)) {
-  //     setEvents((events) => [...events, event]);
-  //   }
-  // };
-
-  // const updateEvent = (id, data) => {
-  //   setEvents((events) => {
-  //     const remainder = events.filter((event) => event._id !== id);
-  //     const result = [...remainder, data];
-  //     return result;
-  //   });
-  // };
-
-  const addToEvents = () => {};
-
-  const updateEvent = () => {};
-
   const currentDate = useSelector((state) => state.calendar.currentDate);
   const days = useSelector((state) => state.calendar.days);
 
@@ -108,16 +90,9 @@ export default function Calendar() {
           updateDisplayEvent={updateDisplayEvent}
         />
       </CalendarStyled>
-      {showNewJobModal && (
-        <NewJobModal
-          toggleModal={toggleNewJobModal}
-        />
-      )}
+      {showNewJobModal && <NewJobModal toggleModal={toggleNewJobModal} />}
       {displayEvent && (
-        <JobModal
-          displayEvent={displayEvent}
-          close={closeDetailsModal}
-        />
+        <JobModal displayEvent={displayEvent} close={closeDetailsModal} />
       )}
     </React.Fragment>
   );

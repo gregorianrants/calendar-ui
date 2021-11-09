@@ -27,7 +27,7 @@ const useStyles = makeStyles(() =>
 
 export function ListBuilder({
   name,
-  value,
+  value = [],
   onChange,
   label,
   errors,
@@ -36,7 +36,6 @@ export function ListBuilder({
   //TODO should maybe be thinking about a shared constructor for this
   //we are making an object like this on api as well
 
-  console.log(errors);
   function wrap(value) {
     return {
       _id: cuid(),
@@ -46,7 +45,6 @@ export function ListBuilder({
 
   const addAddress = (value, address) => {
     const updatedValue = produce(value, (draft) => {
-      console.log(draft);
       draft.push(wrap(address));
     });
     const e = {
