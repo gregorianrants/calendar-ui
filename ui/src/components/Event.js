@@ -2,7 +2,6 @@ import React from "react";
 
 import useDrag from "./useDrag";
 import styled from "styled-components";
-import { editJob } from "../Model/Jobs";
 
 import { fromTop, fromBottom, roundToNearest } from "../utilities/utilities";
 import settingsContext from "./Contexts";
@@ -10,6 +9,10 @@ import settingsContext from "./Contexts";
 import { getTimeFromPosition } from "../utilities/timeConversions.js";
 import { mergeDateAndTime } from "../utilities/dateUtilities";
 import useDetectBottomEdge from "./useDetectBottomEdge";
+
+import { editJobThunk } from "./Calendar/calendarSlice";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 const StyledEvent = styled.div`
   position: absolute;
@@ -27,17 +30,23 @@ export default function Event({
   start,
   end,
   backgroundColor = "red",
-  updateEvent,
-  updateDisplayEvent,
 }) {
   const [top, setTop] = React.useState(topProp);
   const [bottom, setBottom] = React.useState(bottomProp);
   const { hourHeight } = React.useContext(settingsContext);
 
+  const history = useHistory();
+
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
     setTop(topProp);
     setBottom(bottomProp);
   }, [topProp, bottomProp]);
+
+  const updateDisplayEvent = () => {
+    history.push(`calendar/job-details/${_id}`);
+  };
 
   /*
     TODO: write code that doesnt need this comment to make sense, once you can figure out how to.
@@ -86,21 +95,14 @@ export default function Event({
   const onDragEnd = (totalTranslationY) => {
     console.log(totalTranslationY);
     if (totalTranslationY !== 0) {
-      //TODO do i want to allow a little bit of movement then set back to original value if movement is small
-      editJob({
-        _id,
-        data: {
+      dispatch(
+        editJobThunk({
+          _id,
           start: mergeDateAndTime(start, startTime(top)),
           end: mergeDateAndTime(end, endTime(bottom)),
-        },
-      })
-        .then((data) => {
-          console.log(data);
-          updateEvent(data.data._id, data.data); //TODO sort out this double use of data looks silly
         })
-        .catch(console.error);
+      );
     } else {
-      console.log("heloooooo");
       updateDisplayEvent(_id);
     }
   };

@@ -17,6 +17,76 @@ function wrapInObject(el) {
 
 const jobs = [
   {
+    start: addDays(new Date().setHours(10),7),
+    end: addDays(new Date().setHours(13),7),
+    customer: {
+      name: "Alan Murray",
+      mobile: "07930103787",
+      email: "alan@btinternet.co.uk",
+    },
+    charges: {
+      hourlyRate: 55,
+      fuelCharge: 20,
+      travelTime: 30,
+    },
+    operatives: [{ value: "fenwick" }, { value: "dave" }],
+    addresses: [{ value: "19 coral glen" }, { value: "4 craigie avenue" }],
+    items: `fridge is 5ft
+sent list as photo so can paste in
+lawnmower
+fridge 5ft
+strimmer
+2 rugs
+black bag
+2 vacuam bags
+excercise mat 
+xmas tree
+4 suits in bags
+coff table
+8 boxes
+prety chunky weights bench
+bike
+rucksackf
+bag
+shopping
+marsbar`,
+  },
+  {
+    start: addDays(new Date().setHours(10),-7),
+    end: addDays(new Date().setHours(13),-7),
+    customer: {
+      name: "Alan Murray",
+      mobile: "07930103787",
+      email: "alan@btinternet.co.uk",
+    },
+    charges: {
+      hourlyRate: 55,
+      fuelCharge: 20,
+      travelTime: 30,
+    },
+    operatives: [{ value: "fenwick" }, { value: "dave" }],
+    addresses: [{ value: "19 coral glen" }, { value: "4 craigie avenue" }],
+    items: `fridge is 5ft
+sent list as photo so can paste in
+lawnmower
+fridge 5ft
+strimmer
+2 rugs
+black bag
+2 vacuam bags
+excercise mat 
+xmas tree
+4 suits in bags
+coff table
+8 boxes
+prety chunky weights bench
+bike
+rucksackf
+bag
+shopping
+marsbar`,
+  },
+  {
     start: new Date().setHours(10),
     end: new Date().setHours(13),
     customer: {

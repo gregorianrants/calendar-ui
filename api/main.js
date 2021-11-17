@@ -2,12 +2,14 @@ require("dotenv").config();
 const db = require("./model/db");
 const express = require("express");
 const jobs = require("./routes/jobsRoute");
+const auth = require("./routes/authRoute");
 const cors = require("cors");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const path = require("path");
 const errorHandlers = require("./controllers/errorControllers");
+const AppError = require('./utils/appError')
 
 app.use(cors());
 
@@ -41,6 +43,8 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use("/api/v1/jobs", jobs);
+console.log(auth)
+app.use("/api/v1/auth", auth);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cant't find ${req.originalUrl} on this server`, 404));

@@ -33,7 +33,6 @@ export default function Events({gcalEvents,events,updateEvent,updateDisplayEvent
                     return <Event
                         {...evnt}
                         key={evnt._id}
-                        updateEvent={updateEvent}
                         updateDisplayEvent={updateDisplayEvent}
                     />
                 }

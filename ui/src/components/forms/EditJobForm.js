@@ -1,41 +1,26 @@
 import React from "react";
-import { editJob } from "../../Model/Jobs";
 import JobForm from "./JobForm";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useHistory, useLocation } from "react-router";
+import { editJobThunk } from "../Calendar/calendarSlice";
 
-export default function EditJobForm({
-  updateEvent,
-  close,
-  toggleModal,
-  initialValues,
-}) {
-  const handleSubmit = (_id, data) => {
-    console.log(data);
-    editJob({ _id: _id, data: data })
-      .then((response) => {
-        if (response.status === "success") {
-          onSuccess(_id, response.data);
-        } else if (
-          response.status === "fail" &&
-          response.name === "validationError"
-        ) {
-          console.log("i need validation");
-        }
-      })
-      .catch(console.error);
+export default function EditJobForm() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  let job = useSelector((state) =>
+    state.calendar.events.find((event) => event._id == id)
+  );
+
+  console.log(job);
+
+  const handleSubmit = (data) => {
+    dispatch(editJobThunk(data));
+    history.goBack();
   };
 
-  function onSuccess(_id, data) {
-    updateEvent(_id, data);
-    close();
-  }
-
   return (
-    <JobForm
-      handleSubmit={(editedData) => {
-        return handleSubmit(initialValues._id, editedData);
-      }}
-      toggleModal={toggleModal}
-      initialValues={initialValues}
-    />
+    <JobForm handleSubmit={handleSubmit} initialValues={job} title="Edit Job" />
   );
 }
