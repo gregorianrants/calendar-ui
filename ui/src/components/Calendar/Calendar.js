@@ -15,11 +15,13 @@ import { fitsInWeek } from "../../utilities/dateUtilities.js";
 
 import JobModal from "../forms/JobModal";
 
-
 //import socketIOClient from "socket.io-client";
 
 import { useWeek } from "./reducer";
-import { useGapi } from "../../useGapi/useGapi";
+//import { useGapi } from "../../useGapi/useGapi";
+
+import { incrementWeekThunk, decrementWeekThunk } from "./calendarSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const CalendarStyled = styled.div`
   margin: 30px;
@@ -30,20 +32,16 @@ const CalendarStyled = styled.div`
 `;
 
 export default function Calendar() {
-  const [daysOnCal, dispatch] = useWeek();
+  //const [daysOnCal, dispatch] = useWeek();
   const [showNewJobModal, setShowNewJobModal] = React.useState(false);
   const [displayEvent, setDisplayEvent] = React.useState(null);
-  const [events, setEvents] = React.useState([]);
-  const [gcalEvents, setGcalEvents] = React.useState([]);
+  //const [events, setEvents] = React.useState([]);
+  const events = useSelector((state) => state.calendar.events);
+  //const [gcalEvents, setGcalEvents] = React.useState([]);
 
-  function handleSetInitialDate(day,month,year,hour){
-       return new Date(day,month,year,hour) 
-  }
+  const dispatch = useDispatch();
 
-  //TODO have a think about what you are using/nameing current day. what does that mean
-
-  //useGapi also returns a sign out function
-  const { authed, listEvents } = useGapi();
+  //const { authed, listEvents } = useGapi();
 
   const { hourHeight } = React.useContext(settingsContext);
 
@@ -51,42 +49,14 @@ export default function Calendar() {
     setDisplayEvent(events.filter((event) => event._id === id)[0]);
   };
 
-  React.useEffect(() => {
-    fetchDays(daysOnCal.firstDay, daysOnCal.lastDay)
-      .then((data) => {
-        setEvents([...data]); //TODO have a look at what we are doing here what if there is no data
-      })
-      .catch(console.error);
-  }, [daysOnCal]);
-
-  React.useEffect(() => {
-    if (authed) {
-      listEvents(daysOnCal.firstDay, daysOnCal.lastDay) //TODO should technically be a dependancy need to wrap it in useCallback
-        .then(setGcalEvents);
-
-      console.log("aggghhhh");
-    }
-  }, [authed, daysOnCal]); //added in the listEvebts due to a warning in conslol
-
-  /*  React.useEffect(()=>{
-        const socket = socketIOClient('http://localhost:8000');
-        console.log(socket)
-
-        socket.on('message',(msg)=>{
-            fetchWeekContaining(firstDayOfWeek)
-                .then(data=> {
-                    setEvents(data)
-                })
-                .catch(console.error)
-        })
-    },[firstDayOfWeek])*/
-
   const incrementWeek = () => {
-    dispatch({ type: "INCREMENT" });
+    //dispatch({ type: "INCREMENT" });
+    dispatch(incrementWeekThunk);
   };
 
   const decrementWeek = () => {
-    dispatch({ type: "DECREMENT" });
+    //dispatch({ type: "DECREMENT" });
+    dispatch(decrementWeekThunk);
   };
 
   const toggleNewJobModal = () => {
@@ -97,53 +67,32 @@ export default function Calendar() {
     setDisplayEvent(null);
   };
 
-  const addToEvents = (event) => {
-    if (fitsInWeek(daysOnCal.firstDay, event.start)) {
-      setEvents((events) => [...events, event]);
-    }
-  };
-
-  const updateEvent = (id, data) => {
-    setEvents((events) => {
-      const remainder = events.filter((event) => event._id !== id);
-      const result = [...remainder, data];
-      return result;
-    });
-  };
+  const currentDate = useSelector((state) => state.calendar.currentDate);
+  const days = useSelector((state) => state.calendar.days);
 
   return (
     <React.Fragment>
       <CalendarStyled hourHeight={hourHeight}>
         <div></div>
         <Header
-          currentDate={daysOnCal.currentDate}
+          currentDate={currentDate}
           incrementWeek={incrementWeek}
           decrementWeek={decrementWeek}
           handleShowModal={toggleNewJobModal}
         />
         <div></div>
-        <DayLabels days={daysOnCal.days} />
+        <DayLabels days={days} />
         <HourTicks />
         <Week
           events={events}
-          gcalEvents={gcalEvents}
-          days={daysOnCal.days}
+          gcalEvents={[]}
+          days={days}
           updateDisplayEvent={updateDisplayEvent}
-          updateEvent={updateEvent}
         />
       </CalendarStyled>
-      {showNewJobModal && (
-        <NewJobModal
-          addToEvents={addToEvents}
-          toggleModal={toggleNewJobModal}
-        />
-      )}
+      {showNewJobModal && <NewJobModal toggleModal={toggleNewJobModal} />}
       {displayEvent && (
-        <JobModal
-          displayEvent={displayEvent}
-          close={closeDetailsModal}
-          updateEvent={updateEvent}
-        />
+        <JobModal displayEvent={displayEvent} close={closeDetailsModal} />
       )}
     </React.Fragment>
   );

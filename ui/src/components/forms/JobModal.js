@@ -78,7 +78,6 @@ export default function JobModal({ displayEvent, close, updateEvent }) {
             <JobForm
               title="Edit Job"
               initialValues={displayEvent}
-              updateEvent={updateEvent}
               close={close}
             />
           </CardContent>

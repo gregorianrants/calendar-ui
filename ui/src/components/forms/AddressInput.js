@@ -25,11 +25,17 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export function ListBuilder({ name, value, onChange, label, errors ,itemName}) {
+export function ListBuilder({
+  name,
+  value = [],
+  onChange,
+  label,
+  errors,
+  itemName,
+}) {
   //TODO should maybe be thinking about a shared constructor for this
   //we are making an object like this on api as well
 
-  console.log(errors);
   function wrap(value) {
     return {
       _id: cuid(),
@@ -39,7 +45,6 @@ export function ListBuilder({ name, value, onChange, label, errors ,itemName}) {
 
   const addAddress = (value, address) => {
     const updatedValue = produce(value, (draft) => {
-      console.log(draft);
       draft.push(wrap(address));
     });
     const e = {
@@ -78,40 +83,45 @@ export function ListBuilder({ name, value, onChange, label, errors ,itemName}) {
   return (
     <>
       <List dense>
-        {value.map((a, i) => (
-          <ListItem key={a._id}>
-            <ListItemAvatar>
-              <HouseIcon></HouseIcon>
-            </ListItemAvatar>
-            <ListItemText
-              //className={classes.inline}
-              primary={
-                <>
-                  <Typography variant={"body1"} display="inline">
-                    {a.value}
-                  </Typography>
-                  {getError(i) ? (
-                    <Typography variant="caption" color="error">
-                      {`  - ${getError(i)}`}
+        {value &&
+          value.map((a, i) => (
+            <ListItem key={a._id}>
+              <ListItemAvatar>
+                <HouseIcon></HouseIcon>
+              </ListItemAvatar>
+              <ListItemText
+                //className={classes.inline}
+                primary={
+                  <>
+                    <Typography variant={"body1"} display="inline">
+                      {a.value}
                     </Typography>
-                  ) : (
-                    <Typography variant="caption">  - {itemName}{i + 1}</Typography>
-                  )}
-                </>
-              }
-              disableTypography
-            />
-            <ListItemSecondaryAction>
-              <CloseIcon
-                color="primary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  removeAddress(value, a._id);
-                }}
+                    {getError(i) ? (
+                      <Typography variant="caption" color="error">
+                        {`  - ${getError(i)}`}
+                      </Typography>
+                    ) : (
+                      <Typography variant="caption">
+                        {" "}
+                        - {itemName}
+                        {i + 1}
+                      </Typography>
+                    )}
+                  </>
+                }
+                disableTypography
               />
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
+              <ListItemSecondaryAction>
+                <CloseIcon
+                  color="primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    removeAddress(value, a._id);
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
       </List>
       <Grid item>
         <TextField

@@ -10,8 +10,20 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
+import { JobDetails } from "./components/forms/JobDetails";
+import JobForm from "./components/forms/JobForm";
+import EditJobForm from "./components/forms/EditJobForm";
+import CreateJobForm from "./components/forms/CreateJobForm";
+import Login from "./features/auth/Login";
+import PrivateRoute from "./features/auth/PrivateRoute";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
 const settingsValue = {
   borderWidth: 1,
@@ -59,19 +71,37 @@ function App() {
           </AppBar>
         </div>
         <Switch>
-          <Route path="/job-form">
-            {/* <NewJobModal
-              addToEvents={addToEvents}
-              toggleModal={toggleNewJobModal}
-            /> */}
+          <Route path="/calendar/job-details/:id">
+            <SettingsContext.Provider value={settingsValue}>
+              <Calendar />
+            </SettingsContext.Provider>
+            <JobDetails />
+          </Route>
+          <Route path="/calendar/edit-job-form/:id">
+            <SettingsContext.Provider value={settingsValue}>
+              <Calendar />
+            </SettingsContext.Provider>
+            <EditJobForm />
+          </Route>
+          <Route path="/calendar/create-job-form">
+            <SettingsContext.Provider value={settingsValue}>
+              <Calendar />
+            </SettingsContext.Provider>
+            <CreateJobForm />
           </Route>
           <Route path="/table">
             <h1>table goes here</h1>
           </Route>
-          <Route path="/">
+          <Route path="/login">
+            <Login />
+          </Route>
+          <PrivateRoute path="/calendar">
             <SettingsContext.Provider value={settingsValue}>
               <Calendar />
             </SettingsContext.Provider>
+          </PrivateRoute>
+          <Route>
+            <Redirect to="/calendar" />
           </Route>
         </Switch>
       </Router>

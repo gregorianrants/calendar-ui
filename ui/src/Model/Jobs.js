@@ -20,42 +20,33 @@ export function createJob(job) {
     },
     body: JSON.stringify(job),
   })
-    .then((res) => res.json())
-    .then((res) => res.data)
-    .then((data) => {
-      console.log(data);
-      return {
-        ...data,
-        start: new Date(data.start),
-        end: new Date(data.end), //TODO create a function that does this
-      };
-    })
-    .catch((err) => console.error(err));
+  .then((res) => res.json())
+  .then((res) => processResponse(res))
+  .catch((err) => console.error(err));
+}
+    
+
+function processData(data) {
+  return {
+    ...data,
+    start: new Date(data.start),
+    end: new Date(data.end),
+  };
 }
 
-function processData(data){
-    return{
-        ...data,
-        start: new Date(data.start),
-        end: new Date(data.end),
-    }
-}
-
-function processResponse(res){
-    if (res.status === 'success'){
-        return {
-            ...res,
-            data: processData(res.data)
-        }
-    }
-    else{
-        return res
-    }
+function processResponse(res) {
+  console.log(res);
+  if (res.status === "success") {
+    return {
+      ...res,
+      data: processData(res.data),
+    };
+  } else {
+    return res;
+  }
 }
 
 export function editJob({ _id, data }) {
-
-
   return fetch(`http://localhost:8000/api/v1/jobs/${_id}`, {
     method: "PUT",
     headers: {
@@ -67,3 +58,9 @@ export function editJob({ _id, data }) {
     .then((res) => processResponse(res))
     .catch((err) => console.error(err));
 }
+
+export default {
+  editJob,
+  fetchDays,
+  createJob,
+};
