@@ -14,8 +14,6 @@ import { JobDetails } from "./components/forms/JobDetails";
 import JobForm from "./components/forms/JobForm";
 import EditJobForm from "./components/forms/EditJobForm";
 import CreateJobForm from "./components/forms/CreateJobForm";
-import Login from "./features/auth/Login";
-import PrivateRoute from "./features/auth/PrivateRoute";
 
 import {
   BrowserRouter as Router,
@@ -93,13 +91,13 @@ function App() {
             <h1>table goes here</h1>
           </Route>
           <Route path="/login">
-            <Login />
+            <p>login page</p>
           </Route>
-          <PrivateRoute path="/calendar">
+          <Route path="/calendar">
             <SettingsContext.Provider value={settingsValue}>
               <Calendar />
             </SettingsContext.Provider>
-          </PrivateRoute>
+          </Route>
           <Route>
             <Redirect to="/calendar" />
           </Route>
