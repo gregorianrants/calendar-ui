@@ -6,6 +6,12 @@
 /.pnp
 .pnp.js
 
+/ui/node_modules
+
+/api/node_modules
+
+
+
 # testing
 /coverage
 
