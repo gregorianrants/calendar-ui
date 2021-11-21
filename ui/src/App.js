@@ -14,6 +14,11 @@ import { JobDetails } from "./components/forms/JobDetails";
 import JobForm from "./components/forms/JobForm";
 import EditJobForm from "./components/forms/EditJobForm";
 import CreateJobForm from "./components/forms/CreateJobForm";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk, logoutThunk } from "./auth/authSlice";
+import Auth from "./auth/Auth";
+import AuthenticationButton from "./auth/AuthenticationButton";
+import PrivateRoute from "./auth/PrivateRoute";
 
 import {
   BrowserRouter as Router,
@@ -48,6 +53,8 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+
   return (
     <div className="App">
       <Router>
@@ -65,6 +72,7 @@ function App() {
               <Typography variant="h6" className={classes.title}>
                 VanCal
               </Typography>
+              <AuthenticationButton />
             </Toolbar>
           </AppBar>
         </div>
@@ -94,9 +102,14 @@ function App() {
             <p>login page</p>
           </Route>
           <Route path="/calendar">
-            <SettingsContext.Provider value={settingsValue}>
-              <Calendar />
-            </SettingsContext.Provider>
+            <PrivateRoute>
+              <SettingsContext.Provider value={settingsValue}>
+                <Calendar />
+              </SettingsContext.Provider>
+            </PrivateRoute>
+          </Route>
+          <Route path="/auth">
+            <Auth></Auth>
           </Route>
           <Route>
             <Redirect to="/calendar" />
