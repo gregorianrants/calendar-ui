@@ -1,5 +1,7 @@
 import auth0Client from "../auth/auth0";
 
+//TODO: should this file be in src? what should be in src and outside it generally?
+
 export async function fetchDays(from, to) {
   //TODO: should we be storing access token in redux store or fetching in
   // a thunk and then passing to the functions in jobs
@@ -23,11 +25,17 @@ export async function fetchDays(from, to) {
     .catch((err) => console.error(err));
 }
 
-export function createJob(job) {
+export async function createJob(job) {
+  const auth0 = await auth0Client;
+  const token = await auth0.getTokenSilently();
+
+  console.log(token);
+
   return fetch(`http://localhost:8000/api/v1/jobs`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(job),
   })

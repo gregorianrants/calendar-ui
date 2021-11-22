@@ -18,7 +18,9 @@ async function getJobs(req, res) {
 }
 
 async function createJob(req, res) {
-  let job = await Job.create(req.body);
+  const { sub } = req.user;
+  console.log('22', sub)
+  let job = await Job.create(req.body,sub);
   //notify()
   res.status(200).json({
     status: "success",

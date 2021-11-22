@@ -8,7 +8,6 @@ import { addDays } from "date-fns";
 import model from "../../Model/Jobs";
 import { cloneDeep } from "lodash-es";
 
-
 export function getWeek(date, increment = 0) {
   const currentDate = addDays(date, increment * 7);
   const days = weekContaining(currentDate);
@@ -106,10 +105,12 @@ export const editJobThunk = (data) => (dispatch, getState) => {
 };
 
 export const createJobThunk = (data) => (dispatch, getState) => {
+  console.log("108", "helloooooo");
   model
     .createJob(data)
     .then((response) => {
       if (response.status === "success") {
+        console.log("113", "success");
         dispatch(actions.createJob(data));
       } else if (
         response.status === "fail" &&

@@ -110,6 +110,9 @@ export default function JobForm({ initialValues, title, handleSubmit }) {
 
     const processed = processMongooseError(validationResult);
 
+    //TODO: log an error message if validation fails anything that fails that is not on form will fail silently
+    //got caught out already by this and took a while to find.
+
     return processed;
   };
 

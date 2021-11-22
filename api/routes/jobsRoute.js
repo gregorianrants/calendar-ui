@@ -27,9 +27,9 @@ const checkJwt = jwt({
 });
 
 router
-  .get("/",checkJwt,jobsController.getJobs)
+  .get("/", checkJwt, jobsController.getJobs)
   .get("/:id", jobsController.getJob)
-  .post("/", jobsController.createJob)
+  .post("/", checkJwt, jobsController.createJob)
   .delete("/:id", jobsController.deleteJob)
   .put("/:id", jobsController.editJob);
 

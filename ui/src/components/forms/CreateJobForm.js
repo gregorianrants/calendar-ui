@@ -28,6 +28,7 @@ export default function CreateJobForm() {
   const initialValues = getInitialValuesFromQuery();
 
   const handleSubmit = (data) => {
+    console.log("sadfasdfasdfsadfsad");
     dispatch(createJobThunk(data));
     history.goBack();
   };
@@ -36,7 +37,7 @@ export default function CreateJobForm() {
     <JobForm
       handleSubmit={handleSubmit}
       initialValues={initialValues}
-      title="Create Job"
+      title="Create Joby"
     />
   );
 }

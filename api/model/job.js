@@ -103,8 +103,7 @@ const jobSchema = new mongoose.Schema({
   operatives: [operativeSchema],
   markCompleted: Boolean,
   sub: {
-    type: String,
-    required: true,
+    type: String,//TODO add validation to this using hook as adding it to schema will cause to fail on client
   },
 });
 
@@ -114,13 +113,13 @@ async function list({ from, to, sub }) {
   let data = await Job.find({
     start: { $gte: from },
     end: { $lte: to },
-    sub
+    sub,
   });
   return data;
 }
 
-async function create(data) {
-  let job = new Job(data);
+async function create(data, sub) {
+  let job = new Job({ ...data, sub });
   await job.save(); //TODO add some validation start must be before end
   return job;
 }
