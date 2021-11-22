@@ -11,8 +11,9 @@ async function getJobs(req, res) {
     dateUtils.currentDateTime()
   );
   //todo need to set monday to start of day and sunday to end of day
+  const { sub } = req.user;
   const { from = monday, to = sunday } = req.query;
-  let data = await Job.list({ from, to });
+  let data = await Job.list({ from, to, sub });
   res.status(200).json({ status: "success", data: data });
 }
 

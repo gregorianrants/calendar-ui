@@ -102,14 +102,19 @@ const jobSchema = new mongoose.Schema({
   addresses: [addressSchema],
   operatives: [operativeSchema],
   markCompleted: Boolean,
+  sub: {
+    type: String,
+    required: true,
+  },
 });
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 
-async function list({ from, to }) {
+async function list({ from, to, sub }) {
   let data = await Job.find({
     start: { $gte: from },
     end: { $lte: to },
+    sub
   });
   return data;
 }
