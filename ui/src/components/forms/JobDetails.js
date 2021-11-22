@@ -9,7 +9,7 @@ import ListItem from "@material-ui/core/ListItem";
 import PersonIcon from "@material-ui/icons/Person";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
-import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
+
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -17,10 +17,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core/styles";
-import JobForm from "./JobForm";
-import { PersonOutline } from "@material-ui/icons";
 
-import { useParams, useHistory, useRouteMatch } from "react-router";
+
+import { useParams, useHistory} from "react-router";
 import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function JobDetails({ displayEvent, close, updateEvent }) {
   const classes = useStyles();
-  const [editMode, setEditMode] = React.useState(false);
+  
 
   const history = useHistory();
 
@@ -77,8 +76,8 @@ export function JobDetails({ displayEvent, close, updateEvent }) {
     state.calendar.events.find((event) => event._id == id)
   );
 
-  const { start, end, customer, charges, operatives, items, addresses } = job;
-
+  const { customer, charges, items } = job;
+  //const { start, end, customer, charges, operatives, items, addresses } = job;
   //const { customer } = displayEvent;
 
   //TODO: map over operatives

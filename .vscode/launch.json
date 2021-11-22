@@ -5,19 +5,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch Api",
+      "program": "${workspaceFolder}/api/main.js",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    },
+
+    {
       "type": "pwa-chrome",
       "request": "launch",
       "name": "Launch chrome against localhost",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "console": "integratedTerminal",
-      "type": "pwa-node",
-      "request": "launch",
-      "name": "Launch Program",
-      "skipFiles": ["<node_internals>/**"],
-      "program": "${workspaceFolder}/ui//src/utilities/testProcessMongooseError"
+      "webRoot": "${workspaceFolder}",
+      "console": "integratedTerminal"
     }
   ]
 }

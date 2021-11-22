@@ -9,7 +9,6 @@ import ListItem from "@material-ui/core/ListItem";
 import PersonIcon from "@material-ui/icons/Person";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
-import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -18,7 +17,6 @@ import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core/styles";
 import JobForm from "./JobForm";
-import { PersonOutline } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -64,9 +62,9 @@ export default function JobModal({ displayEvent, close, updateEvent }) {
   const classes = useStyles();
   const [editMode, setEditMode] = React.useState(false);
 
-  const { start, end, customer, charges, operatives, items, addresses } =
-    displayEvent;
-
+  const { customer, charges, items } = displayEvent;
+  // const { start, end, customer, charges, operatives, items, addresses } =
+  // displayEvent;
   //const { customer } = displayEvent;
 
   //TODO: map over operatives

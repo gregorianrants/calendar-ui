@@ -1,5 +1,16 @@
+import auth0Client from "../auth/auth0";
+
 export async function fetchDays(from, to) {
-  return fetch(`http://localhost:8000/api/v1/jobs?from=${from}&to=${to}`)
+  //TODO: should we be storing access token in redux store or fetching in
+  // a thunk and then passing to the functions in jobs
+  const auth0 = await auth0Client;
+  const token = await auth0.getTokenSilently();
+
+  return fetch(`http://localhost:8000/api/v1/jobs?from=${from}&to=${to}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
     .then((res) => res.json())
     .then((res) => res.data)
     .then((data) =>
@@ -20,11 +31,10 @@ export function createJob(job) {
     },
     body: JSON.stringify(job),
   })
-  .then((res) => res.json())
-  .then((res) => processResponse(res))
-  .catch((err) => console.error(err));
+    .then((res) => res.json())
+    .then((res) => processResponse(res))
+    .catch((err) => console.error(err));
 }
-    
 
 function processData(data) {
   return {

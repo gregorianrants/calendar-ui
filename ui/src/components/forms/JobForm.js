@@ -6,17 +6,16 @@ import { cloneDeep } from "lodash";
 
 import { ListBuilder } from "./AddressInput";
 
-import { TextField, Grid, Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 
-import { editJobThunk } from "../Calendar/calendarSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory, useLocation } from "react-router";
-import Modal from "./Modal";
-import { Card, CardContent, CardHeader, IconButton } from "@material-ui/core";
 
-import { parseISO, setHours } from "date-fns";
+import { useLocation } from "react-router";
+import Modal from "./Modal";
+import { Card, CardContent, CardHeader } from "@material-ui/core";
+
+
 
 import {
   DatePicker,
@@ -24,16 +23,16 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
-import { Typography } from "@material-ui/core";
+
 
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
 import { processMongooseError } from "./../../utilities/processMongooseError";
 
-function useQuery() {
-  const { search } = useLocation();
+// function useQuery() {
+//   const { search } = useLocation();
 
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
+//   return React.useMemo(() => new URLSearchParams(search), [search]);
+// }
 
 function dateTimeFromInput(date, time) {
   const hours = time.getHours();

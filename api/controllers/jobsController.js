@@ -6,6 +6,7 @@ const { nextDay } = require("date-fns");
 const AppError = require("./../errorUtilities/AppError");
 
 async function getJobs(req, res) {
+  console.log(req.user);
   const { monday, sunday } = dateUtils.weekBoundaries(
     dateUtils.currentDateTime()
   );

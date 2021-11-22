@@ -1,4 +1,4 @@
-const { get, set } = require("lodash");
+const {  set } = require("lodash");
 
 function convertToLodashDotPath(mongooseDotPath) {
   return mongooseDotPath.replace(/\d+/g, (match) => {

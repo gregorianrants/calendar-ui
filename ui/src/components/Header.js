@@ -3,15 +3,14 @@ import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
 import { monthAndYear } from "../utilities/dateUtilities.js";
 
-import { useHistory } from "react-router";
+
 
 export default function Header({
   currentDate,
   incrementWeek,
   decrementWeek,
-  handleShowModal,
 }) {
-  const history = useHistory();
+ 
 
   return (
     <Toolbar>

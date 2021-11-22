@@ -14,15 +14,16 @@ function handleValidationError(err, req, res, next) {
 }
 
 function handleNotFoundError(err, req, res, next) {
-  if (!err.Status === 404) return next(err);
+  console.log(err)
+  if (!err.statusCode === 404) return next(err);
   res.status(err.statusCode).json({
-    status: err.status,
+    status: err.statusCode,
     message: err.message,
   });
 }
 
 function handleError(err, req, res, next) {
-  console.error(err);
+  console.error('25',err);
   if (res.headersSent) return next(err);
   res.status(500).json({ error: "Internal Error" });
 }

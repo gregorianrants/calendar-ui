@@ -8,17 +8,9 @@ import HourTicks from "../HourTicks";
 import Header from "../Header";
 import settingsContext from "../Contexts";
 
-import { fetchDays } from "../../Model/Jobs";
-
 import React from "react";
-import { fitsInWeek } from "../../utilities/dateUtilities.js";
 
 import JobModal from "../forms/JobModal";
-
-//import socketIOClient from "socket.io-client";
-
-import { useWeek } from "./reducer";
-//import { useGapi } from "../../useGapi/useGapi";
 
 import { incrementWeekThunk, decrementWeekThunk } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";

@@ -1,6 +1,6 @@
 import "./App.css";
 import Calendar from "./components/Calendar/Calendar";
-import NewJobModal from "./components/forms/NewJobModal";
+
 
 import SettingsContext from "./components/Contexts";
 
@@ -11,11 +11,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import { JobDetails } from "./components/forms/JobDetails";
-import JobForm from "./components/forms/JobForm";
+
 import EditJobForm from "./components/forms/EditJobForm";
 import CreateJobForm from "./components/forms/CreateJobForm";
-import { useDispatch, useSelector } from "react-redux";
-import { loginThunk, logoutThunk } from "./auth/authSlice";
+
+
 import Auth from "./auth/Auth";
 import AuthenticationButton from "./auth/AuthenticationButton";
 import PrivateRoute from "./auth/PrivateRoute";
@@ -24,7 +24,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
 
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
+  
 
   return (
     <div className="App">

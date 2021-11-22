@@ -15,15 +15,9 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import cuid from "cuid";
 import produce from "immer";
-import { PromiseProvider } from "mongoose";
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    inline: {
-      display: "flex",
-    },
-  })
-);
+
+
 
 export function ListBuilder({
   name,
@@ -71,7 +65,7 @@ export function ListBuilder({
 
   const [input, setInput] = React.useState("");
 
-  const classes = useStyles();
+
 
   function getError(index) {
     if (errors && errors[index]) {
