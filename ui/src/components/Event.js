@@ -10,7 +10,7 @@ import { getTimeFromPosition } from "../utilities/timeConversions.js";
 import { mergeDateAndTime } from "../utilities/dateUtilities";
 import useDetectBottomEdge from "./useDetectBottomEdge";
 
-import { editJobThunk } from "./Calendar/calendarSlice";
+import { editJobThunk } from "../features/Calendar/calendarSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 

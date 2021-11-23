@@ -1,19 +1,21 @@
 import styled from "styled-components";
-import NewJobModal from "../forms/NewJobModal";
+import NewJobModal from "../../components/forms/NewJobModal";
 
-import DayLabels from "../DayLabels";
-import Week from "../Week";
-import HourTicks from "../HourTicks";
+import DayLabels from "../../components/DayLabels";
+import Week from "../../components/Week";
+import HourTicks from "../../components/HourTicks";
 
-import Header from "../Header";
-import settingsContext from "../Contexts";
+import Header from "../../components/Header";
+import settingsContext from "../../components/Contexts";
 
 import React from "react";
 
-import JobModal from "../forms/JobModal";
+import JobModal from "../../components/forms/JobModal";
 
 import { incrementWeekThunk, decrementWeekThunk } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
+
+import {calendarSelectors} from "./calendarSlice";
 
 const CalendarStyled = styled.div`
   margin: 30px;
@@ -59,8 +61,8 @@ export default function Calendar() {
     setDisplayEvent(null);
   };
 
-  const currentDate = useSelector((state) => state.calendar.currentDate);
-  const days = useSelector((state) => state.calendar.days);
+  const currentDate = useSelector(calendarSelectors.currentDate);
+  const days = useSelector(calendarSelectors.days);
 
   return (
     <React.Fragment>

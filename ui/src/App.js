@@ -1,5 +1,5 @@
 import "./App.css";
-import Calendar from "./components/Calendar/Calendar";
+import Calendar from "./features/Calendar/Calendar";
 
 
 import SettingsContext from "./components/Contexts";

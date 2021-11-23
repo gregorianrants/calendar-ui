@@ -2,7 +2,7 @@ import React from "react";
 import JobForm from "./JobForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
-import { editJobThunk } from "../Calendar/calendarSlice";
+import { editJobThunk } from "../../features/Calendar/calendarSlice";
 
 export default function EditJobForm() {
   const { id } = useParams();

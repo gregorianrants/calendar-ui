@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from '../auth/authSlice'
 
-import calendarReducer from "../components/Calendar/calendarSlice";
+import calendarReducer from "../features/Calendar/calendarSlice";
 
 
 export default configureStore({

@@ -23,6 +23,7 @@
   },
   "scripts": {
     "start": "nodemon api/main.js",
-    "reset-data": "node resetData.js"
+    "reset-data": "node resetData.js",
+    "kill-port": "kill-port --port 8000"
   }
 }

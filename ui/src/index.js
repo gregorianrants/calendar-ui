@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./app/store";
 import { Provider } from "react-redux";
-import { fetchData } from "./components/Calendar/calendarSlice";
+import { fetchData } from "./features/Calendar/calendarSlice";
 
 store.dispatch(fetchData);
 

@@ -4,20 +4,21 @@ import {
   setTimeDayStart,
   setTimeDayEnd,
 } from "../../utilities/dateUtilities";
-import { addDays } from "date-fns";
+import { addDays,parseISO } from "date-fns";
 import model from "../../Model/Jobs";
 import { cloneDeep } from "lodash-es";
+import {useSelector} from "react-redux";
 
 export function getWeek(date, increment = 0) {
-  const currentDate = addDays(date, increment * 7);
-  const days = weekContaining(currentDate);
-  const firstDay = setTimeDayStart(new Date(days[0])); //TODO
-  const lastDay = setTimeDayEnd(new Date(days[days.length - 1])); //TODO
+  const currentDate = addDays(date, increment * 7)
+  const days = weekContaining(currentDate)
+  const firstDay = setTimeDayStart(new Date(days[0])) //TODO
+  const lastDay = setTimeDayEnd(new Date(days[days.length - 1])) //TODO
   return {
-    currentDate,
-    days,
-    firstDay,
-    lastDay,
+    currentDate: currentDate.toISOString(),
+    days: days.map(day=>day.toISOString()),
+    firstDay: firstDay.toISOString(),
+    lastDay: lastDay.toISOString(),
   };
 }
 
@@ -121,5 +122,11 @@ export const createJobThunk = (data) => (dispatch, getState) => {
     })
     .catch(console.error);
 };
+
+export const calendarSelectors = {
+  currentDate: (state)=>parseISO(state.calendar.currentDate),
+  days: (state)=>state.calendar.days.map(day=>parseISO(day))
+}
+
 
 export default calendarSlice.reducer;
