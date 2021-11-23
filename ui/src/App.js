@@ -1,4 +1,5 @@
 import "./App.css";
+import React from 'react'
 import Calendar from "./features/Calendar/Calendar";
 
 
@@ -19,12 +20,18 @@ import CreateJobForm from "./features/forms/CreateJobForm";
 import Auth from "./features/auth/Auth";
 import AuthenticationButton from "./features/auth/AuthenticationButton";
 import PrivateRoute from "./features/auth/PrivateRoute";
+import Drawer from '@material-ui/core/Drawer';
+import {List,ListItem,ListItemIcon,ListItemText} from '@material-ui/core'
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import SettingsIcon from '@material-ui/icons/Settings';
+
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
+    Link
 } from "react-router-dom";
 
 const settingsValue = {
@@ -52,11 +59,31 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
 
+  const [drawerState,setDrawerState] = React.useState(false)
+
+  const toggleDrawer = ()=>setDrawerState(state=>!state)
+
   
 
   return (
     <div className="App">
       <Router>
+      <Drawer open={drawerState}
+              ModalProps={{ onBackdropClick: toggleDrawer }}>
+        <List>
+
+            <ListItem component={Link} to='/calendar'>
+              <ListItemIcon><CalendarTodayIcon /></ListItemIcon>
+              <ListItemText>Calendar</ListItemText>
+            </ListItem>
+
+
+          <ListItem component={Link} to='/settings'>
+            <ListItemIcon><SettingsIcon /></ListItemIcon>
+            <ListItemText>Settings</ListItemText>
+          </ListItem>
+        </List>
+        </Drawer>
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar>
@@ -65,6 +92,7 @@ function App() {
                 className={classes.menuButton}
                 color="inherit"
                 aria-label="menu"
+                onClick={toggleDrawer}
               >
                 <MenuIcon />
               </IconButton>
@@ -94,8 +122,8 @@ function App() {
             </SettingsContext.Provider>
             <CreateJobForm />
           </Route>
-          <Route path="/table">
-            <h1>table goes here</h1>
+          <Route path="/settings">
+            <h1>settings goes here</h1>
           </Route>
           <Route path="/login">
             <p>login page</p>
