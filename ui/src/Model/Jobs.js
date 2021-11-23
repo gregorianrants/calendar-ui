@@ -15,13 +15,13 @@ export async function fetchDays(from, to) {
   })
     .then((res) => res.json())
     .then((res) => res.data)
-    .then((data) =>
-      data.map((job) => ({
-        ...job,
-        start: new Date(job.start),
-        end: new Date(job.end), //TODO create a function that does this
-      }))
-    )
+    // .then((data) =>
+    //   data.map((job) => ({
+    //     ...job,
+    //     start: new Date(job.start),
+    //     end: new Date(job.end), //TODO create a function that does this
+    //   }))
+    // )
     .catch((err) => console.error(err));
 }
 
@@ -40,7 +40,7 @@ export async function createJob(job) {
     body: JSON.stringify(job),
   })
     .then((res) => res.json())
-    .then((res) => processResponse(res))
+    // .then((res) => processResponse(res))
     .catch((err) => console.error(err));
 }
 
@@ -73,7 +73,7 @@ export function editJob({ _id, data }) {
     body: JSON.stringify(data),
   })
     .then((res) => res.json())
-    .then((res) => processResponse(res))
+    // .then((res) => processResponse(res))
     .catch((err) => console.error(err));
 }
 

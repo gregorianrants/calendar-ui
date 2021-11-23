@@ -22,6 +22,20 @@ export function getWeek(date, increment = 0) {
   };
 }
 
+function serialiseEvent(event){
+  return {...event,
+    start: event.start.toISOString(),
+    end: event.end.toISOString()
+  }
+}
+
+function unSerialiseEvent(event){
+  return {...event,
+    start: parseISO(event.start),
+    end: parseISO(event.end)
+  }
+}
+
 const initialState = {
   ...getWeek(new Date()),
   events: [],
@@ -87,7 +101,8 @@ export const decrementWeekThunk = (dispatch, getState) => {
   dispatch(fetchData);
 };
 
-export const editJobThunk = (data) => (dispatch, getState) => {
+export const editJobThunk = (event) => (dispatch, getState) => {
+  const data = serialiseEvent(event)
   const { _id } = data;
   console.log(data);
   model
@@ -105,7 +120,8 @@ export const editJobThunk = (data) => (dispatch, getState) => {
     .catch(console.error);
 };
 
-export const createJobThunk = (data) => (dispatch, getState) => {
+export const createJobThunk = (event) => (dispatch, getState) => {
+  const data = serialiseEvent(event)
   console.log("108", "helloooooo");
   model
     .createJob(data)
@@ -123,9 +139,13 @@ export const createJobThunk = (data) => (dispatch, getState) => {
     .catch(console.error);
 };
 
+
+
 export const calendarSelectors = {
   currentDate: (state)=>parseISO(state.calendar.currentDate),
-  days: (state)=>state.calendar.days.map(day=>parseISO(day))
+  days: (state)=>state.calendar.days.map(day=>parseISO(day)),
+  events: state=>state.calendar.events.map(event=>unSerialiseEvent(event))
+
 }
 
 

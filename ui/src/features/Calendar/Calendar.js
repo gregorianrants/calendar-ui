@@ -30,7 +30,7 @@ export default function Calendar() {
   const [showNewJobModal, setShowNewJobModal] = React.useState(false);
   const [displayEvent, setDisplayEvent] = React.useState(null);
   //const [events, setEvents] = React.useState([]);
-  const events = useSelector((state) => state.calendar.events);
+  const events = useSelector(calendarSelectors.events);
   //const [gcalEvents, setGcalEvents] = React.useState([]);
 
   const dispatch = useDispatch();
