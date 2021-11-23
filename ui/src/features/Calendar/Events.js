@@ -3,10 +3,10 @@ import GcalEvent from "./gcalEvent";
 
 
 
-import {configure} from "../eventGeometry/eventGeometry";
+import {configure} from "../../eventGeometry/eventGeometry";
 import React from "react";
 import settingsContext from "./Contexts";
-import {batchProcess} from "../utilities/batchProcess";
+import {batchProcess} from "../../utilities/batchProcess";
 
 export default function Events({gcalEvents,events,updateEvent,updateDisplayEvent}) {
     const {hourHeight}=React.useContext(settingsContext)

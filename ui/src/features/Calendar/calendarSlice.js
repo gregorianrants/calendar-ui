@@ -144,8 +144,12 @@ export const createJobThunk = (event) => (dispatch, getState) => {
 export const calendarSelectors = {
   currentDate: (state)=>parseISO(state.calendar.currentDate),
   days: (state)=>state.calendar.days.map(day=>parseISO(day)),
-  events: state=>state.calendar.events.map(event=>unSerialiseEvent(event))
-
+  //TODO should i be unserialising here or should i do it where is use the date
+  events: state=>state.calendar.events.map(event=>unSerialiseEvent(event)),
+  eventById: id=>state=> {
+    const result = state.calendar.events.find((event) => event._id == id)
+    return unSerialiseEvent(result)
+  }
 }
 
 

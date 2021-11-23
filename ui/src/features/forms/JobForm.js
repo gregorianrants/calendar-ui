@@ -12,7 +12,7 @@ import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 
 
 import { useLocation } from "react-router";
-import Modal from "./Modal";
+import Modal from "../../components/Modal";
 import { Card, CardContent, CardHeader } from "@material-ui/core";
 
 
@@ -26,7 +26,7 @@ import {
 
 
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
-import { processMongooseError } from "./../../utilities/processMongooseError";
+import { processMongooseError } from "../../utilities/processMongooseError";
 
 // function useQuery() {
 //   const { search } = useLocation();
@@ -157,7 +157,16 @@ export default function JobForm({ initialValues, title, handleSubmit }) {
                   fullWidth
                 />
                 <FlexRow className={classes.inputRow}>
+                  {/*utils prop sets date library to use*/}
                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    {/*according to docs https://material-ui-pickers.dev/api/TimePicker
+                    type passed to on change is of same type as used by library passed to utils
+                    value must be a "Parseable Date" - see docs
+                    docs say - Pass any value to the picker, and if it won't be parsed as expected
+                    see: https://material-ui-pickers.dev/getting-started/parsing
+                    i have taken decision to pass date object which is what date-fns uses rather than a string (which seems to work)
+                    selector in calendar slice converts dates to objects already.
+                    */}
                     <TimePicker
                       className={classes.flexItem}
                       value={new Date(props.values.start)}

@@ -2,7 +2,7 @@ import "./App.css";
 import Calendar from "./features/Calendar/Calendar";
 
 
-import SettingsContext from "./components/Contexts";
+import SettingsContext from "./features/Calendar/Contexts";
 
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
@@ -10,15 +10,15 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-import { JobDetails } from "./components/forms/JobDetails";
+import { JobDetails } from "./features/jobDetails/JobDetails";
 
-import EditJobForm from "./components/forms/EditJobForm";
-import CreateJobForm from "./components/forms/CreateJobForm";
+import EditJobForm from "./features/forms/EditJobForm";
+import CreateJobForm from "./features/forms/CreateJobForm";
 
 
-import Auth from "./auth/Auth";
-import AuthenticationButton from "./auth/AuthenticationButton";
-import PrivateRoute from "./auth/PrivateRoute";
+import Auth from "./features/auth/Auth";
+import AuthenticationButton from "./features/auth/AuthenticationButton";
+import PrivateRoute from "./features/auth/PrivateRoute";
 
 import {
   BrowserRouter as Router,

@@ -1,4 +1,4 @@
-import Modal from "./Modal";
+import Modal from "../../components/Modal";
 import { Card, CardContent, CardHeader, IconButton } from "@material-ui/core";
 
 import EditIcon from "@material-ui/icons/Edit";

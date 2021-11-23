@@ -3,14 +3,14 @@ import React from "react";
 import useDrag from "./useDrag";
 import styled from "styled-components";
 
-import { fromTop, fromBottom, roundToNearest } from "../utilities/utilities";
+import { fromTop, fromBottom, roundToNearest } from "../../utilities/utilities";
 import settingsContext from "./Contexts";
 
-import { getTimeFromPosition } from "../utilities/timeConversions.js";
-import { mergeDateAndTime } from "../utilities/dateUtilities";
+import { getTimeFromPosition } from "../../utilities/timeConversions.js";
+import { mergeDateAndTime } from "../../utilities/dateUtilities";
 import useDetectBottomEdge from "./useDetectBottomEdge";
 
-import { editJobThunk } from "../features/Calendar/calendarSlice";
+import { editJobThunk } from "./calendarSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 

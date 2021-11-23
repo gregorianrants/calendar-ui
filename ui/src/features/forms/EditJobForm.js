@@ -2,16 +2,15 @@ import React from "react";
 import JobForm from "./JobForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
-import { editJobThunk } from "../../features/Calendar/calendarSlice";
+import { editJobThunk } from "../Calendar/calendarSlice";
+import {calendarSelectors} from "../Calendar/calendarSlice";
 
 export default function EditJobForm() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
 
-  let job = useSelector((state) =>
-    state.calendar.events.find((event) => event._id == id)
-  );
+  let job = useSelector(calendarSelectors.eventById(id));
 
   console.log(job);
 

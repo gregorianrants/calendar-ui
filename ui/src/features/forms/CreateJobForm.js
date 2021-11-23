@@ -2,7 +2,7 @@ import React from "react";
 import JobForm from "./JobForm";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import { createJobThunk } from "../../features/Calendar/calendarSlice";
+import { createJobThunk } from "../Calendar/calendarSlice";
 import { parseISO, setHours } from "date-fns";
 
 function useQuery() {

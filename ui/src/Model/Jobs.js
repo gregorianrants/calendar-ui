@@ -1,4 +1,4 @@
-import auth0Client from "../auth/auth0";
+import auth0Client from "../features/auth/auth0";
 
 //TODO: should this file be in src? what should be in src and outside it generally?
 
