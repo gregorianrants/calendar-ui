@@ -13,7 +13,12 @@ const authSlice = createSlice({
   reducers: {
     authenticationSuccess(state, action) {
       state.isAuthenticated = true;
+      state.loading = false
     },
+    logOut(state,action){
+      state.isAuthenticated = false
+      state.loading = false
+    }
   },
 });
 
@@ -34,6 +39,9 @@ export const onloadThunk = async (dispatch,getState) =>{
   const isAuthenticated = await auth0.isAuthenticated();
   if (isAuthenticated) {
     dispatch(actions.authenticationSuccess());
+  }
+  else {
+    dispatch(actions.logOut())
   }
 }
 

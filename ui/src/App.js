@@ -27,6 +27,8 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
 import {useSelector} from "react-redux";
 import OauthCallback from "ui/src/gCal/Oauthcallback";
+import LoginPage from "./features/auth/LoginPage";
+import LoadingPage from "./LoadingPage";
 
 
 import {
@@ -59,49 +61,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginPage(){
-  const authenticated = useSelector(state=>state.isAuthenticated)
-  
-
-}
-
-function App() {
+function TopBar(){
   const classes = useStyles();
-
   const [drawerState,setDrawerState] = React.useState(false)
-
   const toggleDrawer = ()=>setDrawerState(state=>!state)
-
-  
-
   return (
-    <div className="App">
-      <Router>
-      <Drawer open={drawerState}
-              ModalProps={{ onBackdropClick: toggleDrawer }}>
-        <List>
-
+      <>
+        <Drawer open={drawerState}
+                ModalProps={{ onBackdropClick: toggleDrawer }}>
+          <List>
             <ListItem component={Link} to='/calendar'>
               <ListItemIcon><CalendarTodayIcon /></ListItemIcon>
               <ListItemText>Calendar</ListItemText>
             </ListItem>
-
-
-          <ListItem component={Link} to='/settings'>
-            <ListItemIcon><SettingsIcon /></ListItemIcon>
-            <ListItemText>Settings</ListItemText>
-          </ListItem>
-        </List>
+            <ListItem component={Link} to='/settings'>
+              <ListItemIcon><SettingsIcon /></ListItemIcon>
+              <ListItemText>Settings</ListItemText>
+            </ListItem>
+          </List>
         </Drawer>
         <div className={classes.root}>
           <AppBar position="static">
             <Toolbar>
               <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="menu"
-                onClick={toggleDrawer}
+                  edge="start"
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={toggleDrawer}
               >
                 <MenuIcon />
               </IconButton>
@@ -112,49 +99,77 @@ function App() {
             </Toolbar>
           </AppBar>
         </div>
-        <Switch>
-          <Route path="/calendar/job-details/:id">
+      </>
+  )
+}
+
+function Content(){
+  return (
+      <Switch>
+        <Route path="/calendar/job-details/:id">
+          <SettingsContext.Provider value={settingsValue}>
+            <Calendar />
+          </SettingsContext.Provider>
+          <JobDetails />
+        </Route>
+        <Route path="/calendar/edit-job-form/:id">
+          <SettingsContext.Provider value={settingsValue}>
+            <Calendar />
+          </SettingsContext.Provider>
+          <EditJobForm />
+        </Route>
+        <Route path="/calendar/create-job-form">
+          <SettingsContext.Provider value={settingsValue}>
+            <Calendar />
+          </SettingsContext.Provider>
+          <CreateJobForm />
+        </Route>
+        <Route path="/settings">
+          <Settings />
+        </Route>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/calendar">
+          <PrivateRoute>
             <SettingsContext.Provider value={settingsValue}>
               <Calendar />
             </SettingsContext.Provider>
-            <JobDetails />
-          </Route>
-          <Route path="/calendar/edit-job-form/:id">
-            <SettingsContext.Provider value={settingsValue}>
-              <Calendar />
-            </SettingsContext.Provider>
-            <EditJobForm />
-          </Route>
-          <Route path="/calendar/create-job-form">
-            <SettingsContext.Provider value={settingsValue}>
-              <Calendar />
-            </SettingsContext.Provider>
-            <CreateJobForm />
-          </Route>
-          <Route path="/settings">
-            <Settings />
-          </Route>
-          <Route path="/login">
-            <p>login page</p>
-          </Route>
-          <Route path="/calendar">
-            <PrivateRoute>
-              <SettingsContext.Provider value={settingsValue}>
-                <Calendar />
-              </SettingsContext.Provider>
-            </PrivateRoute>
-          </Route>
-          {/*auth handles call back from Auth0*/}
-          <Route path="/auth">
-            <Auth></Auth>
-          </Route>
-          <Route path="/oauthcallback">
-            <OauthCallback />
-          </Route>
-          <Route>
-            <Redirect to="/calendar" />
-          </Route>
-        </Switch>
+          </PrivateRoute>
+        </Route>
+        {/*auth handles call back from Auth0*/}
+        <Route path="/auth">
+          <Auth></Auth>
+        </Route>
+        <Route path="/oauthcallback">
+          <OauthCallback />
+        </Route>
+        <Route>
+          <Redirect to="/calendar" />
+        </Route>
+      </Switch>
+      )
+
+}
+
+
+
+function App() {
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const authenticationLoading = useSelector(state=>state.auth.loading)
+
+  return (
+    <div className="App">
+      <Router>
+        <TopBar />
+        {authenticationLoading
+        ?
+        <LoadingPage />
+        :
+            <Content />
+        }
+
       </Router>
     </div>
   );
