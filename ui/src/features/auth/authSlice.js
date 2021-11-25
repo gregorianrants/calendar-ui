@@ -4,6 +4,7 @@ import auth0Client from "./auth0";
 
 const initialState = {
   isAuthenticated: false,
+  loading: true,
 };
 
 const authSlice = createSlice({
@@ -20,17 +21,21 @@ const authSlice = createSlice({
 
 export const loginThunk = async (dispatch, getState) => {
   const auth0 = await auth0Client;
- 
-
   await auth0.loginWithRedirect({
     redirect_uri: "http://localhost:3000/auth",
   });
-
   //logged in. you can get the user profile like this:
-
 };
 
 const { actions } = authSlice;
+
+export const onloadThunk = async (dispatch,getState) =>{
+  const auth0 = await auth0Client;
+  const isAuthenticated = await auth0.isAuthenticated();
+  if (isAuthenticated) {
+    dispatch(actions.authenticationSuccess());
+  }
+}
 
 export const handleRedirectThunk = (payload) => async (dispatch, getState) => {
   const auth0 = await auth0Client;

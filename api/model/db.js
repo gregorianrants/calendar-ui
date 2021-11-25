@@ -19,9 +19,7 @@ mongoose.connect(dbURI,
 mongoose.connect(dbURI,
     {useNewUrlParser: true,
         useUnifiedTopology: true
-    }).then(con =>{
-        console.log('connected')
-}).catch(err=>console.error(err))
+    }).catch(err=>console.error(err))
 
 
 

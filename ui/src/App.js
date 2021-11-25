@@ -1,6 +1,7 @@
 import "./App.css";
 import React from 'react'
 import Calendar from "./features/Calendar/Calendar";
+import Settings from './Settings'
 
 
 import SettingsContext from "./features/Calendar/Contexts";
@@ -24,6 +25,8 @@ import Drawer from '@material-ui/core/Drawer';
 import {List,ListItem,ListItemIcon,ListItemText} from '@material-ui/core'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
+import {useSelector} from "react-redux";
+import OauthCallback from "ui/src/gCal/Oauthcallback";
 
 
 import {
@@ -55,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
+
+function LoginPage(){
+  const authenticated = useSelector(state=>state.isAuthenticated)
+  
+
+}
 
 function App() {
   const classes = useStyles();
@@ -123,7 +132,7 @@ function App() {
             <CreateJobForm />
           </Route>
           <Route path="/settings">
-            <h1>settings goes here</h1>
+            <Settings />
           </Route>
           <Route path="/login">
             <p>login page</p>
@@ -135,8 +144,12 @@ function App() {
               </SettingsContext.Provider>
             </PrivateRoute>
           </Route>
+          {/*auth handles call back from Auth0*/}
           <Route path="/auth">
             <Auth></Auth>
+          </Route>
+          <Route path="/oauthcallback">
+            <OauthCallback />
           </Route>
           <Route>
             <Redirect to="/calendar" />

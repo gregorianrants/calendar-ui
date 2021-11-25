@@ -43,7 +43,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use("/api/v1/jobs", jobs);
-console.log(auth)
+
 app.use("/api/v1/auth", auth);
 
 app.all("*", (req, res, next) => {
