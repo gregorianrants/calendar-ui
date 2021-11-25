@@ -10,7 +10,7 @@ import { cloneDeep } from "lodash-es";
 import {useSelector} from "react-redux";
 
 export function getWeek(date, increment = 0) {
-  const currentDate = addDays(date, increment * 7)
+  const currentDate = addDays(new Date(date), increment * 7)
   const days = weekContaining(currentDate)
   const firstDay = setTimeDayStart(new Date(days[0])) //TODO
   const lastDay = setTimeDayEnd(new Date(days[days.length - 1])) //TODO
