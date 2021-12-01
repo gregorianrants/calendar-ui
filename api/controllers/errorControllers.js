@@ -13,8 +13,10 @@ function handleValidationError(err, req, res, next) {
   });
 }
 
+//TODO: need to add error handler for repeated value for unique field
+
 function handleNotFoundError(err, req, res, next) {
-  console.log(err)
+  console.log('17',err)
   if (!err.statusCode === 404) return next(err);
   res.status(err.statusCode).json({
     status: err.statusCode,

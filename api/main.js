@@ -3,6 +3,7 @@ const db = require("./model/db");
 const express = require("express");
 const jobs = require("./routes/jobsRoute");
 const auth = require("./routes/authRoute");
+const users = require("./routes/usersRoute");
 const cors = require("cors");
 const app = express();
 const http = require("http");
@@ -44,7 +45,9 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use("/api/v1/jobs", jobs);
 
-app.use("/api/v1/auth", auth);
+app.use("/api/v1/gcal", auth);
+
+app.use('/api/v1/users',users)
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cant't find ${req.originalUrl} on this server`, 404));

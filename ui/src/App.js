@@ -1,7 +1,7 @@
 import "./App.css";
 import React from 'react'
 import Calendar from "./features/Calendar/Calendar";
-import Settings from './Settings'
+import AuthorizeGcalButton from './features/googleCalendar/AuthorizeGcalButton'
 
 
 import SettingsContext from "./features/Calendar/Contexts";
@@ -26,7 +26,7 @@ import {List,ListItem,ListItemIcon,ListItemText} from '@material-ui/core'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
 import {useSelector} from "react-redux";
-import OauthCallback from "ui/src/gCal/Oauthcallback";
+import OauthCallback from "ui/src/features/googleCalendar/Oauthcallback";
 import LoginPage from "./features/auth/LoginPage";
 import LoadingPage from "./LoadingPage";
 
@@ -74,9 +74,9 @@ function TopBar(){
               <ListItemIcon><CalendarTodayIcon /></ListItemIcon>
               <ListItemText>Calendar</ListItemText>
             </ListItem>
-            <ListItem component={Link} to='/settings'>
+            <ListItem component={Link} to='/gcal'>
               <ListItemIcon><SettingsIcon /></ListItemIcon>
-              <ListItemText>Settings</ListItemText>
+              <ListItemText>google calendar</ListItemText>
             </ListItem>
           </List>
         </Drawer>
@@ -124,8 +124,11 @@ function Content(){
           </SettingsContext.Provider>
           <CreateJobForm />
         </Route>
-        <Route path="/settings">
-          <Settings />
+          <Route path='/auth'>
+              <Auth />
+          </Route>
+        <Route path="/gcal">
+          <AuthorizeGcalButton />
         </Route>
         <Route path="/login">
           <LoginPage />
@@ -138,9 +141,7 @@ function Content(){
           </PrivateRoute>
         </Route>
         {/*auth handles call back from Auth0*/}
-        <Route path="/auth">
-          <Auth></Auth>
-        </Route>
+
         <Route path="/oauthcallback">
           <OauthCallback />
         </Route>
@@ -154,6 +155,7 @@ function Content(){
 
 
 
+
 function App() {
 
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -163,13 +165,7 @@ function App() {
     <div className="App">
       <Router>
         <TopBar />
-        {authenticationLoading
-        ?
-        <LoadingPage />
-        :
-            <Content />
-        }
-
+        <Content />
       </Router>
     </div>
   );
