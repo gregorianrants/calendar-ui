@@ -4,6 +4,7 @@ import {createUser} from "../../Model/user";
 import {getOrCreateUser} from "../../Model/user";
 
 import auth0Client from "./auth0";
+import {authorize} from "../googleCalendar/gcalApi";
 
 const initialState = {
   isAuthenticated: false,
@@ -23,7 +24,6 @@ const authSlice = createSlice({
     },
     authenticationSuccess(state, action) {
       state.isAuthenticated = true;
-      state.loading = false
     },
     authorizedToGcalSuccess(state,action){
       state.isAuthorizedToGcal = true
@@ -49,24 +49,38 @@ export const loginThunk = async (dispatch, getState) => {
 const { actions } = authSlice;
 
 export const onloadThunk = async (dispatch,getState) =>{
-  dispatch(actions.startLoading())
-  const auth0 = await auth0Client;
-  const isAuthenticated = await auth0.isAuthenticated();
-  if (isAuthenticated) {
-    const user = await getOrCreateUser()
-    if (user.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess)
+  try{
+    dispatch(actions.startLoading())
+    const auth0 = await auth0Client;
+    const isAuthenticated = await auth0.isAuthenticated();
+    if (!isAuthenticated) return dispatch(actions.logOut())
     dispatch(actions.authenticationSuccess())
-  }
-  else{
+    const user = await getOrCreateUser()
+    console.log(user)
+    if(user.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
     dispatch(actions.stopLoading())
+  }catch(err){
+    console.error(err)
+  }
+}
+
+export const authorizeGcalThunk = (code)=> async (dispatch,getState)=>{
+  try{
+    //TODO throw error if user hasnt been created or already authorized.
+    const user = await getUser()
+    if(!user) throw new Error('you cant authorize a user if they dont exist')
+    console.log(user)
+    const authorizedUser = await authorize(code)
+    console.log(authorizedUser)
+    if(authorizedUser.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
+  }catch(err){
+    console.error(err)
   }
 }
 
 export const handleRedirectThunk = (payload) => async (dispatch, getState) => {
   const auth0 = await auth0Client;
-
   await auth0.handleRedirectCallback();
-
   dispatch(onloadThunk)
 };
 

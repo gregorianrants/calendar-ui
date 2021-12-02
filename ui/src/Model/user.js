@@ -30,7 +30,7 @@ export async function createUser(){
     })
         .then((res) => {
             console.log('28', res)
-            console.log('38',res.json())
+            console.log('38',res)
             return res
         })
         .catch((err) => console.error(err));
@@ -40,7 +40,6 @@ export async function getOrCreateUser(){
     try{
         const previouslyCreatedUser = await getUser()
         if (previouslyCreatedUser.status ===200) return await previouslyCreatedUser.json()
-
         const newUser = await createUser()
         if(newUser.status===200) return await newUser.json()
 

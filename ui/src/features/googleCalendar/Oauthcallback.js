@@ -1,6 +1,7 @@
 import React from 'react'
 import {useLocation} from "react-router-dom";
-import {authorize} from "./gcalApi";
+import {authorizeGcalThunk} from "../auth/authSlice";
+import {useDispatch} from "react-redux";
 
 
 function useQuery() {
@@ -12,17 +13,13 @@ function useQuery() {
 
 export default function OauthCallback(){
     const query = useQuery()
+    const dispatch = useDispatch()
 
-    React.useEffect(()=>{
+    React.useEffect(async ()=>{
         const code = query.get("code");
 
         if(code){
-            authorize(code)
-                .then((res)=>{
-                    console.log(res)
-                })
-                .catch(console.error)
-
+            dispatch(authorizeGcalThunk(code))
         }
 
     },[])

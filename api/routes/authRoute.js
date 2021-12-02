@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const authController = require('../controllers/authController')
+const gcalController = require('../controllers/gcalController')
 const checkJwt = require('./../authMiddleware/checkJwt')
 
 
 
-router.get('/url',authController.getUrl)
-router.get('/authourize',checkJwt,authController.authorizeUser)
+router.get('/url',gcalController.getUrl)
+router.get('/authourize',checkJwt,gcalController.authorizeUser)
+
 
 module.exports = router

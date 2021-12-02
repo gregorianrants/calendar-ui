@@ -45,9 +45,16 @@ async function authorizeUser(req,res){
 
   res.status(200).json({
     status: 'success',
-    data: 'some data'
+    data: {authorizedToGcal: user.authorizedToGcal}
   })
 }
+
+/*async function getJobs(req,res){
+  const {sub} = req.user
+  const user = await User.findById(sub)
+
+
+}*/
 
 module.exports = autoCatch({
   getUrl,
