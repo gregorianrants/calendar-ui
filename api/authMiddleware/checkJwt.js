@@ -19,4 +19,10 @@ const checkJwt = jwt({
     algorithms: ["RS256"],
 });
 
-module.exports = checkJwt
+const mockAuth = (req,res,next)=>{
+    req.user = {sub: 'google-oauth2|100318194916310076674'}
+    next()
+}
+
+//module.exports = checkJwt
+module.exports = mockAuth

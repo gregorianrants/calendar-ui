@@ -8,6 +8,7 @@ import { addDays,parseISO } from "date-fns";
 import model from "../../Model/Jobs";
 import { cloneDeep } from "lodash-es";
 import {useSelector} from "react-redux";
+import auth0Client from "../auth/auth0";
 
 export function getWeek(date, increment = 0) {
   const currentDate = addDays(new Date(date), increment * 7)
@@ -39,6 +40,7 @@ function unSerialiseEvent(event){
 const initialState = {
   ...getWeek(new Date()),
   events: [],
+  gcalEvents: [],
 };
 
 const calendarSlice = createSlice({
@@ -77,19 +79,48 @@ const calendarSlice = createSlice({
 
 const { actions } = calendarSlice;
 
-export const fetchData = (dispatch, getState) => {
+const fetchEvents = (dispatch, getState) => {
   const state = getState();
   console.log(state.calendar.firstDay);
   model
-    .fetchDays(
-      state.calendar.firstDay.toString(),
-      state.calendar.lastDay.toString()
-    )
-    .then((data) => {
-      dispatch(actions.dataLoaded([...data])); //TODO have a look at what we are doing here what if there is no data
-    })
-    .catch(console.error);
+      .fetchDays(
+          state.calendar.firstDay.toString(),
+          state.calendar.lastDay.toString()
+      )
+      .then((data) => {
+        dispatch(actions.dataLoaded([...data])); //TODO have a look at what we are doing here what if there is no data
+      })
+      .catch(console.error);
 };
+
+
+
+const fetchGcalEevents = async (dispatch,getState)=>{
+  const auth0 = await auth0Client;
+  const token = await auth0.getTokenSilently();
+  try{
+    const result = await fetch(`http://localhost:8000/api/v1/gcal/events`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+    const json = await result.json()
+    console.log(json.data)
+  }catch(err){
+    console.error(err)
+  }
+
+
+}
+
+
+export const fetchData = (dispatch, getState) => {
+  dispatch(fetchEvents)
+  dispatch(fetchGcalEevents)
+};
+
+
 
 export const incrementWeekThunk = (dispatch, getState) => {
   dispatch(actions.incrementWeek());

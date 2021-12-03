@@ -70,12 +70,19 @@ export const authorizeGcalThunk = (code)=> async (dispatch,getState)=>{
     const user = await getUser()
     if(!user) throw new Error('you cant authorize a user if they dont exist')
     console.log(user)
-    const authorizedUser = await authorize(code)
-    console.log(authorizedUser)
+    //todo getorcreate user is calling .json before returning result we should make getuser behave the same
+    const result = await authorize(code)
+    const authorizedUser = await result.json()
     if(authorizedUser.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
   }catch(err){
     console.error(err)
   }
+  //   const authorizedUser = await authorize(code)
+  //   console.log(authorizedUser)
+  //   if(authorizedUser.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
+  // }catch(err){
+  //   console.error(err)
+  // }
 }
 
 export const handleRedirectThunk = (payload) => async (dispatch, getState) => {

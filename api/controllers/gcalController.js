@@ -49,16 +49,41 @@ async function authorizeUser(req,res){
   })
 }
 
-/*async function getJobs(req,res){
+//havent actually made a route for this or tested it or anything yet.
+async function getGcalEvents(req, res){
   const {sub} = req.user
   const user = await User.findById(sub)
+  const tokens = {
+    access_token: user.accessToken,
+    refresh_token: user.refreshToken
+  }
+  oauth2Client.setCredentials(tokens);
+
+  calendar.events
+      .list({
+        calendarId: "primary",
+        timeMin: new Date().toISOString(),
+        maxResults: 10,
+        singleEvents: true,
+        orderBy: "startTime",
+      })
+      .then((response) => {
+       res.status(200).json({
+         status: 'success',
+         data: response
+       })
+        //res.end();
+      })
+      .catch((err) => console.error);
 
 
-}*/
+}
+
 
 module.exports = autoCatch({
   getUrl,
   authorizeUser,
+  getJobs: getGcalEvents
 })
 
 

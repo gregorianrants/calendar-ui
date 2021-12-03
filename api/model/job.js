@@ -109,12 +109,13 @@ const jobSchema = new mongoose.Schema({
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 
+
 async function list({ from, to, sub }) {
-  let data = await Job.find({
-    start: { $gte: from },
-    end: { $lte: to },
-    sub,
-  });
+  const filter = {}
+  if(from) filter.start = { $gte: from }
+  if(to) filter.end = { $lte: to }
+  filter.sub = sub
+  let data = await Job.find(filter);
   return data;
 }
 
