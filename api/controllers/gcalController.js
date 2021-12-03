@@ -12,7 +12,7 @@ const oauth2Client = new google.auth.OAuth2(
 const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
 // generate a url that asks permissions for Blogger and Google Calendar scopes
-const scopes = ["openid"];
+const scopes = ["openid",'https://www.googleapis.com/auth/calendar'];
 
 const url = oauth2Client.generateAuthUrl({
   // 'online' (default) or 'offline' (gets refresh_token)
@@ -59,22 +59,24 @@ async function getGcalEvents(req, res){
   }
   oauth2Client.setCredentials(tokens);
 
-  calendar.events
+  const {from,to}=req.query
+
+    console.log('from',from)
+    console.log('to',to)
+
+  const result = await calendar.events
       .list({
         calendarId: "primary",
-        timeMin: new Date().toISOString(),
+        timeMin: from,
+          timeMax: to,
         maxResults: 10,
         singleEvents: true,
         orderBy: "startTime",
       })
-      .then((response) => {
        res.status(200).json({
-         status: 'success',
-         data: response
+           status: 'success',
+           data: result.data.items
        })
-        //res.end();
-      })
-      .catch((err) => console.error);
 
 
 }

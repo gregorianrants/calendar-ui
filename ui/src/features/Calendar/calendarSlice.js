@@ -5,7 +5,7 @@ import {
   setTimeDayEnd,
 } from "../../utilities/dateUtilities";
 import { addDays,parseISO } from "date-fns";
-import model from "../../Model/Jobs";
+import jobsModel from "../../Model/Jobs";
 import { cloneDeep } from "lodash-es";
 import {useSelector} from "react-redux";
 import auth0Client from "../auth/auth0";
@@ -82,7 +82,7 @@ const { actions } = calendarSlice;
 const fetchEvents = (dispatch, getState) => {
   const state = getState();
   console.log(state.calendar.firstDay);
-  model
+  jobsModel
       .fetchDays(
           state.calendar.firstDay.toString(),
           state.calendar.lastDay.toString()
@@ -136,7 +136,7 @@ export const editJobThunk = (event) => (dispatch, getState) => {
   const data = serialiseEvent(event)
   const { _id } = data;
   console.log(data);
-  model
+  jobsModel
     .editJob({ _id: _id, data: data })
     .then((response) => {
       if (response.status === "success") {
@@ -154,7 +154,7 @@ export const editJobThunk = (event) => (dispatch, getState) => {
 export const createJobThunk = (event) => (dispatch, getState) => {
   const data = serialiseEvent(event)
   console.log("108", "helloooooo");
-  model
+  jobsModel
     .createJob(data)
     .then((response) => {
       if (response.status === "success") {
