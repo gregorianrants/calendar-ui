@@ -39,22 +39,12 @@ export default function Calendar() {
   const { hourHeight } = React.useContext(settingsContext);
 
   const incrementWeek = () => {
-    //dispatch({ type: "INCREMENT" });
     dispatch(incrementWeekThunk);
   };
 
   const decrementWeek = () => {
-    //dispatch({ type: "DECREMENT" });
     dispatch(decrementWeekThunk);
   };
-
-  // const toggleNewJobModal = () => {
-  //   setShowNewJobModal((val) => !val);
-  // };
-  //
-  // const closeDetailsModal = () => {
-  //   setDisplayEvent(null);
-  // };
 
   const currentDate = useSelector(calendarSelectors.currentDate);
   const days = useSelector(calendarSelectors.days);
@@ -77,7 +67,6 @@ export default function Calendar() {
                   gcalEvents={gcalEvents.filter(event => event.start.getDay() === date.getDay())}
                   events={events.filter(event => event.start.getDay() === date.getDay())}
                   key={i}
-                  // updateDisplayEvent={updateDisplayEvent}
                   date={date}
               />
           ))}
