@@ -6,6 +6,7 @@ import {
 } from "../../utilities/dateUtilities";
 import { addDays,parseISO } from "date-fns";
 import jobsModel from "../../Model/Jobs";
+import gcalEventsModel from '../../Model/gcalEvents'
 import { cloneDeep } from "lodash-es";
 import {useSelector} from "react-redux";
 import auth0Client from "../auth/auth0";
@@ -50,16 +51,21 @@ const calendarSlice = createSlice({
     dataLoaded(state, action) {
       state.events = action.payload;
     },
+    gcalDataLoaded(state,action){
+      state.gcalEvents = action.payload
+    },
     incrementWeek(state, action) {
       return {
         ...getWeek(state.currentDate, 1),
         events: [],
+        gcalEvents: []
       };
     },
     decrementWeek(state) {
       return {
         ...getWeek(state.currentDate, -1),
         events: [],
+        gcalEvents: []
       };
     },
     editJob(state, action) {
@@ -95,29 +101,25 @@ const fetchEvents = (dispatch, getState) => {
 
 
 
-const fetchGcalEevents = async (dispatch,getState)=>{
-  const auth0 = await auth0Client;
-  const token = await auth0.getTokenSilently();
-  try{
-    const result = await fetch(`http://localhost:8000/api/v1/gcal/events`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-    const json = await result.json()
-    console.log(json.data)
-  }catch(err){
-    console.error(err)
-  }
-
-
+const fetchGcalEvents = async (dispatch,getState)=>{
+  const state = getState();
+  gcalEventsModel
+      .fetchDays(
+          state.calendar.firstDay.toString(),
+          state.calendar.lastDay.toString()
+      )
+      .then((data) => {
+        dispatch(actions.gcalDataLoaded([...data])); //TODO have a look at what we are doing here what if there is no data
+      })
+      .catch(console.error);
 }
 
 
 export const fetchData = (dispatch, getState) => {
   dispatch(fetchEvents)
-  dispatch(fetchGcalEevents)
+  const state = getState();
+  if (!state.auth.isAuthorizedToGcal) return
+  dispatch(fetchGcalEvents)
 };
 
 
@@ -177,6 +179,7 @@ export const calendarSelectors = {
   days: (state)=>state.calendar.days.map(day=>parseISO(day)),
   //TODO should i be unserialising here or should i do it where is use the date
   events: state=>state.calendar.events.map(event=>unSerialiseEvent(event)),
+  gcalEvents: state=>state.calendar.gcalEvents.map(event=>unSerialiseEvent(event)),
   eventById: id=>state=> {
     const result = state.calendar.events.find((event) => event._id == id)
     return unSerialiseEvent(result)

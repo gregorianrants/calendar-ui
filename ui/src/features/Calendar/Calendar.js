@@ -31,6 +31,7 @@ export default function Calendar() {
   const [displayEvent, setDisplayEvent] = React.useState(null);
   //const [events, setEvents] = React.useState([]);
   const events = useSelector(calendarSelectors.events);
+  const gcalEvents = useSelector(calendarSelectors.gcalEvents)
   //const [gcalEvents, setGcalEvents] = React.useState([]);
 
   const dispatch = useDispatch();
@@ -79,7 +80,7 @@ export default function Calendar() {
         <HourTicks />
         <Week
           events={events}
-          gcalEvents={[]}
+          gcalEvents={gcalEvents}
           days={days}
           updateDisplayEvent={updateDisplayEvent}
         />

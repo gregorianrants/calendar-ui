@@ -5,12 +5,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./app/store";
 import { Provider } from "react-redux";
-import { fetchData } from "./features/Calendar/calendarSlice";
+
 import {onloadThunk} from "./features/auth/authSlice";
 
 
 store.dispatch(onloadThunk)
-store.dispatch(fetchData);
+
 
 
 ReactDOM.render(

@@ -5,6 +5,7 @@ import {getOrCreateUser} from "../../Model/user";
 
 import auth0Client from "./auth0";
 import {authorize} from "../googleCalendar/gcalApi";
+import { fetchData } from "../Calendar/calendarSlice";
 
 const initialState = {
   isAuthenticated: false,
@@ -59,6 +60,7 @@ export const onloadThunk = async (dispatch,getState) =>{
     console.log(user)
     if(user.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
     dispatch(actions.stopLoading())
+    dispatch(fetchData)
   }catch(err){
     console.error(err)
   }
