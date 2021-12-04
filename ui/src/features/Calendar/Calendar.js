@@ -16,6 +16,7 @@ import { incrementWeekThunk, decrementWeekThunk } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import {calendarSelectors} from "./calendarSlice";
+import Day from "./Day";
 
 const CalendarStyled = styled.div`
   margin: 30px;
@@ -24,6 +25,10 @@ const CalendarStyled = styled.div`
       String(props.hourHeight * 24) + "px"};
   grid-template-columns: 60px 1fr;
 `;
+
+const WeekStyled = styled.div`
+display: flex;
+`
 
 export default function Calendar() {
   //const [daysOnCal, dispatch] = useWeek();
@@ -78,12 +83,17 @@ export default function Calendar() {
         <div></div>
         <DayLabels days={days} />
         <HourTicks />
-        <Week
-          events={events}
-          gcalEvents={gcalEvents}
-          days={days}
-          updateDisplayEvent={updateDisplayEvent}
-        />
+        <WeekStyled>
+          {days.map((date,i) => (
+              <Day
+                  gcalEvents={gcalEvents.filter(event => event.start.getDay() === date.getDay())}
+                  events={events.filter(event => event.start.getDay() === date.getDay())}
+                  key={i}
+                  updateDisplayEvent={updateDisplayEvent}
+                  date={date}
+              />
+          ))}
+        </WeekStyled>
       </CalendarStyled>
       {showNewJobModal && <NewJobModal toggleModal={toggleNewJobModal} />}
       {displayEvent && (

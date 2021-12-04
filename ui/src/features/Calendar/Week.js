@@ -7,7 +7,6 @@ import styled from "styled-components";
 
 const WeekStyled = styled.div`
 display: flex;
-  
 `
 
 export default function Week({gcalEvents,events,days,updateDisplayEvent,updateEvent}){
