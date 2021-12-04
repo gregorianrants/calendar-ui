@@ -31,23 +31,12 @@ display: flex;
 `
 
 export default function Calendar() {
-  //const [daysOnCal, dispatch] = useWeek();
-  const [showNewJobModal, setShowNewJobModal] = React.useState(false);
-  const [displayEvent, setDisplayEvent] = React.useState(null);
-  //const [events, setEvents] = React.useState([]);
   const events = useSelector(calendarSelectors.events);
   const gcalEvents = useSelector(calendarSelectors.gcalEvents)
-  //const [gcalEvents, setGcalEvents] = React.useState([]);
 
   const dispatch = useDispatch();
 
-  //const { authed, listEvents } = useGapi();
-
   const { hourHeight } = React.useContext(settingsContext);
-
-  const updateDisplayEvent = (id) => {
-    setDisplayEvent(events.filter((event) => event._id === id)[0]);
-  };
 
   const incrementWeek = () => {
     //dispatch({ type: "INCREMENT" });
@@ -59,13 +48,13 @@ export default function Calendar() {
     dispatch(decrementWeekThunk);
   };
 
-  const toggleNewJobModal = () => {
-    setShowNewJobModal((val) => !val);
-  };
-
-  const closeDetailsModal = () => {
-    setDisplayEvent(null);
-  };
+  // const toggleNewJobModal = () => {
+  //   setShowNewJobModal((val) => !val);
+  // };
+  //
+  // const closeDetailsModal = () => {
+  //   setDisplayEvent(null);
+  // };
 
   const currentDate = useSelector(calendarSelectors.currentDate);
   const days = useSelector(calendarSelectors.days);
@@ -78,7 +67,6 @@ export default function Calendar() {
           currentDate={currentDate}
           incrementWeek={incrementWeek}
           decrementWeek={decrementWeek}
-          handleShowModal={toggleNewJobModal}
         />
         <div></div>
         <DayLabels days={days} />
@@ -89,15 +77,12 @@ export default function Calendar() {
                   gcalEvents={gcalEvents.filter(event => event.start.getDay() === date.getDay())}
                   events={events.filter(event => event.start.getDay() === date.getDay())}
                   key={i}
-                  updateDisplayEvent={updateDisplayEvent}
+                  // updateDisplayEvent={updateDisplayEvent}
                   date={date}
               />
           ))}
         </WeekStyled>
       </CalendarStyled>
-      {showNewJobModal && <NewJobModal toggleModal={toggleNewJobModal} />}
-      {displayEvent && (
-        <JobModal displayEvent={displayEvent} close={closeDetailsModal} />
       )}
     </React.Fragment>
   );
