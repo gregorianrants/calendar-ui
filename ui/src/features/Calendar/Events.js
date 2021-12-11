@@ -1,27 +1,18 @@
 import Event from './Event'
 import GcalEvent from "./gcalEvent";
-
-
-
 import {configure} from "../../eventGeometry/eventGeometry";
 import React from "react";
 import settingsContext from "./Contexts";
 import {batchProcess} from "../../utilities/batchProcess";
+import {useSelector} from "react-redux";
+import {calendarSelectors} from "./calendarSlice";
 
-export default function Events({gcalEvents,events,updateEvent,updateDisplayEvent}) {
+export default function Events({date}) {
     const {hourHeight}=React.useContext(settingsContext)
     const eventsGeometry = configure(hourHeight, 0)
-        //TODO was initially counting border width into calculation but using
-    //border box it doesnt mater consider refactor
 
-    //TODO super confusing changing this function up chain consider refactor
-   /* const updateEventWithIdF = (id) => (
-        (top, bottom) => {
-            let start = getTime(getNumPixels(top), hourHeight * 24)
-            let end = getTime(hourHeight * 24 - getNumPixels(bottom), hourHeight * 24)
-            updateEvent(id, {start, end})
-        }
-    )*/
+    const events = useSelector(calendarSelectors.eventsForDate(date))
+    const gcalEvents = useSelector(calendarSelectors.gcalEventsForDate(date))
 
     const [eventsProcessed,gcalProcessed] = batchProcess(events,gcalEvents,eventsGeometry)
 
@@ -33,7 +24,7 @@ export default function Events({gcalEvents,events,updateEvent,updateDisplayEvent
                     return <Event
                         {...evnt}
                         key={evnt._id}
-                        updateDisplayEvent={updateDisplayEvent}
+
                     />
                 }
             ),
@@ -42,8 +33,6 @@ export default function Events({gcalEvents,events,updateEvent,updateDisplayEvent
                     return <GcalEvent
                         {...evnt}
                         key={evnt.id}
-                        updateEvent={updateEvent}
-                        updateDisplayEvent={updateDisplayEvent}
                     />
                 }
             )

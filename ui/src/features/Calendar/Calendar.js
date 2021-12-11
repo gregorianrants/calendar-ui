@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import NewJobModal from "../forms/NewJobModal";
 
 import DayLabels from "./DayLabels";
-import Week from "./Week";
 import HourTicks from "./HourTicks";
 
 import Header from "./Header";
@@ -10,13 +8,12 @@ import settingsContext from "./Contexts";
 
 import React from "react";
 
-import JobModal from "../forms/JobModal";
-
 import { incrementWeekThunk, decrementWeekThunk } from "./calendarSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 import {calendarSelectors} from "./calendarSlice";
-import Day from "./Day";
+import Events from "./Events";
+import Hours from "./Hours";
 
 const CalendarStyled = styled.div`
   margin: 30px;
@@ -30,10 +27,20 @@ const WeekStyled = styled.div`
 display: flex;
 `
 
-export default function Calendar() {
-  const events = useSelector(calendarSelectors.events);
-  const gcalEvents = useSelector(calendarSelectors.gcalEvents)
+const DayStyled = styled.div`
+  position: relative;
+  flex: 1 0 100px;
+  //TODO had a bit of problem here i getting borders line up
+  //with those from Header ithink its todo with the way flex distributes 
+  //extra space need to look into math of grow and shrink
+  border-left: 1px solid var(--border-color-light);
+  
+  &:last-child{
+    border-right: 1px solid var(--border-color-light);
+  }
+`
 
+export default function Calendar() {
   const dispatch = useDispatch();
 
   const { hourHeight } = React.useContext(settingsContext);
@@ -63,16 +70,16 @@ export default function Calendar() {
         <HourTicks />
         <WeekStyled>
           {days.map((date,i) => (
-              <Day
-                  gcalEvents={gcalEvents.filter(event => event.start.getDay() === date.getDay())}
-                  events={events.filter(event => event.start.getDay() === date.getDay())}
-                  key={i}
-                  date={date}
-              />
+              <DayStyled key={i}>
+                <Events
+                    date={date}
+                />
+                <Hours date={date}/>
+              </DayStyled>
           ))}
         </WeekStyled>
       </CalendarStyled>
-      )}
+
     </React.Fragment>
   );
 }

@@ -10,6 +10,7 @@ import gcalEventsModel from '../../Model/gcalEvents'
 import { cloneDeep } from "lodash-es";
 import {useSelector} from "react-redux";
 import auth0Client from "../auth/auth0";
+import compose from "compose-function";
 
 export function getWeek(date, increment = 0) {
   const currentDate = addDays(new Date(date), increment * 7)
@@ -172,14 +173,23 @@ export const createJobThunk = (event) => (dispatch, getState) => {
     .catch(console.error);
 };
 
+const filterByStartDate=(date)=>
+  events=> events.filter(event => new Date(event.start).getDay() === date.getDay())
+
+const unSerialiseEvents = (events)=> events.map(event=>unSerialiseEvent(event))
 
 
+//TODO make this more readable
 export const calendarSelectors = {
   currentDate: (state)=>parseISO(state.calendar.currentDate),
   days: (state)=>state.calendar.days.map(day=>parseISO(day)),
   //TODO should i be unserialising here or should i do it where is use the date
   events: state=>state.calendar.events.map(event=>unSerialiseEvent(event)),
+  eventsForDate:
+          date=> state=> compose(unSerialiseEvents,filterByStartDate(date))(state.calendar.events),
   gcalEvents: state=>state.calendar.gcalEvents.map(event=>unSerialiseEvent(event)),
+  gcalEventsForDate:
+      date=> state=> compose(unSerialiseEvents,filterByStartDate(date))(state.calendar.gcalEvents),
   eventById: id=>state=> {
     const result = state.calendar.events.find((event) => event._id == id)
     return unSerialiseEvent(result)
