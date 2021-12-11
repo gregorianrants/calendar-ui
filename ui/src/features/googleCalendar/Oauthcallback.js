@@ -15,13 +15,14 @@ export default function OauthCallback(){
     const query = useQuery()
     const dispatch = useDispatch()
 
-    React.useEffect(async ()=>{
-        const code = query.get("code");
-
-        if(code){
-            dispatch(authorizeGcalThunk(code))
+    React.useEffect(()=>{
+        async function asyncHandler(){
+            const code = query.get("code");
+            if(code){
+                dispatch(authorizeGcalThunk(code))
+            }
         }
-
+        asyncHandler()
     },[])
 
     return <p>hello</p>

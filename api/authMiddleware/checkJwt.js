@@ -20,9 +20,9 @@ const checkJwt = jwt({
 });
 
 const mockAuth = (req,res,next)=>{
-    req.user = {sub: 'google-oauth2|100318194916310076674'}
+    req.user = //need to put sub here
     next()
 }
 
-//module.exports = checkJwt
-module.exports = mockAuth
+module.exports = checkJwt
+//module.exports = mockAuth
