@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {getUser} from "../../Model/user";
-import {createUser} from "../../Model/user";
 import {getOrCreateUser} from "../../Model/user";
 
 import auth0Client from "./auth0";

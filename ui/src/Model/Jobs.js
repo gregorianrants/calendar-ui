@@ -44,25 +44,9 @@ export async function createJob(job) {
     .catch((err) => console.error(err));
 }
 
-function processData(data) {
-  return {
-    ...data,
-    start: new Date(data.start),
-    end: new Date(data.end),
-  };
-}
 
-function processResponse(res) {
-  console.log(res);
-  if (res.status === "success") {
-    return {
-      ...res,
-      data: processData(res.data),
-    };
-  } else {
-    return res;
-  }
-}
+
+
 
 export function editJob({ _id, data }) {
   return fetch(`http://localhost:8000/api/v1/jobs/${_id}`, {
@@ -77,8 +61,10 @@ export function editJob({ _id, data }) {
     .catch((err) => console.error(err));
 }
 
-export default {
+const exports =  {
   editJob,
   fetchDays,
   createJob,
 };
+
+export default exports

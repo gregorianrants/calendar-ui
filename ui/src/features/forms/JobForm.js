@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 
 
-import { useLocation } from "react-router";
+
 import Modal from "../../components/Modal";
 import { Card, CardContent, CardHeader } from "@material-ui/core";
 

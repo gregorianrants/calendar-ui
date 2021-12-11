@@ -25,10 +25,9 @@ import Drawer from '@material-ui/core/Drawer';
 import {List,ListItem,ListItemIcon,ListItemText} from '@material-ui/core'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
-import {useSelector} from "react-redux";
 import OauthCallback from "ui/src/features/googleCalendar/Oauthcallback";
 import LoginPage from "./features/auth/LoginPage";
-import LoadingPage from "./LoadingPage";
+
 
 
 import {
@@ -158,8 +157,7 @@ function Content(){
 
 function App() {
 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const authenticationLoading = useSelector(state=>state.auth.loading)
+
 
   return (
     <div className="App">

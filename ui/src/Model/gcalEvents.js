@@ -1,5 +1,5 @@
 import auth0Client from "../features/auth/auth0";
-import {createJob, editJob} from "./Jobs";
+
 
 //TODO: should this file be in src? what should be in src and outside it generally?
 
@@ -38,6 +38,8 @@ export async function fetchDays(from, to) {
         .catch((err) => console.error(err));
 }
 
-export default {
+const exports = {
     fetchDays
 };
+
+export default exports

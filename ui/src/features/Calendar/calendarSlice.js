@@ -8,8 +8,7 @@ import { addDays,parseISO } from "date-fns";
 import jobsModel from "../../Model/Jobs";
 import gcalEventsModel from '../../Model/gcalEvents'
 import { cloneDeep } from "lodash-es";
-import {useSelector} from "react-redux";
-import auth0Client from "../auth/auth0";
+
 import compose from "compose-function";
 
 export function getWeek(date, increment = 0) {
