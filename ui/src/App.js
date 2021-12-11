@@ -67,7 +67,7 @@ function TopBar(){
   return (
       <>
         <Drawer open={drawerState}
-                ModalProps={{ onBackdropClick: toggleDrawer }}>
+                ModalProps={{ onClose: (e,reason)=>toggleDrawer() }}>
           <List>
             <ListItem component={Link} to='/calendar'>
               <ListItemIcon><CalendarTodayIcon /></ListItemIcon>
