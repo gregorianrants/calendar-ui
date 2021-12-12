@@ -20,7 +20,7 @@ const checkJwt = jwt({
 });
 
 const mockAuth = (req,res,next)=>{
-    req.user = //need to put sub here
+    req.user =  'google-oauth2|100318194916310076674'
     next()
 }
 

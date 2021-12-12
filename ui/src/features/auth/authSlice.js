@@ -10,6 +10,7 @@ const initialState = {
   isAuthenticated: false,
   isAuthorizedToGcal: false,
   loading: true,
+  token: null
 };
 
 const authSlice = createSlice({
@@ -24,6 +25,7 @@ const authSlice = createSlice({
     },
     authenticationSuccess(state, action) {
       state.isAuthenticated = true;
+      state.token = action.payload
     },
     authorizedToGcalSuccess(state,action){
       state.isAuthorizedToGcal = true
@@ -54,7 +56,8 @@ export const onloadThunk = async (dispatch,getState) =>{
     const auth0 = await auth0Client;
     const isAuthenticated = await auth0.isAuthenticated();
     if (!isAuthenticated) return dispatch(actions.logOut())
-    dispatch(actions.authenticationSuccess())
+    const token = await auth0.getTokenSilently()
+    dispatch(actions.authenticationSuccess(token))
     const user = await getOrCreateUser()
     if(user.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
     dispatch(actions.stopLoading())

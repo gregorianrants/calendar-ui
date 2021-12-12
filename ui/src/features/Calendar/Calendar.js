@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {calendarSelectors} from "./calendarSlice";
 import Events from "./Events";
 import Hours from "./Hours";
+import {useGetJobsQuery} from "../api/apiSlice";
 
 const CalendarStyled = styled.div`
   margin: 30px;
@@ -44,6 +45,8 @@ export default function Calendar() {
   const dispatch = useDispatch();
 
   const { hourHeight } = React.useContext(settingsContext);
+
+
 
   const incrementWeek = () => {
     dispatch(incrementWeekThunk);
