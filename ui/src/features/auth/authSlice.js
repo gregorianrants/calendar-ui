@@ -56,7 +56,6 @@ export const onloadThunk = async (dispatch,getState) =>{
     if (!isAuthenticated) return dispatch(actions.logOut())
     dispatch(actions.authenticationSuccess())
     const user = await getOrCreateUser()
-    console.log(user)
     if(user.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
     dispatch(actions.stopLoading())
     dispatch(fetchData)
@@ -70,7 +69,6 @@ export const authorizeGcalThunk = (code)=> async (dispatch,getState)=>{
     //TODO throw error if user hasnt been created or already authorized.
     const user = await getUser()
     if(!user) throw new Error('you cant authorize a user if they dont exist')
-    console.log(user)
     //todo getorcreate user is calling .json before returning result we should make getuser behave the same
     const result = await authorize(code)
     const authorizedUser = await result.json()

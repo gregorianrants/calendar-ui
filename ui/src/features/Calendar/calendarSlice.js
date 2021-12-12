@@ -87,7 +87,6 @@ const { actions } = calendarSlice;
 
 const fetchEvents = (dispatch, getState) => {
   const state = getState();
-  console.log(state.calendar.firstDay);
   jobsModel
       .fetchDays(
           state.calendar.firstDay.toString(),

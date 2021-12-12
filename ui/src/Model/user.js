@@ -10,7 +10,6 @@ export async function getUser(){
         },
     })
         .then((res) => {
-            console.log('12', res)
             return res
         })
         .catch((err) => console.error(err));
@@ -29,8 +28,6 @@ export async function createUser(){
         body: JSON.stringify({}),
     })
         .then((res) => {
-            console.log('28', res)
-            console.log('38',res)
             return res
         })
         .catch((err) => console.error(err));
