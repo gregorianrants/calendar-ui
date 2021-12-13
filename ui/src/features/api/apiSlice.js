@@ -4,8 +4,18 @@ import auth0Client from "../auth/auth0";
 import {parseISO} from "date-fns";
 
 
-
-
+const proposedDataStructure = {
+    ids: [],
+    eventsById: {},
+    idsByDay: {
+        monday: [],
+        tuesday: []
+    },
+    memoizationStrings: {
+        monday: [],
+        tuesday: []
+    }
+}
 
 
 
@@ -15,7 +25,6 @@ export const apiSlice = createApi({
         baseUrl: 'http://localhost:8000/api/v1',
         prepareHeaders: async (headers, {getState}) => {
             const token = getState().auth.token
-            console.log('25',token)
             if (token) {
                 headers.set('authorization', `Bearer ${token}`)
             }

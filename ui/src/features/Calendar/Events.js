@@ -52,13 +52,13 @@ export default function Events({date}) {
         })
     })
 
+    console.log('hello')
+
+
     const selectGcalForDate = useMemo(
         ()=>{
             return createSelector(
-                res=> {
-                    console.log(res)
-                    return res.data || []
-                }, //adding this ' || []' solved a bug
+                res=>res.data || [], //adding this ' || []' solved a bug
                 (res,date)=>date,
                 (data,date)=>compose(unSerialiseEvents,filterByStartDate(date))(data)
             )
