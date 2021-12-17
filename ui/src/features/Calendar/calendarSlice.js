@@ -125,12 +125,12 @@ export const fetchData = (dispatch, getState) => {
 
 export const incrementWeekThunk = (dispatch, getState) => {
   dispatch(actions.incrementWeek());
-  dispatch(fetchData);
+  // dispatch(fetchData);
 };
 
 export const decrementWeekThunk = (dispatch, getState) => {
   dispatch(actions.decrementWeek());
-  dispatch(fetchData);
+  // dispatch(fetchData);
 };
 
 export const editJobThunk = (event) => (dispatch, getState) => {

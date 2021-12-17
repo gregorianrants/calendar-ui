@@ -13,6 +13,7 @@ import useDetectBottomEdge from "./useDetectBottomEdge";
 import { editJobThunk } from "./calendarSlice";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import {useEditJobMutation} from "../api/apiSlice";
 
 const StyledEvent = styled.div`
   position: absolute;
@@ -38,6 +39,8 @@ export default function Event({
   const history = useHistory();
 
   const dispatch = useDispatch();
+
+  const [editJob,{isLoading}] = useEditJobMutation()
 
   React.useEffect(() => {
     setTop(topProp);
@@ -95,13 +98,13 @@ export default function Event({
   const onDragEnd = (totalTranslationY) => {
     console.log(totalTranslationY);
     if (totalTranslationY !== 0) {
-      dispatch(
-        editJobThunk({
+
+        editJob({
           _id,
           start: mergeDateAndTime(start, startTime(top)),
           end: mergeDateAndTime(end, endTime(bottom)),
         })
-      );
+
     } else {
       updateDisplayEvent(_id);
     }

@@ -18,11 +18,11 @@ const proposedDataStructure = {
 }
 
 
-
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:8000/api/v1',
+
         prepareHeaders: async (headers, {getState}) => {
             const token = getState().auth.token
             if (token) {
@@ -31,26 +31,58 @@ export const apiSlice = createApi({
             return headers
         },
     }),
+    tagTypes: ['Jobs'],
     endpoints: builder => ({
         getJobs: builder.query({
             query: ({from, to}) => `/jobs?from=${from}&to=${to}`,
             transformResponse: response => {
-               return response.data
+                return response.data
+            },
+            providesTags: (result=[],error,arg)=> {
+                console.log(result)
+                const r = [
+                    'Jobs',
+                    ...result.map(({_id}) => ({type: 'Jobs', id: _id}))
+                ]
+                console.log('47',r)
+                return r
+
             }
+        }),
+        editJob: builder.mutation({
+            query: job => ({
+                url: `/jobs/${job._id}`,
+                method: 'PUT',
+                body: job
+            }),
+            invalidatesTags: (result, error, arg) => {
+                const r = [{type: 'Jobs', id: arg._id}]
+                return r
+            }
+        }),
+        getJob: builder.query({
+            query: id => ({
+                url: `/jobs/${id}`
+            }),
+            transformResponse(response) {
+                return response.data
+            },
+            providesTags: (result,error,arg)=>[{type: 'Jobs', id: arg}]
         }),
         getGcal: builder.query({
             query: ({from, to}) => `/gcal/events?from=${from}&to=${to}`,
             transformResponse: response => {
-                console.log('35',response)
-                return response.data.map(gcalEvent=>reshape(gcalEvent))
-            }
+                console.log('35', response)
+                return response.data.map(gcalEvent => reshape(gcalEvent))
+            },
+            //providesTags: ['GCal']
         }),
     })
 })
 
-function reshape(gcalEvent){
-    const {start,end,id} = gcalEvent
-    return{
+function reshape(gcalEvent) {
+    const {start, end, id} = gcalEvent
+    return {
         ...gcalEvent,
         start: start.dateTime,
         end: end.dateTime,
@@ -60,4 +92,10 @@ function reshape(gcalEvent){
 }
 
 // Export the auto-generated hook for the `getPosts` query endpoint
-export const {useGetJobsQuery,useGetGcalQuery,usePrefetch} = apiSlice
+export const {
+    useGetJobsQuery,
+    useGetJobQuery,
+    useEditJobMutation,
+    useGetGcalQuery,
+    usePrefetch
+} = apiSlice

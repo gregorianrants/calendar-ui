@@ -81,8 +81,8 @@ export default function Events({date}) {
     // console.log(jobsForDate)
 
 
-    const events = useSelector(calendarSelectors.eventsForDate(date))
-    const gcalEvents = useSelector(calendarSelectors.gcalEventsForDate(date))
+    // const events = useSelector(calendarSelectors.eventsForDate(date))
+    // const gcalEvents = useSelector(calendarSelectors.gcalEventsForDate(date))
 
     const [eventsProcessed,gcalProcessed] = batchProcess(jobsForDate,gcalForDate || [],eventsGeometry)
 
@@ -94,10 +94,9 @@ export default function Events({date}) {
                     return <Event
                         {...evnt}
                         key={evnt._id}
-
                     />
                 }
-            ),
+                ),
                 ...gcalProcessed.map(
                 (evnt, i) => {
                     return <GcalEvent

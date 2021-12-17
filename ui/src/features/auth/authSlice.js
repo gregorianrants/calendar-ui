@@ -61,7 +61,7 @@ export const onloadThunk = async (dispatch,getState) =>{
     const user = await getOrCreateUser()
     if(user.data.authorizedToGcal) dispatch(actions.authorizedToGcalSuccess())
     dispatch(actions.stopLoading())
-    dispatch(fetchData)
+    // dispatch(fetchData)
   }catch(err){
     console.error(err)
   }

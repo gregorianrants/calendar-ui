@@ -21,6 +21,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useParams, useHistory} from "react-router";
 import { useSelector } from "react-redux";
+import {useGetJobQuery} from "../api/apiSlice";
+import {useLocation} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -64,6 +66,13 @@ const useStyles = makeStyles((theme) => ({
 
 export function JobDetails({ displayEvent, close, updateEvent }) {
   const classes = useStyles();
+  const location = useLocation()
+
+  //TODO
+  //returns /calendar/job-details/ckx30y8w2000jpgvags8peqpc
+  console.log(location.pathname)
+  //may use to know what screen JobDetails has been launched from and select from the
+  //the apropriate query to get the data rather than do another network request.
   
 
   const history = useHistory();
@@ -72,110 +81,123 @@ export function JobDetails({ displayEvent, close, updateEvent }) {
 
   console.log(id);
 
-  let job = useSelector((state) =>
-    state.calendar.events.find((event) => event._id == id)
-  );
+  // let job = useSelector((state) =>
+  //   state.calendar.events.find((event) => event._id == id)
+  // );
 
-  const { customer, charges, items } = job;
+  let {data: job,isFetching} = useGetJobQuery(id);
+
+  console.log(job)
+  console.log(isFetching)
+
+
   //const { start, end, customer, charges, operatives, items, addresses } = job;
   //const { customer } = displayEvent;
 
   //TODO: map over operatives
-  return (
-    <Modal>
-      <Card style={{ width: 1200, backgroundColor: "#F3F3FB" }}>
-        <CardHeader
-          title={customer.name}
-          action={
-            <>
-              <IconButton
-                onClick={() => {
-                  history.push(`/calendar/edit-job-form/${id}`);
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => {
-                  history.push("/");
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
-            </>
-          }
-        />
-        <CardHeader />
-        <CardContent className={classes.content}>
-          <Grid container spacing={3}>
-            <Grid item xs={4}>
-              <Card className={classes.card}>
-                <CardHeader title={"Customer Details"}></CardHeader>
-                <CardContent>
-                  <List className={classes.list}>
-                    <ListItem>
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={customer.name} secondary="name" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <PhoneIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={customer.mobile}
-                        secondary="mobile"
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <EmailIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={customer.email}
-                        secondary="email"
-                      />
-                    </ListItem>
-                  </List>
-                </CardContent>
-              </Card>
-              <Grid container spacing={1} className={classes.pricing}>
+
+  if(isFetching){
+    return null
+  }
+  else{
+    const { customer, charges, items } = job;
+    return (
+        <Modal>
+          <Card style={{ width: 1200, backgroundColor: "#F3F3FB" }}>
+            <CardHeader
+                title={customer.name}
+                action={
+                  <>
+                    <IconButton
+                        onClick={() => {
+                          history.push(`/calendar/edit-job-form/${id}`);
+                        }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                        onClick={() => {
+                          history.push("/");
+                        }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  </>
+                }
+            />
+            <CardHeader />
+            <CardContent className={classes.content}>
+              <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <Card>
-                    <CardHeader
-                      title={charges.hourlyRate}
-                      subheader={"per hour"}
-                    />
+                  <Card className={classes.card}>
+                    <CardHeader title={"Customer Details"}></CardHeader>
+                    <CardContent>
+                      <List className={classes.list}>
+                        <ListItem>
+                          <ListItemIcon>
+                            <PersonIcon />
+                          </ListItemIcon>
+                          <ListItemText primary={customer.name} secondary="name" />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <PhoneIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                              primary={customer.mobile}
+                              secondary="mobile"
+                          />
+                        </ListItem>
+                        <ListItem>
+                          <ListItemIcon>
+                            <EmailIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                              primary={customer.email}
+                              secondary="email"
+                          />
+                        </ListItem>
+                      </List>
+                    </CardContent>
                   </Card>
+                  <Grid container spacing={1} className={classes.pricing}>
+                    <Grid item xs={4}>
+                      <Card>
+                        <CardHeader
+                            title={charges.hourlyRate}
+                            subheader={"per hour"}
+                        />
+                      </Card>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Card>
+                        <CardHeader
+                            title={charges.fuelCharge}
+                            subheader={"fuel charge"}
+                        />
+                      </Card>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Card>
+                        <CardHeader
+                            title={charges.travelTime}
+                            subheader={"travel time"}
+                        />
+                      </Card>
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={4}>
                   <Card>
-                    <CardHeader
-                      title={charges.fuelCharge}
-                      subheader={"fuel charge"}
-                    />
-                  </Card>
-                </Grid>
-                <Grid item xs={4}>
-                  <Card>
-                    <CardHeader
-                      title={charges.travelTime}
-                      subheader={"travel time"}
-                    />
+                    <CardHeader title={"Items"} />
+                    <CardContent className={classes.items}>{items}</CardContent>
                   </Card>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={4}>
-              <Card>
-                <CardHeader title={"Items"} />
-                <CardContent className={classes.items}>{items}</CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-    </Modal>
-  );
+            </CardContent>
+          </Card>
+        </Modal>
+
+    )
+  }
 }
