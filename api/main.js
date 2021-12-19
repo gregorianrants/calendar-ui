@@ -9,8 +9,9 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const path = require("path");
-const errorHandlers = require("./controllers/errorControllers");
-const AppError = require('./utils/appError')
+const errorHandlerChain = require("./controllers/errorControllers/errorControllers");
+const AppError = require('./errorUtilities/appError')
+//const AppError = require('./utils/appError')
 
 app.use(cors());
 
@@ -53,9 +54,8 @@ app.all("*", (req, res, next) => {
   next(new AppError(`Cant't find ${req.originalUrl} on this server`, 404));
 });
 
-app.use(errorHandlers.handleValidationError);
-app.use(errorHandlers.handleNotFoundError);
-app.use(errorHandlers.handleError);
+app.use(errorHandlerChain);
+
 
 server.listen(port, () => {
   console.log(`listening on port ${port}`);

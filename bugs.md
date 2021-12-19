@@ -21,6 +21,9 @@ of undefined (reading 'name')
 (could be calendar or table), currently
 i am doing another network request, its fast just now but may not be when it isnt hosted on 
 local server. 
+- consider creating nicer strings for message in error returned by api for validation errors (maybe not worth it though as
+it is only a failsafe and we should be getting nice error messages on browser side)
+- implement error handling on api for unique fields (as of this note we have no unique fields but that will likely change)
 
 
 #General Notes

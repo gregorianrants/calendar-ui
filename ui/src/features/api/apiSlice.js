@@ -72,7 +72,6 @@ export const apiSlice = createApi({
         getGcal: builder.query({
             query: ({from, to}) => `/gcal/events?from=${from}&to=${to}`,
             transformResponse: response => {
-                console.log('35', response)
                 return response.data.map(gcalEvent => reshape(gcalEvent))
             },
             //providesTags: ['GCal']

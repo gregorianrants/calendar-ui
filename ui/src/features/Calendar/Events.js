@@ -52,7 +52,7 @@ export default function Events({date}) {
         })
     })
 
-    console.log('hello')
+
 
 
     const selectGcalForDate = useMemo(

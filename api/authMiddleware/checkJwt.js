@@ -20,11 +20,24 @@ const checkJwt = jwt({
 });
 
 const mockAuth = (req,res,next)=>{
-    req.user =  'google-oauth2|100318194916310076674'
+    req.user = {sub: 'google-oauth2|100318194916310076674'}
     next()
+}
+
+console.log('node_env', process.env.NODE_ENV)
+console.log('authed', process.env.AUTHED)
+if (process.env.NODE_ENV==='development'){
+    console.log('running in dev mode')
+    module.exports = mockAuth
+}
+else if (process.env.NODE_ENV==='production' && process.env.AUTHED==='true'){
+    console.log('running in production mode with mocked authentication')
+    module.exports = mockAuth
+}
+else{
+    console.log('running in production mode')
+    module.exports = checkJwt
 }
 
 
 
-module.exports = checkJwt
-//module.exports = mockAuth
