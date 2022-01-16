@@ -27,6 +27,9 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/Settings';
 import OauthCallback from "ui/src/features/googleCalendar/Oauthcallback";
 import LoginPage from "./features/auth/LoginPage";
+import {useDispatch} from "react-redux";
+import ErrorHandler from "./features/errors/ErrorHandler";
+import Error from './features/errors/Error'
 
 
 
@@ -105,6 +108,9 @@ function TopBar(){
 function Content(){
   return (
       <Switch>
+          <Route path="/error">
+              <Error />
+          </Route>
         <Route path="/calendar/job-details/:id">
           <SettingsContext.Provider value={settingsValue}>
             <Calendar />
@@ -135,7 +141,9 @@ function Content(){
         <Route path="/calendar">
           <PrivateRoute>
             <SettingsContext.Provider value={settingsValue}>
-              <Calendar />
+                <ErrorHandler>
+                    <Calendar />
+                </ErrorHandler>
             </SettingsContext.Provider>
           </PrivateRoute>
         </Route>

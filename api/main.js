@@ -51,6 +51,7 @@ app.use("/api/v1/gcal", auth);
 app.use('/api/v1/users',users)
 
 app.all("*", (req, res, next) => {
+  console.log('heloooooooo')
   next(new AppError(`Cant't find ${req.originalUrl} on this server`, 404));
 });
 

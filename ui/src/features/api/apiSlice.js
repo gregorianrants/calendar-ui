@@ -46,7 +46,6 @@ export const apiSlice = createApi({
                 ]
                 console.log('47',r)
                 return r
-
             }
         }),
         editJob: builder.mutation({
