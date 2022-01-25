@@ -2,6 +2,7 @@ import React from "react";
 
 
 import styled from 'styled-components'
+import EventHeading from "./EventHeading";
 
 
 
@@ -9,7 +10,10 @@ const StyledEvent = styled.div`
   position: absolute;
   background-color: blue;
   border: 0.5px solid white;
-`
+  cursor: ${(props) => (props.overEdge ? "row-resize" : "default")};
+  padding: 0.25rem;
+`;
+
 
 
 export default function GcalEvent({
@@ -21,7 +25,8 @@ export default function GcalEvent({
                                   start,
                                   end,
                                   updateEvent,
-                                  updateDisplayEvent
+                                  updateDisplayEvent,
+                                      summary
                               }) {
 
     const [top, setTop] = React.useState(topProp)
@@ -36,6 +41,7 @@ export default function GcalEvent({
 
 
 
+
     return (
         <StyledEvent data-component={'event'}
                      data-id={_id}
@@ -45,6 +51,7 @@ export default function GcalEvent({
                          top: top+'px', bottom: bottom+'px', left, right
                      }}
         >
+            <EventHeading start={start} end={end} summary={summary}/>
         </StyledEvent>
     )
 }
