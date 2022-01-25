@@ -22,8 +22,10 @@ function sendDevError(err, req, res, next) {
 }
 
 function processNonAppError(err, res, res, next) {
-    console.log((err instanceof AppError)) //TODO: wouild like to skip here if error already app error however instacne of
-    //is giving the wrong result instead i am returning errors as is from handle non app error if none of the cases are matched.
+    console.log((err instanceof AppError)) //TODO: wouild like to skip here if error already app error
+    // however instacne of
+    //is giving the wrong result instead i am returning errors as is from handle non app error
+    // if none of the cases are matched.
     const appError = handleNonAppError(err)
     next(appError)
 }

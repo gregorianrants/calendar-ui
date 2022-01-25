@@ -111,51 +111,53 @@ function Content(){
           <Route path="/error">
               <Error />
           </Route>
-        <Route path="/calendar/job-details/:id">
-          <SettingsContext.Provider value={settingsValue}>
-            <Calendar />
-          </SettingsContext.Provider>
-          <JobDetails />
-        </Route>
-        <Route path="/calendar/edit-job-form/:id">
-          <SettingsContext.Provider value={settingsValue}>
-            <Calendar />
-          </SettingsContext.Provider>
-          <EditJobForm />
-        </Route>
-        <Route path="/calendar/create-job-form">
-          <SettingsContext.Provider value={settingsValue}>
-            <Calendar />
-          </SettingsContext.Provider>
-          <CreateJobForm />
-        </Route>
-          <Route path='/auth'>
-              <Auth />
-          </Route>
-        <Route path="/gcal">
-          <AuthorizeGcalButton />
-        </Route>
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-        <Route path="/calendar">
-          <PrivateRoute>
-            <SettingsContext.Provider value={settingsValue}>
-                <ErrorHandler>
-                    <Calendar />
-                </ErrorHandler>
-            </SettingsContext.Provider>
-          </PrivateRoute>
-        </Route>
-        {/*auth handles call back from Auth0*/}
-
-        <Route path="/oauthcallback">
-          <OauthCallback />
-        </Route>
-        <Route>
-          <Redirect to="/calendar" />
-        </Route>
+          <ErrorHandler>
+              <Switch>
+                  <Route path="/calendar/job-details/:id">
+                      <SettingsContext.Provider value={settingsValue}>
+                          <Calendar />
+                      </SettingsContext.Provider>
+                      <JobDetails />
+                  </Route>
+                  <Route path="/calendar/edit-job-form/:id">
+                      <SettingsContext.Provider value={settingsValue}>
+                          <Calendar />
+                      </SettingsContext.Provider>
+                      <EditJobForm />
+                  </Route>
+                  <Route path="/calendar/create-job-form">
+                      <SettingsContext.Provider value={settingsValue}>
+                          <Calendar />
+                      </SettingsContext.Provider>
+                      <CreateJobForm />
+                  </Route>
+                  <Route path='/auth'>
+                      <Auth />
+                  </Route>
+                  <Route path="/gcal">
+                      <AuthorizeGcalButton />
+                  </Route>
+                  <Route path="/login">
+                      <LoginPage />
+                  </Route>
+                  <Route path="/calendar">
+                      <PrivateRoute>
+                          <SettingsContext.Provider value={settingsValue}>
+                              <Calendar />
+                          </SettingsContext.Provider>
+                      </PrivateRoute>
+                  </Route>
+                  {/*auth handles call back from Auth0*/}
+                  <Route path="/oauthcallback">
+                      <OauthCallback />
+                  </Route>
+                  <Route>
+                      <Redirect to="/calendar" />
+                  </Route>
+              </Switch>
+          </ErrorHandler>
       </Switch>
+
       )
 
 }

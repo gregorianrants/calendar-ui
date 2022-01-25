@@ -30,6 +30,7 @@ export default function Event({
   _id,
   start,
   end,
+    customer,
   backgroundColor = "red",
 }) {
   const [top, setTop] = React.useState(topProp);
@@ -138,6 +139,7 @@ export default function Event({
         left,
         right,
       }}
-    ></StyledEvent>
+    >
+    </StyledEvent>
   );
 }

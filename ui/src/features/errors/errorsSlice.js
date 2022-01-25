@@ -9,7 +9,13 @@ export const errorsSlice = createSlice({
         statusCode: null,
     },
     reducers: {
-
+    clearErrors: (state,action)=>{
+            return {
+                message: '',
+                status: null,
+                statusCode: null,
+            }
+        }
     },
     extraReducers: (builder)=>{
         builder.addMatcher(
@@ -24,6 +30,8 @@ export const errorsSlice = createSlice({
         )
     }
 })
+
+export const {clearErrors} = errorsSlice.actions
 
 
 
