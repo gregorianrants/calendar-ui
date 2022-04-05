@@ -52,9 +52,6 @@ export default function Events({date}) {
         })
     })
 
-
-
-
     const selectGcalForDate = useMemo(
         ()=>{
             return createSelector(
@@ -69,8 +66,6 @@ export default function Events({date}) {
             gcalForDate: selectGcalForDate(result,date)
         })
     })
-
-
 
     // const {data: jobs = []} = useGetJobsQuery({from: firstDay, to: lastDay})
     //

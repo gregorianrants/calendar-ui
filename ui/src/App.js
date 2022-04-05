@@ -43,7 +43,7 @@ import {
 
 const settingsValue = {
   borderWidth: 1,
-  hourHeight: 30,
+  hourHeight: 60,
 };
 
 //TODO will need to read through code at some point and chekc the math, not sure i am accounting for border width when looking

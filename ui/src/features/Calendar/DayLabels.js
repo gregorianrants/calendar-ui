@@ -10,9 +10,10 @@ const DayLabelsStyled=styled.div`
     display: flex;
     border-top: 1px solid lightgray;
     height: 100%;
+    width: 100%;
     
     .day{
-      flex: 1 0 100px;
+      flex: 1 0 0;
       //TODO had a bit of problem here i getting borders line up
       //with those from day ithink its todo with the way flex distributes 
       //extra space need to look into math of grow and shrink

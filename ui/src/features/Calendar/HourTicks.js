@@ -5,7 +5,8 @@ import styled from "styled-components";
 
 
 const HourTicksStyled = styled.div`
-display: flex;
+  display: flex;
+  flex: 0 0 60px;
 `
 
 const TickValuesStyled = styled.div`

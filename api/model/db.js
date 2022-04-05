@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const password = process.env.DB_PASSWORD
 const dbName = process.env.DB_NAME
 let  dbURI = process.env.DB_URI
-
+//let  dbURI = "mongodb+srv://gregorian:<password>@cluster0.yq7gf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
 
 dbURI = dbURI.replace('<password>',password).replace('<dbname>',dbName)
