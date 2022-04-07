@@ -114,9 +114,14 @@ function Content(){
           <ErrorHandler>
               <Switch>
                   <Route path="/calendar/job-details/:id">
-                      <SettingsContext.Provider value={settingsValue}>
-                          <Calendar />
-                      </SettingsContext.Provider>
+                      {/*<SettingsContext.Provider value={settingsValue}>*/}
+                      {/*    <Calendar />*/}
+                      {/*</SettingsContext.Provider>*/}
+                      <PrivateRoute>
+                          <SettingsContext.Provider value={settingsValue}>
+                              <Calendar />
+                          </SettingsContext.Provider>
+                      </PrivateRoute>
                       <JobDetails />
                   </Route>
                   <Route path="/calendar/edit-job-form/:id">

@@ -94,7 +94,6 @@ export default function Events({date}) {
                 ),
                 ...gcalProcessed.map(
                 (evnt, i) => {
-                    console.log(evnt)
                     return <GcalEvent
                         {...evnt}
                         key={evnt.id}

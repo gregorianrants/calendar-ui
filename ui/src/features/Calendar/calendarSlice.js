@@ -42,6 +42,7 @@ const initialState = {
   ...getWeek(new Date()),
   events: [],
   gcalEvents: [],
+  scrollPosition: 300
 };
 
 const calendarSlice = createSlice({
@@ -80,10 +81,15 @@ const calendarSlice = createSlice({
     createJob(state, action) {
       state.events.push(action.payload);
     },
+    updateScrollPositions(state,action) {
+      state.scrollPosition = action.payload
+    }
   },
 });
 
 const { actions } = calendarSlice;
+
+export const { updateScrollPositions} = actions
 
 const fetchEvents = (dispatch, getState) => {
   const state = getState();
@@ -191,7 +197,8 @@ export const calendarSelectors = {
   eventById: id=>state=> {
     const result = state.calendar.events.find((event) => event._id == id)
     return unSerialiseEvent(result)
-  }
+  },
+  scrollPosition: state=>state.scrollPosition
 }
 
 

@@ -68,6 +68,14 @@ export const apiSlice = createApi({
             },
             providesTags: (result,error,arg)=>[{type: 'Jobs', id: arg}]
         }),
+        addJob: builder.mutation({
+            query: job => ({
+                url: `/jobs`,
+                method: 'POST',
+                body: job
+            }),
+            invalidatesTags: ['Jobs']
+        }),
         getGcal: builder.query({
             query: ({from, to}) => `/gcal/events?from=${from}&to=${to}`,
             transformResponse: response => {
@@ -94,6 +102,7 @@ export const {
     useGetJobsQuery,
     useGetJobQuery,
     useEditJobMutation,
+    useAddJobMutation,
     useGetGcalQuery,
     usePrefetch
 } = apiSlice

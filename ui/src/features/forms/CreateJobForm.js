@@ -5,6 +5,8 @@ import { useHistory, useLocation } from "react-router";
 import { createJobThunk } from "../Calendar/calendarSlice";
 import { parseISO, setHours } from "date-fns";
 
+import {useAddJobMutation} from "../api/apiSlice";
+
 function useQuery() {
   const { search } = useLocation();
 
@@ -25,12 +27,22 @@ export default function CreateJobForm() {
     };
   }
 
+  const [addNewJob,{isLoading}] = useAddJobMutation()
+
+
+
   const initialValues = getInitialValuesFromQuery();
 
-  const handleSubmit = (data) => {
-    console.log("sadfasdfasdfsadfsad");
+  const handleSubmit = async (data) => {
+   /* console.log("sadfasdfasdfsadfsad");
     dispatch(createJobThunk(data));
-    history.goBack();
+    history.goBack();*/
+    try {
+      await addNewJob(data).unwrap()
+      history.goBack()
+    }catch(err){
+      console.error('failed to save the new job')
+    }
   };
 
   return (
