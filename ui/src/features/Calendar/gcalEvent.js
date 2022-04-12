@@ -3,7 +3,7 @@ import React from "react";
 
 import styled from 'styled-components'
 import EventHeading from "./EventHeading";
-
+import {useHistory} from "react-router-dom";
 
 
 const StyledEvent = styled.div`
@@ -33,14 +33,16 @@ export default function GcalEvent({
     const [bottom, setBottom] = React.useState(bottomProp)
     //const {hourHeight} = React.useContext(settingsContext)
 
+    let history = useHistory()
+
     React.useEffect(()=>{
         setTop(topProp)
         setBottom(bottomProp)
     },[topProp,bottomProp])
 
-
-
-
+    function handleCLick(){
+        history.push(`/calendar/gcal-details/${_id}`)
+    }
 
     return (
         <StyledEvent data-component={'event'}
@@ -50,6 +52,7 @@ export default function GcalEvent({
                      style={{
                          top: top+'px', bottom: bottom+'px', left, right
                      }}
+                     onClick={handleCLick}
         >
             <EventHeading start={start} end={end} summary={summary}/>
         </StyledEvent>

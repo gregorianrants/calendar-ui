@@ -1,6 +1,7 @@
 import "./App.css";
 import React from 'react'
 import Calendar from "./features/Calendar/Calendar";
+import {GcalDetails} from "./features/Calendar/GcalDetails";
 import AuthorizeGcalButton from './features/googleCalendar/AuthorizeGcalButton'
 
 
@@ -123,6 +124,14 @@ function Content(){
                           </SettingsContext.Provider>
                       </PrivateRoute>
                       <JobDetails />
+                  </Route>
+                  <Route path="/calendar/gcal-details/:id">
+                      <PrivateRoute>
+                          <SettingsContext.Provider value={settingsValue}>
+                              <Calendar />
+                          </SettingsContext.Provider>
+                      </PrivateRoute>
+                      <GcalDetails />
                   </Route>
                   <Route path="/calendar/edit-job-form/:id">
                       <SettingsContext.Provider value={settingsValue}>
