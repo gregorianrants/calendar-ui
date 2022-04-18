@@ -106,7 +106,7 @@ function TopBar(){
   )
 }
 
-function Content(){
+/*function Content(){
   return (
       <Switch>
           <Route path="/error">
@@ -115,9 +115,9 @@ function Content(){
           <ErrorHandler>
               <Switch>
                   <Route path="/calendar/job-details/:id">
-                      {/*<SettingsContext.Provider value={settingsValue}>*/}
-                      {/*    <Calendar />*/}
-                      {/*</SettingsContext.Provider>*/}
+                      {/!*<SettingsContext.Provider value={settingsValue}>*!/}
+                      {/!*    <Calendar />*!/}
+                      {/!*</SettingsContext.Provider>*!/}
                       <PrivateRoute>
                           <SettingsContext.Provider value={settingsValue}>
                               <Calendar />
@@ -161,7 +161,7 @@ function Content(){
                           </SettingsContext.Provider>
                       </PrivateRoute>
                   </Route>
-                  {/*auth handles call back from Auth0*/}
+                  {/!*auth handles call back from Auth0*!/}
                   <Route path="/oauthcallback">
                       <OauthCallback />
                   </Route>
@@ -173,6 +173,60 @@ function Content(){
       </Switch>
 
       )
+
+}*/
+
+function Content(){
+    return (
+        <Switch>
+            <Route path="/error">
+                <Error />
+            </Route>
+            <ErrorHandler>
+                <Switch>
+                    <Route path="/calendar">
+                        <PrivateRoute>
+                            <SettingsContext.Provider value={settingsValue}>
+                                <Calendar />
+                            </SettingsContext.Provider>
+                            <Switch>
+                                <Route path="/calendar/job-details/:id">
+                                    <JobDetails />
+                                </Route>
+                                <Route  path="/calendar/gcal-details/:id">
+                                    <GcalDetails />
+                                </Route>
+                                <Route path="/calendar/edit-job-form/:id">
+                                    <EditJobForm />
+                                </Route>
+                                <Route path="/calendar/create-job-form">
+                                    <CreateJobForm />
+                                </Route>
+                            </Switch>
+                        </PrivateRoute>
+                    </Route>
+                    <Route path='/auth'>
+                        <Auth />
+                    </Route>
+                    <Route path="/gcal">
+                        <AuthorizeGcalButton />
+                    </Route>
+                    <Route path="/login">
+                        <LoginPage />
+                    </Route>
+
+                    {/*auth handles call back from Auth0*/}
+                    <Route path="/oauthcallback">
+                        <OauthCallback />
+                    </Route>
+                    <Route>
+                        <Redirect to="/calendar" />
+                    </Route>
+                </Switch>
+            </ErrorHandler>
+        </Switch>
+
+    )
 
 }
 
