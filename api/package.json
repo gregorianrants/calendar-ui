@@ -19,6 +19,7 @@
     "jwks-rsa": "^2.0.5",
     "lodash": "^4.17.21",
     "mongoose": "6.0.7",
+    "random": "^3.0.6",
     "socket.io": "^4.1.2",
     "validator": "^13.6.0"
   },
