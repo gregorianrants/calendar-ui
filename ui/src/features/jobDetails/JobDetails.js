@@ -251,7 +251,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
                                 </IconButton>
                                 <IconButton
                                     onClick={() => {
-                                        history.push("/");
+                                        history.push("/calendar");
                                     }}
                                 >
                                     <CloseIcon/>

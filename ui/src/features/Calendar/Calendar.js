@@ -71,7 +71,7 @@ export default function Calendar() {
 
     const {hourHeight} = React.useContext(settingsContext);
 
-    const scrollPosition = useSelector(state => state.calendar.scrollPosition)
+   /* const scrollPosition = useSelector(state => state.calendar.scrollPosition)
 
     const rowEl = React.useRef(null)
 
@@ -87,8 +87,18 @@ export default function Calendar() {
 
     function handleScroll(e) {
         dispatch(updateScrollPositions(e.target.scrollTop))
-    }
+    }*/
+    const rowEl = React.useRef(null)
 
+    const initialScrollSet = React.useRef(null)
+
+    React.useEffect(()=>{
+        if(!initialScrollSet.current){
+            rowEl.current.scrollTop =300
+            console.log(rowEl.current.scrollTop)
+            initialScrollSet.current = true
+        }
+    },[rowEl])
 
     const incrementWeek = () => {
         dispatch(incrementWeekThunk);
@@ -116,7 +126,7 @@ export default function Calendar() {
                     <Corner/>
                     <DayLabels days={days}/>
                 </Row>
-                <ScrollPortal ref={rowEl} onScroll={handleScroll}>
+                <ScrollPortal ref={rowEl} >
                     <Row>
                         <HourTicks/>
                         <WeekStyled hourHeight={hourHeight}>
