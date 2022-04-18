@@ -106,75 +106,7 @@ function TopBar(){
   )
 }
 
-/*function Content(){
-  return (
-      <Switch>
-          <Route path="/error">
-              <Error />
-          </Route>
-          <ErrorHandler>
-              <Switch>
-                  <Route path="/calendar/job-details/:id">
-                      {/!*<SettingsContext.Provider value={settingsValue}>*!/}
-                      {/!*    <Calendar />*!/}
-                      {/!*</SettingsContext.Provider>*!/}
-                      <PrivateRoute>
-                          <SettingsContext.Provider value={settingsValue}>
-                              <Calendar />
-                          </SettingsContext.Provider>
-                      </PrivateRoute>
-                      <JobDetails />
-                  </Route>
-                  <Route path="/calendar/gcal-details/:id">
-                      <PrivateRoute>
-                          <SettingsContext.Provider value={settingsValue}>
-                              <Calendar />
-                          </SettingsContext.Provider>
-                      </PrivateRoute>
-                      <GcalDetails />
-                  </Route>
-                  <Route path="/calendar/edit-job-form/:id">
-                      <SettingsContext.Provider value={settingsValue}>
-                          <Calendar />
-                      </SettingsContext.Provider>
-                      <EditJobForm />
-                  </Route>
-                  <Route path="/calendar/create-job-form">
-                      <SettingsContext.Provider value={settingsValue}>
-                          <Calendar />
-                      </SettingsContext.Provider>
-                      <CreateJobForm />
-                  </Route>
-                  <Route path='/auth'>
-                      <Auth />
-                  </Route>
-                  <Route path="/gcal">
-                      <AuthorizeGcalButton />
-                  </Route>
-                  <Route path="/login">
-                      <LoginPage />
-                  </Route>
-                  <Route path="/calendar">
-                      <PrivateRoute>
-                          <SettingsContext.Provider value={settingsValue}>
-                              <Calendar />
-                          </SettingsContext.Provider>
-                      </PrivateRoute>
-                  </Route>
-                  {/!*auth handles call back from Auth0*!/}
-                  <Route path="/oauthcallback">
-                      <OauthCallback />
-                  </Route>
-                  <Route>
-                      <Redirect to="/calendar" />
-                  </Route>
-              </Switch>
-          </ErrorHandler>
-      </Switch>
 
-      )
-
-}*/
 
 function Content(){
     return (
