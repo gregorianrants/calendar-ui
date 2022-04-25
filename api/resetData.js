@@ -5,8 +5,9 @@ require("./model/db");
 let Job = require("./model/job");
 let fs = require("fs/promises");
 const cuid = require("cuid");
-
 const { addDays } = require("date-fns");
+
+const getData = require('./generateData')
 
 function wrapInObject(el) {
   return {
@@ -15,7 +16,7 @@ function wrapInObject(el) {
   };
 }
 
-const jobs = [
+/*const jobs = [
   {
     sub: "google-oauth2|105644745115950757439",//uses jsonargonaught2001@gmail.com
     start: addDays(new Date().setHours(14), 1),
@@ -40,7 +41,7 @@ const jobs = [
             2 rugs
             black bag
             2 vacuam bags
-            excercise mat 
+            excercise mat
             xmas tree
             4 suits in bags
             coff table
@@ -76,7 +77,7 @@ strimmer
 2 rugs
 black bag
 2 vacuam bags
-excercise mat 
+excercise mat
 xmas tree
 4 suits in bags
 coff table
@@ -112,7 +113,7 @@ strimmer
 2 rugs
 black bag
 2 vacuam bags
-excercise mat 
+excercise mat
 xmas tree
 4 suits in bags
 coff table
@@ -148,7 +149,7 @@ strimmer
 2 rugs
 black bag
 2 vacuam bags
-excercise mat 
+excercise mat
 xmas tree
 4 suits in bags
 coff table
@@ -184,7 +185,7 @@ strimmer
 2 rugs
 black bag
 2 vacuam bags
-excercise mat 
+excercise mat
 xmas tree
 4 suits in bags
 coff table
@@ -220,7 +221,7 @@ strimmer
 2 rugs
 black bag
 2 vacuam bags
-excercise mat 
+excercise mat
 xmas tree
 4 suits in bags
 coff table
@@ -256,7 +257,7 @@ marsbar`,
             2 rugs
             black bag
             2 vacuam bags
-            excercise mat 
+            excercise mat
             xmas tree
             4 suits in bags
             coff table
@@ -268,7 +269,9 @@ marsbar`,
             shopping
             marsbar`,
   },
-];
+];*/
+
+
 
 /*
 fs.readFile('./api/jobs.json')
@@ -279,6 +282,13 @@ fs.readFile('./api/jobs.json')
     })
 */
 
-Job.resetData(jobs).catch((err) => {
-  console.log(err);
-});
+async function reset(jobs){
+  await Job.resetData(jobs).catch((err) => {
+    console.log(err);
+  });
+
+  return jobs
+}
+
+getData().then(reset).then(console.log).catch(console.error)
+

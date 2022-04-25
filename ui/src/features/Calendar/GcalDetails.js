@@ -16,13 +16,18 @@ import {Toolbar} from "@material-ui/core";
 import SubjectIcon from '@material-ui/icons/Subject';
 import {format} from "date-fns";
 import {isSameDay} from "date-fns";
+import {useHistory} from "react-router-dom";
+
+
 
 const useStyles = makeStyles((theme)=>({
     header:{
         paddingBottom: 0
     },
     content: {
-        paddingTop: 0
+        paddingTop: 0,
+        overflowY: 'auto',
+        maxHeight: '85vh'
     },
     description: {
         whiteSpace: "pre-wrap"
@@ -55,6 +60,7 @@ const container = styled.div`
 
 export function GcalDetails(){
     const {id}=useParams()
+    const history = useHistory()
 
     console.log(id)
 
@@ -112,11 +118,18 @@ export function GcalDetails(){
             .replaceAll(/<[^<>]+>/gi, "")
     }
 
+    function handleClose(){
+        history.push('/calendar')
+    }
+
     return (
         <Modal >
-            <Card className={classes.modal} >
+
+            <Card className={classes.modal}  >
                 <Toolbar className={classes.toolbar}>
-                    <CloseIcon />
+                    <IconButton>
+                        <CloseIcon onClick={handleClose}/>
+                    </IconButton>
                 </Toolbar>
                 <CardContent className={classes.content}>
                     <List className={classes.list}>

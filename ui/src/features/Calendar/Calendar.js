@@ -58,6 +58,11 @@ const ScrollPortal = styled.div`
   margin: 0;
   padding: 0;
   height: 80vh;
+  scroll-snap-type: y mandatory;
+  & div{
+    scroll-snap-stop: always;
+    scroll-snap-align: start;
+  }
 
   &::-webkit-scrollbar {
     display: none;
@@ -70,6 +75,7 @@ export default function Calendar() {
     const dispatch = useDispatch();
 
     const {hourHeight} = React.useContext(settingsContext);
+    const {scrollPosition} = React.useState(0)
 
    /* const scrollPosition = useSelector(state => state.calendar.scrollPosition)
 
@@ -88,13 +94,17 @@ export default function Calendar() {
     function handleScroll(e) {
         dispatch(updateScrollPositions(e.target.scrollTop))
     }*/
+
+    function handleScroll(e){
+        rowEl.current.scrollTop +=30
+    }
     const rowEl = React.useRef(null)
 
     const initialScrollSet = React.useRef(null)
 
     React.useEffect(()=>{
         if(!initialScrollSet.current){
-            rowEl.current.scrollTop =300
+            rowEl.current.scrollTop =0
             console.log(rowEl.current.scrollTop)
             initialScrollSet.current = true
         }
@@ -127,7 +137,7 @@ export default function Calendar() {
                     <DayLabels days={days}/>
                 </Row>
                 <ScrollPortal ref={rowEl} >
-                    <Row>
+                    <Row style={{paddingBottom: '30px'}}>
                         <HourTicks/>
                         <WeekStyled hourHeight={hourHeight}>
                             {days.map((date, i) => (

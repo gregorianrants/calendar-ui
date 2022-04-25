@@ -21,7 +21,9 @@
     "mongoose": "6.0.7",
     "random": "^3.0.6",
     "socket.io": "^4.1.2",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "ramda": "^0.28.0",
+    "axios": "^0.26.1"
   },
   "scripts": {
     "start": "nodemon api/main.js",
