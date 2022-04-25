@@ -36,7 +36,7 @@ export const apiSlice = createApi({
         getJobs: builder.query({
             query: ({from, to}) => `/jobs?from=${from}&to=${to}`,
             transformResponse: response => {
-                return response.data
+                return response.data.items
             },
             providesTags: (result=[],error,arg)=> {
                 console.log(result)
