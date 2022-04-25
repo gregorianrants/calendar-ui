@@ -69,7 +69,7 @@ async function getGcalEvents(req, res){
         calendarId: "primary",
         timeMin: from,
           timeMax: to,
-        maxResults: 10,
+        //maxResults: 10,
         singleEvents: true,
         orderBy: "startTime",
       })
