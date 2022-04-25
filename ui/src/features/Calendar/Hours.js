@@ -12,12 +12,16 @@ const HoursStyled = styled.div`
 
 const HourStyled = styled.div`
   flex: 1 0 0;
-  border-top: 1px solid lightgray;
+  border-top: 1px dotted lightgray;
+  scroll-snap-align: center;  //this also requires snap-type property on Scroll Portal component
 
   &:last-child {
     border-bottom: ${(props) =>
       `${props.borderWidth}px solid var(--border-color-light)`};
   }
+  
+  
+  
 `;
 
 export default function Hours({ className, date }) {
@@ -44,7 +48,9 @@ export default function Hours({ className, date }) {
           className={className}
           draggable="false"
           onClick={() => handleClick(index)}
-        />
+        >
+
+        </HourStyled>
       ))}
     </HoursStyled>
   );

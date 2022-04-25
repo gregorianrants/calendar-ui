@@ -23,7 +23,8 @@ const TickValuesStyled = styled.div`
     margin: 0;
     padding: 0;
     font-size: 12px;
-    transform: translateY(-7px);//TODO this is just a value i tried that seems to work NOW need to look a the math though so it works for all settings
+    //transform: translateY(-7px);//TODO this is just a value i tried that seems to work NOW need to look a the math though so it works for all settings
+    margin-top: -7px;
   }
 `;
 

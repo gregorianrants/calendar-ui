@@ -11,6 +11,7 @@ const DayLabelsStyled=styled.div`
     border-top: 1px solid lightgray;
     height: 100%;
     width: 100%;
+    border-bottom: 1px solid lightgray;
     
     .day{
       flex: 1 0 0;

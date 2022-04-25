@@ -26,6 +26,7 @@ const Corner = styled.div`
 
 const Row = styled.div`
   display: flex;
+  background-color: transparent;
 
   &:nth-child(2) {
     flex: 1 0 0;
@@ -58,12 +59,9 @@ const ScrollPortal = styled.div`
   margin: 0;
   padding: 0;
   height: 80vh;
-  scroll-snap-type: y mandatory;
-  & div{
-    scroll-snap-stop: always;
-    scroll-snap-align: start;
-  }
-
+  //also requires scroll-snap-align property on Hours component
+  //Todo consider making more elegant e.g. not having components depending on css in other components
+  scroll-snap-type: y mandatory;  
   &::-webkit-scrollbar {
     display: none;
   }
@@ -104,7 +102,7 @@ export default function Calendar() {
 
     React.useEffect(()=>{
         if(!initialScrollSet.current){
-            rowEl.current.scrollTop =0
+            rowEl.current.scrollTop =300
             console.log(rowEl.current.scrollTop)
             initialScrollSet.current = true
         }
@@ -137,7 +135,7 @@ export default function Calendar() {
                     <DayLabels days={days}/>
                 </Row>
                 <ScrollPortal ref={rowEl} >
-                    <Row style={{paddingBottom: '30px'}}>
+                    <Row>
                         <HourTicks/>
                         <WeekStyled hourHeight={hourHeight}>
                             {days.map((date, i) => (
