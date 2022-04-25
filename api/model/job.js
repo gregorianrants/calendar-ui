@@ -109,14 +109,33 @@ const jobSchema = new mongoose.Schema({
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 
+function getPagination(skip,limit,count){
+  return{
+    from: skip +1,
+    to: Math.min(skip + limit,count),
+    of: count
+  }
+}
 
-async function list({ from, to, sub }) {
+async function list({ from, to, skip, limit, sub }) {
   const filter = {}
   if(from) filter.start = { $gte: from }
   if(to) filter.end = { $lte: to }
   filter.sub = sub
-  let data = await Job.find(filter);
-  return data;
+  const query  = Job
+      .find(filter)
+
+  const count = await Job.countDocuments(filter)
+  console.log(count)
+  if(skip && limit){
+    query.limit(Number(limit))
+        .skip(Number(skip))
+  }
+  let items = await query;
+  return {items,
+    pagination: getPagination(skip,limit,count),
+    count: items.length
+  };
 }
 
 async function create(data, sub) {

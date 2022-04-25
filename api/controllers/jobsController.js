@@ -12,9 +12,19 @@ async function getJobs(req, res) {
   );
   //todo need to set monday to start of day and sunday to end of day
   const { sub } = req.user;
-  const { from = undefined, to = undefined } = req.query;
-  let data = await Job.list({ from, to, sub });
-  res.status(200).json({ status: "success", data: data });
+  const { from = undefined, to = undefined, skip, limit } = req.query;
+  let data = await Job.list({
+    from,
+    to,
+    skip: Number(skip),
+    limit: Number(limit),
+    sub });
+
+  res.status(200)
+      .json({
+        status: "success",
+        data: data
+      });
 }
 
 async function createJob(req, res) {
@@ -30,7 +40,6 @@ async function createJob(req, res) {
 
 async function getJob(req, res, next) {
   const job = await Job.get(req.params.id);
-
   if (!job) {
     const error = new AppError("No job found with that id", 404);
     return next(error);
