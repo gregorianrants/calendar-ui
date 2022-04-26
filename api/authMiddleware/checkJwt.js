@@ -1,6 +1,8 @@
 const domain = process.env.AUTH0_DOMAIN;
 const audience = process.env.AUTH0_AUDIENCE;
 
+const SUB = process.env.SUB
+
 
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
@@ -20,7 +22,7 @@ const checkJwt = jwt({
 });
 
 const mockAuth = (req,res,next)=>{
-    req.user = {sub: 'google-oauth2|100318194916310076674'}
+    req.user = {sub: SUB}
     next()
 }
 

@@ -30,28 +30,32 @@ function flatten(array){
 
 
 //TODO this function adds same values for all fields still need to randomise this part
-function addRestBasic(job){
-    return {
-        ...job,
-        sub: "google-oauth2|100318194916310076674",//uses gregorianrants4@gmail.com
-        charges: {
-            hourlyRate: 55,
-            fuelCharge: 20,
-            travelTime: 30,
-        },
-        operatives: [{ value: "fenwick" }, { value: "dave" }],
-        addresses: [{ value: "19 coral glen" }, { value: "4 craigie avenue" }],
+function addRestBasic(sub){
+
+    return (job)=>{
+        return {
+            ...job,
+            sub: sub,//uses gregorianrants4@gmail.com
+            charges: {
+                hourlyRate: 55,
+                fuelCharge: 20,
+                travelTime: 30,
+            },
+            operatives: [{ value: "fenwick" }, { value: "dave" }],
+            addresses: [{ value: "19 coral glen" }, { value: "4 craigie avenue" }],
+        }
     }
+
 }
 
 
-async function getData(){
+async function getData(sub){
     const data = await pipe(
         map(getIntervalsForDate),
         flatten,
         addPersons,
         map(addFurnitureString),
-        map(addRestBasic)
+        map(addRestBasic(sub))
     )(getDates())
 
     return data
