@@ -3,10 +3,18 @@ const autoCatch = require("../lib/autoCatch");
 const { google } = require("googleapis");
 const {findBySubOrCreate} = require('./../model/user')
 
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
+const GOOGLE_REDIRECT_URL = process.env.GOOGLE_REDIRECT_URL
+
+console.log(GOOGLE_CLIENT_ID)
+console.log(GOOGLE_CLIENT_SECRET)
+console.log(GOOGLE_REDIRECT_URL)
+
 const oauth2Client = new google.auth.OAuth2(
-    "392789978801-vc3qkds18osc3ila8hlor0unc41hrlra.apps.googleusercontent.com",
-    "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",
-    "http://localhost:3000/oauthcallback",
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    GOOGLE_REDIRECT_URL,
 );
 
 const calendar = google.calendar({ version: "v3", auth: oauth2Client });
@@ -69,7 +77,7 @@ async function getGcalEvents(req, res){
         calendarId: "primary",
         timeMin: from,
           timeMax: to,
-        maxResults: 10,
+        maxResults: 200,
         singleEvents: true,
         orderBy: "startTime",
       })

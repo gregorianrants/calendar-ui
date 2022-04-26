@@ -6,6 +6,9 @@ let Job = require("./model/job");
 let fs = require("fs/promises");
 const cuid = require("cuid");
 const { addDays } = require("date-fns");
+require("dotenv").config();
+
+const SUB = process.env.SUB
 
 const getData = require('./generateData')
 
@@ -290,5 +293,5 @@ async function reset(jobs){
   return jobs
 }
 
-getData().then(reset).then(console.log).catch(console.error)
+getData(SUB).then(reset).then(console.log).catch(console.error)
 
