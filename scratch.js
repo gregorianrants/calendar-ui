@@ -8,3 +8,5 @@ console.log(formatISO(from))
 const to = add(new Date(),{days: 7})
 console.log(to)
 console.log(formatISO(to))
+
+console.log('test')

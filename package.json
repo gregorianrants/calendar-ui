@@ -13,7 +13,8 @@
   ],
   "dependencies": {},
   "scripts": {
-    "start": "yarn workspace api run start"
+    "start": "yarn workspace api run start",
+    "build": "yarn workspace ui run build"
   },
   "engines": {
     "node": "14.17.6",
