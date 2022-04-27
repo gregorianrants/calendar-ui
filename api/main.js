@@ -49,17 +49,17 @@ app.use("/api/v1/gcal", auth);
 app.use('/api/v1/users',users)
 
 
-// const staticPath = path.join(__dirname, "../ui/build")
-// console.log(staticPath)
-//
-//
-// app.use(express.static(staticPath));
-//
-// app.get("/*", function (req, res) {
-//   const thePath = path.join(__dirname, "../ui/build", "index.html")
-//   console.log(thePath)
-//   res.sendFile(thePath);
-// });
+const staticPath = path.join(__dirname, "../ui/build")
+console.log(staticPath)
+
+
+app.use(express.static(staticPath));
+
+app.get("/*", function (req, res) {
+  const thePath = path.join(__dirname, "../ui/build", "index.html")
+  console.log(thePath)
+  res.sendFile(thePath);
+});
 
 app.get("/*", function (req, res) {
   res.send('hello world')
