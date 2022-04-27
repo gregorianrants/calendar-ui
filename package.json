@@ -14,7 +14,9 @@
   "dependencies": {},
   "scripts": {
     "start": "yarn workspace api run start",
-    "build": "yarn workspace ui run build"
+    "build": "yarn workspace ui run build",
+    "api-production-local": "yarn workspace api prod",
+    "react-local": "yarn workspace ui start"
   },
   "engines": {
     "node": "14.17.6",

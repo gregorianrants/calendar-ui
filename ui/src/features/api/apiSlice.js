@@ -4,9 +4,11 @@ import auth0Client from "../auth/auth0";
 import {parseISO} from "date-fns";
 
 
-const BASE_URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:8000' : 'https://dry-earth-66864.herokuapp.com'
 
 
+const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : 'https://dry-earth-66864.herokuapp.com'
+
+console.log(BASE_URL)
 
 
 export const apiSlice = createApi({
