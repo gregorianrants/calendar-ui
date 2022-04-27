@@ -16,7 +16,7 @@
     "start": "yarn workspace api run start"
   },
   "engines": {
-    "node": "14.x",
-    "yarn": "1.x"
+    "node": "14.17.6",
+    "yarn": "1.22.17"
   }
 }
