@@ -13,6 +13,9 @@ const initialState = {
   token: null
 };
 
+const BASE_URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:3000' : 'http://localhost:8000'
+console.log(BASE_URL)
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -43,7 +46,7 @@ const authSlice = createSlice({
 export const loginThunk = async (dispatch, getState) => {
   const auth0 = await auth0Client;
   await auth0.loginWithRedirect({
-    redirect_uri: "http://localhost:3000/auth",
+    redirect_uri: `${BASE_URL}/auth`,
   });
   //logged in. you can get the user profile like this:
 }
@@ -96,7 +99,7 @@ export const handleRedirectThunk = (payload) => async (dispatch, getState) => {
 export const logoutThunk = async (dispatch, getState) => {
   const auth0 = await auth0Client;
   await auth0.logout({
-    returnTo: "http://localhost:3000/",
+    returnTo: `${BASE_URL}/`,
   });
 };
 

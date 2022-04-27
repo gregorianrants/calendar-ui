@@ -11,5 +11,9 @@
     "ui",
     "generate-data"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "start": "cd ./api && node main.js"
+  }
+
 }

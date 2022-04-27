@@ -26,10 +26,10 @@ import {
 
 
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
-//import { processMongooseError } from "../../utilities/processMongooseError";
+import { processMongooseError } from "../../utilities/processMongooseError";
 
 //es6 import was casuing a bug when building
-const { processMongooseError } = require("../../utilities/processMongooseError")
+//const { processMongooseError } = require("../../utilities/processMongooseError")
 
 // function useQuery() {
 //   const { search } = useLocation();

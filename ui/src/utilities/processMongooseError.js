@@ -39,4 +39,4 @@ function processMongooseError(err) {
   return result;
 }
 
-module.exports = { processMongooseError, convertToLodashDotPath };
+export { processMongooseError, convertToLodashDotPath };
