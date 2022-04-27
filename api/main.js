@@ -10,7 +10,7 @@ const http = require("http");
 const server = http.createServer(app);
 const path = require("path");
 const errorHandlerChain = require("./controllers/errorControllers/errorControllers");
-const AppError = require('./errorUtilities/appError')
+const AppError = require('./errorUtilities/AppError')
 //const AppError = require('./utils/appError')
 
 app.use(cors());
@@ -49,14 +49,20 @@ app.use("/api/v1/gcal", auth);
 app.use('/api/v1/users',users)
 
 
-const staticPath = path.join(__dirname, "../ui/build")
-console.log(staticPath)
-app.use(express.static(staticPath));
+// const staticPath = path.join(__dirname, "../ui/build")
+// console.log(staticPath)
+//
+//
+// app.use(express.static(staticPath));
+//
+// app.get("/*", function (req, res) {
+//   const thePath = path.join(__dirname, "../ui/build", "index.html")
+//   console.log(thePath)
+//   res.sendFile(thePath);
+// });
 
 app.get("/*", function (req, res) {
-  const thePath = path.join(__dirname, "../ui/build", "index.html")
-  console.log(thePath)
-  res.sendFile(thePath);
+  res.send('hello world')
 });
 
 app.all("*", (req, res, next) => {
