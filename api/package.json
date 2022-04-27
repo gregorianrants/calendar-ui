@@ -26,7 +26,8 @@
     "axios": "^0.26.1"
   },
   "scripts": {
-    "start": "nodemon api/main.js",
+    "start": "node main.js",
+    "dev": "nodemon api/main.js",
     "prod": "set NODE_ENV=production && nodemon api/main.js",
     "authed": "set AUTHED=true&& set NODE_ENV=production&& nodemon api/main.js",
     "reset-data": "node resetData.js",

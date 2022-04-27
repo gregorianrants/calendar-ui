@@ -13,7 +13,7 @@
   ],
   "dependencies": {},
   "scripts": {
-    "start": "cd ./api && node main.js"
+    "start": "yarn workspace api run start"
   },
   "engines": {
     "node": "14.x"
