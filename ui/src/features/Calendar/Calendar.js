@@ -58,7 +58,9 @@ const ScrollPortal = styled.div`
   overflow: scroll;
   margin: 0;
   padding: 0;
-  height: 80vh;
+  //TODO this is a bit of a hack to make scroll portal fit on page on my dev monitor need to change so fits on page of any monitor
+  height: 70vh;
+  border-bottom: 1px solid lightgrey;
   //also requires scroll-snap-align property on Hours component
   //Todo consider making more elegant e.g. not having components depending on css in other components
   scroll-snap-type: y mandatory;  
