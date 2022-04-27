@@ -4,24 +4,15 @@ import auth0Client from "../auth/auth0";
 import {parseISO} from "date-fns";
 
 
-const proposedDataStructure = {
-    ids: [],
-    eventsById: {},
-    idsByDay: {
-        monday: [],
-        tuesday: []
-    },
-    memoizationStrings: {
-        monday: [],
-        tuesday: []
-    }
-}
+const BASE_URL = process.env.NODE_ENV === 'dev' ? 'http://localhost:8000' : 'https://dry-earth-66864.herokuapp.com'
+
+
 
 
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8000/api/v1',
+        baseUrl: `${BASE_URL}/api/v1`,
 
         prepareHeaders: async (headers, {getState}) => {
             const token = getState().auth.token
