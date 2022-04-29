@@ -36,6 +36,37 @@ async function getUrl(req, res) {
   });
 }
 
+async function revokeAuth(req,res){
+    const {sub} = req.user
+    const user = await User.findById(sub)
+    const {accessToken} = user
+    user.revocation = 'pending'
+    user.authorizedToGcal = false
+    user.save()
+    await oauth2Client.revokeToken(accessToken)
+    user.accessToken = ''
+    user.refreshToken = ''
+
+    res.status(200).json({
+        status: 'success',
+        data: user
+    })
+}
+
+async function checkAuth(req,res){
+    const {sub} = req.user
+    const user = await User.findById(sub)
+    const tokens = {
+        access_token: user.accessToken,
+        refresh_token: user.refreshToken
+    }
+    oauth2Client.setCredentials(tokens);
+    const result = await calendar.calendarList.list({});
+    res.send(result.data);
+}
+
+
+
 async function authorizeUser(req,res){
   //TODO: look at errors that can be thrown by oauth2client and handle them
   const {sub} = req.user
@@ -85,15 +116,14 @@ async function getGcalEvents(req, res){
            status: 'success',
            data: result.data.items
        })
-
-
 }
 
 
 module.exports = autoCatch({
   getUrl,
   authorizeUser,
-  getJobs: getGcalEvents
+  getJobs: getGcalEvents,
+    checkAuth
 })
 
 

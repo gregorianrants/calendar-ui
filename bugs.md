@@ -26,6 +26,7 @@
   change)
 - fix form changes size sometimes as data is entered
 - lock scroll postion of portal when opening form.
+- look into refreshing gcal token. is this something i need to add to the app?
 
 # General Notes
 
