@@ -45,60 +45,61 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Content(){
+function Content() {
     const classes = useStyles();
     return (
-        <Switch>
-            <div className={classes.content}>
-                <Toolbar />
+
+        <div className={classes.content}>
+            <Toolbar/>
+            <Switch>
                 <Route path="/error">
-                    <Error />
+                    <Error/>
                 </Route>
                 <ErrorHandler>
                     <Switch>
                         <Route path="/calendar">
                             <PrivateRoute>
                                 <SettingsContext.Provider value={settingsValue}>
-                                    <Calendar />
+                                    <Calendar/>
                                 </SettingsContext.Provider>
                                 <Switch>
                                     <Route path="/calendar/job-details/:id">
-                                        <JobDetails />
+                                        <JobDetails/>
                                     </Route>
-                                    <Route  path="/calendar/gcal-details/:id">
-                                        <GcalDetails />
+                                    <Route path="/calendar/gcal-details/:id">
+                                        <GcalDetails/>
                                     </Route>
                                     <Route path="/calendar/edit-job-form/:id">
-                                        <EditJobForm />
+                                        <EditJobForm/>
                                     </Route>
                                     <Route path="/calendar/create-job-form">
-                                        <CreateJobForm />
+                                        <CreateJobForm/>
                                     </Route>
                                 </Switch>
                             </PrivateRoute>
                         </Route>
                         <Route path='/auth'>
-                            <Auth />
+                            <Auth/>
                         </Route>
                         <Route path="/gcal">
-                            <AuthorizeGcalButton />
+                            <AuthorizeGcalButton/>
                         </Route>
                         <Route path="/login">
-                            <LoginPage />
+                            <LoginPage/>
                         </Route>
 
                         {/*auth handles call back from Auth0*/}
                         <Route path="/oauthcallback">
-                            <OauthCallback />
+                            <OauthCallback/>
                         </Route>
                         <Route>
-                            <Redirect to="/calendar" />
+                            <Redirect to="/calendar"/>
                         </Route>
                     </Switch>
                 </ErrorHandler>
-            </div>
+            </Switch>
+        </div>
 
-        </Switch>
 
     )
 

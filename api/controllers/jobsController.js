@@ -20,6 +20,12 @@ async function getJobs(req, res) {
     limit: Number(limit),
     sub });
 
+  // res.status(400)
+  //     .json({
+  //       status: 'error',
+  //       message: 'crap'
+  //     })
+
   res.status(200)
       .json({
         status: "success",
@@ -59,7 +65,7 @@ async function editJob(req, res) {
   res.status(200).json({ status: "success", data: data });
 }
 
-module.exports = autoCatch({
+module.exports = autoCatch('jobsController')({
   getJobs,
   createJob,
   getJob,

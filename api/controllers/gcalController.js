@@ -2,6 +2,7 @@ const {User} = require("./../model/user");
 const autoCatch = require("../lib/autoCatch");
 const { google } = require("googleapis");
 const {findBySubOrCreate} = require('./../model/user')
+const AppError = require("./../errorUtilities/AppError");
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
@@ -81,7 +82,6 @@ async function authorizeUser(req,res){
   user.authorizedToGcal = true
 
   await user.save()
-
   res.status(200).json({
     status: 'success',
     data: {authorizedToGcal: user.authorizedToGcal}
@@ -89,29 +89,46 @@ async function authorizeUser(req,res){
 }
 
 //havent actually made a route for this or tested it or anything yet.
-async function getGcalEvents(req, res){
+async function getGcalEvents(req, res, next){
   const {sub} = req.user
   const user = await User.findById(sub)
   const tokens = {
     access_token: user.accessToken,
     refresh_token: user.refreshToken
   }
-  oauth2Client.setCredentials(tokens);
+  try{
+      oauth2Client.setCredentials(tokens);
+  }catch(err){
+      console.log(err)
+      next(err)
+  }
+
 
   const {from,to}=req.query
 
     console.log('from',from)
     console.log('to',to)
 
-  const result = await calendar.events
-      .list({
-        calendarId: "primary",
-        timeMin: from,
-          timeMax: to,
-        maxResults: 200,
-        singleEvents: true,
-        orderBy: "startTime",
-      })
+   //if this fails because of invalid token due to user having invlaidated on there google account throws an error
+    //with the following properties
+    //result.status=='error'  and  result.message=='invalid_grant'
+    //i am not proccessing this in any way on the error handling controllers YET
+    const result = await calendar.events
+        .list({
+            calendarId: "primary",
+            timeMin: from,
+            timeMax: to,
+            maxResults: 200,
+            singleEvents: true,
+            orderBy: "startTime",
+        })
+
+
+    if(result.status=='error'  && result.message=='invalid_grant'){
+        next(new AppError('401','google calendar error: invalid grant your token may have been revoked and re authorizing the application may resolve this problem'))
+    }
+
+
        res.status(200).json({
            status: 'success',
            data: result.data.items
@@ -119,7 +136,7 @@ async function getGcalEvents(req, res){
 }
 
 
-module.exports = autoCatch({
+module.exports = autoCatch('gcalController')({
   getUrl,
   authorizeUser,
   getJobs: getGcalEvents,
