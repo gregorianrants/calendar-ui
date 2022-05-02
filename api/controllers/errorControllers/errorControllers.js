@@ -22,7 +22,8 @@ function sendDevError(err, req, res, next) {
 }
 
 function processNonAppError(err, res, res, next) {
-    console.log((err instanceof AppError)) //TODO: wouild like to skip here if error already app error
+    if(err instanceof AppError) return next(err) //TODO: wouild like to skip here if error already app error
+    console.log('fuck stikcs')
     // however instacne of
     //is giving the wrong result instead i am returning errors as is from handle non app error
     // if none of the cases are matched.
@@ -32,7 +33,10 @@ function processNonAppError(err, res, res, next) {
 
 function sendOperationalError(err, req, res, next) {
     console.log('29','helllooooo')
-    if (!err.isOperational) return next()
+    console.log(JSON.stringify(err,null,2))
+    if (!err.isOperational) return next()//TODO should i be passing err here
+
+    console.log('dfsdfsadfasdfasdfasdfasdfs')
     res.status(err.statusCode).json({
         status: err.status,
         message: err.message,

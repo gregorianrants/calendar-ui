@@ -26,16 +26,19 @@ const mockAuth = (req,res,next)=>{
     next()
 }
 
-console.log('node_env', process.env.NODE_ENV)
-console.log('authed', process.env.AUTHED)
+console.log('node_env', 'start'+process.env.NODE_ENV+'end')
+console.log('authed', process.env.AUTHED=='true')
+console.log('authed', typeof process.env.AUTHED)
 if (process.env.NODE_ENV==='development'){
     console.log('running in dev mode')
     module.exports = mockAuth
 }
+
 else if (process.env.NODE_ENV==='production' && process.env.AUTHED==='true'){
     console.log('running in production mode with mocked authentication')
     module.exports = mockAuth
 }
+
 else{
     console.log('running in production mode')
     module.exports = checkJwt

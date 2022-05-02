@@ -27,7 +27,7 @@ async function createUser(req,res,next){
         }})
 }
 
-module.exports = autoCatch('usersController')({
+module.exports = ({
     getUser,
     createUser
 });

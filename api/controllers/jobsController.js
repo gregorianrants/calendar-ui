@@ -65,7 +65,7 @@ async function editJob(req, res) {
   res.status(200).json({ status: "success", data: data });
 }
 
-module.exports = autoCatch('jobsController')({
+module.exports = autoCatch({
   getJobs,
   createJob,
   getJob,
