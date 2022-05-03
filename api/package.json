@@ -6,6 +6,7 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.26.1",
     "cors": "^2.8.5",
     "cuid": "^2.1.8",
     "date-fns": "^2.21.3",
@@ -18,13 +19,11 @@
     "helmet": "^4.6.0",
     "immer": "^9.0.6",
     "jwks-rsa": "^2.0.5",
-    "lodash": "^4.17.21",
     "mongoose": "6.0.7",
+    "ramda": "^0.28.0",
     "random": "^3.0.6",
     "socket.io": "^4.1.2",
-    "validator": "^13.6.0",
-    "ramda": "^0.28.0",
-    "axios": "^0.26.1"
+    "validator": "^13.6.0"
   },
   "scripts": {
     "start": "node main.js",
