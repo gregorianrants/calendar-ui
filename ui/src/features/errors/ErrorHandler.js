@@ -6,9 +6,6 @@ import {clearErrors} from "./errorsSlice";
 export default function ErrorHandler({children,...rest}){
     const isError = useSelector((state)=> state.errors.status)
 
-
-
-
     return (
         <Route
             {...rest}

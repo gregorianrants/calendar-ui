@@ -11,6 +11,15 @@ export default function Error(){
     const location = useLocation()
     const dispatch = useDispatch()
 
+    React.useEffect(()=>{
+        const unlisten = history.listen(()=> {
+            console.log('heloooooo')
+            dispatch(clearErrors())
+        })
+
+        return unlisten
+    },[])
+
     const handleGoBack = ()=>{
         dispatch(clearErrors())
         history.push(location.state.from)
