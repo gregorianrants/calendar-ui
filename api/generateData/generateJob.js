@@ -1,4 +1,4 @@
-const getColumn = require('./getIntervalsForDate/getColumn')
+import getColumn from './getIntervalsForDate/getColumn.js';
 
 function addColumns(date,numColumns){
     const cols = []

@@ -39,4 +39,4 @@ if(require.main===module){
     main()
 }
 
-module.exports = {getRndInteger,getIntWithProbability}
+export default {getRndInteger,getIntWithProbability};

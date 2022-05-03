@@ -1,10 +1,11 @@
-const mongoose = require("mongoose");
-const cuid = require("cuid");
-/*const addGcalEvent = require('./../googleCalendar')*/
-const validator = require("validator"); //todo can we inmport only a subset
+import mongoose from 'mongoose';
+import cuid from 'cuid';
 
-const setHours = require("date-fns/setHours");
-const { nextDay } = require("date-fns");
+/*const addGcalEvent = require('./../googleCalendar')*/
+import validator from 'validator'; //todo can we inmport only a subset
+
+import { setHours } from 'date-fns'
+import { nextDay } from 'date-fns';
 
 const customerObj = {
   name: {
@@ -83,7 +84,7 @@ const operativeObj = {
 
 const operativeSchema = mongoose.Schema(operativeObj);
 
-const jobSchema = new mongoose.Schema({
+export const jobSchema = new mongoose.Schema({
   _id: {
     type: String,
     default: cuid,
@@ -174,7 +175,7 @@ async function resetData(data) {
   await Job.insertMany(data);
 }
 
-module.exports = {
+export default {
   list,
   create,
   get,
@@ -184,4 +185,3 @@ module.exports = {
   jobSchema,
 };
 
-exports.Job = Job;

@@ -1,10 +1,10 @@
-const dotenv = require("dotenv");
+import dotenv from 'dotenv';
 
 dotenv.config();
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const jobsController = require("./../controllers/jobsController");
-const checkJwt = require('./../authMiddleware/checkJwt')
+import jobsController from './../controllers/jobsController.js';
+import checkJwt from './../authMiddleware/checkJwt.js';
 
 
 
@@ -15,4 +15,4 @@ router
   .delete("/:id", jobsController.deleteJob)
   .put("/:id", jobsController.editJob);
 
-module.exports = router;
+export default router;

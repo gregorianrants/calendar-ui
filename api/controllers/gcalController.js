@@ -1,8 +1,8 @@
-const {User} = require("./../model/user");
-const autoCatch = require("../lib/autoCatch");
-const {google} = require("googleapis");
-const {findBySubOrCreate} = require('./../model/user')
-const AppError = require("./../errorUtilities/AppError");
+import {User} from '../model/User.js'
+import autoCatch from '../lib/autoCatch.js';
+import { google } from 'googleapis';
+//import { findBySubOrCreate } from '../model/User';
+import AppError from './../errorUtilities/AppError.js';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
@@ -146,11 +146,11 @@ async function getGcalEvents(req, res, next) {
 }
 
 
-module.exports = ({
+export default autoCatch({
     getUrl,
     authorizeUser,
     getJobs: getGcalEvents,
     checkAuth
-})
+});
 
 

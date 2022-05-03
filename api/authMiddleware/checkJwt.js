@@ -4,8 +4,8 @@ const audience = process.env.AUTH0_AUDIENCE;
 const SUB = process.env.SUB
 
 
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
+import jwt from 'express-jwt';
+import jwksRsa from 'jwks-rsa';
 
 
 const checkJwt = jwt({
@@ -29,20 +29,25 @@ const mockAuth = (req,res,next)=>{
 console.log('node_env', 'start'+process.env.NODE_ENV+'end')
 console.log('authed', process.env.AUTHED=='true')
 console.log('authed', typeof process.env.AUTHED)
+
+let exportedMiddleware
+
 if (process.env.NODE_ENV==='development'){
     console.log('running in dev mode')
-    module.exports = mockAuth
+    exportedMiddleware =  mockAuth;
 }
 
 else if (process.env.NODE_ENV==='production' && process.env.AUTHED==='true'){
     console.log('running in production mode with mocked authentication')
-    module.exports = mockAuth
+    exportedMiddleware = mockAuth;
 }
 
 else{
     console.log('running in production mode')
-    module.exports = checkJwt
+    exportedMiddleware = checkJwt;
 }
+
+export default exportedMiddleware
 
 
 

@@ -1,6 +1,6 @@
 
 
-const {addDays,add,format,nextMonday} = require("date-fns");
+import { addDays, add, format, nextMonday } from 'date-fns';
 
 function mondayIndexed(sundayIndexed) {
     return sundayIndexed === 0 ? 6 : sundayIndexed - 1
@@ -41,7 +41,7 @@ function previousMonday(date){
 
 //console.log(monthAndYear(new Date()))
 
-module.exports = {
+export default {
     currentDateTime,weekContaining,dayOfWeek,monthAndYear,weekBoundaries,addDays,previousMonday
-}
+};
 

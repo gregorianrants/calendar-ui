@@ -1,5 +1,5 @@
-const {getRndInteger} = require('../utilities/getRndInteger')
-const getIntervalFactory = require('./getInterval')
+import { getRndInteger } from '../utilities/getRndInteger.js';
+import getIntervalFactory from './getInterval.js';
 
 function gap(){
     return getRndInteger(0,2)
@@ -34,7 +34,7 @@ function getColumn(){
     return inner([getInterval.first()])
 }
 
-module.exports = getColumn
+export default getColumn;
 
 function main(){
     console.log(getColumn())

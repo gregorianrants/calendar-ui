@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "api for VanCal app",
   "main": "main.js",
+  "type": "module",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",

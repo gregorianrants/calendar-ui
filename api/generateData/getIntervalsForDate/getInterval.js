@@ -1,4 +1,4 @@
-const {getRndInteger} = require('../utilities/getRndInteger')
+import { getRndInteger } from '../utilities/getRndInteger.js';
 
 /*
 * getInterval takes
@@ -39,7 +39,7 @@ function factory({startEarliest=10,startLatest=17, endLatest=19, gap=0}){
     }
 }
 
-module.exports = factory
+export default factory;
 
 function main(){
     const settings = {

@@ -1,10 +1,10 @@
-const dotenv = require("dotenv");
+import dotenv from 'dotenv';
 
 dotenv.config();
-const express = require("express");
+import express from 'express';
 const router = express.Router();
-const usersController = require('./../controllers/usersController')
-const checkJwt = require('./../authMiddleware/checkJwt')
+import usersController from './../controllers/usersController.js';
+import checkJwt from './../authMiddleware/checkJwt.js';
 
 // router.get('/',checkJwt,usersController.getUser)
 //
@@ -12,4 +12,4 @@ const checkJwt = require('./../authMiddleware/checkJwt')
 router.get('/',checkJwt,usersController.getUser)
 router.post('/',checkJwt,usersController.createUser)
 
-module.exports = router
+export default router;

@@ -1,5 +1,5 @@
-const axios = require("axios");
-const {writeFile} = require('fs/promises')
+import axios from 'axios';
+import { writeFile } from 'fs/promises';
 
 
 function processUser({name,email,cell}){

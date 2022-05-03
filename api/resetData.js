@@ -1,16 +1,16 @@
 require("dotenv").config();
 
 console.log(process.env.DB_PASSWORD);
-require("./model/db");
-let Job = require("./model/job");
-let fs = require("fs/promises");
-const cuid = require("cuid");
-const { addDays } = require("date-fns");
+import './model/db.js';
+import Job from './model/job.js';
+import fs from 'fs/promises';
+import cuid from 'cuid';
+import { addDays } from 'date-fns';
 require("dotenv").config();
 
 const SUB = process.env.SUB
 
-const getData = require('./generateData')
+import getData from './generateData.js';
 
 function wrapInObject(el) {
   return {

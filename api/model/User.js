@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
+import mongoose from 'mongoose';
+import validator from 'validator';
 
 
 const userSchema = new mongoose.Schema({
@@ -18,15 +18,10 @@ const userSchema = new mongoose.Schema({
 
 })
 
-let User = mongoose.model("User",userSchema)
+export let User = mongoose.model("User",userSchema)
 
 
 
-
-
-module.exports = {
-        User
-}
 
 
 

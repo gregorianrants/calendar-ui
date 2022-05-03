@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const password = process.env.DB_PASSWORD
 const dbName = process.env.DB_NAME
@@ -8,7 +8,7 @@ let  dbURI = process.env.DB_URI
 
 dbURI = dbURI.replace('<password>',password).replace('<dbname>',dbName)
 
-console.log(dbURI)
+console.log('dbUri',dbURI)
 
 /*
 mongoose.connect(dbURI,

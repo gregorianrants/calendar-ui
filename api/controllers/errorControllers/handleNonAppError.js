@@ -1,4 +1,4 @@
-const AppError = require("./../../errorUtilities/AppError");
+import AppError from './../../errorUtilities/AppError.js';
 
 function handleValidationError(err, req, res, next) {
     const errors = Object.values(err.errors).map((el) => el.message);
@@ -6,9 +6,9 @@ function handleValidationError(err, req, res, next) {
     return new AppError(message, 400);
 }
 
-module.exports = function handleNonAppError(err){
+export default function handleNonAppError(err){
     if(err.name === "ValidationError"){
         return handleValidationError(err)
     }
     return err
-}
+};

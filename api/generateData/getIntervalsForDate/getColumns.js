@@ -1,4 +1,4 @@
-const getColumn = require('./getColumn')
+import getColumn from './getColumn.js';
 
 function getColumns(number){
     const result = []
@@ -9,7 +9,7 @@ function getColumns(number){
 
 }
 
-module.exports = getColumns
+export default getColumns;
 
 
 function main(){

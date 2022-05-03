@@ -1,13 +1,13 @@
-const getDates = require('./getDates')
-const getColumns = require('./getIntervalsForDate/getColumns')
-const setHours = require('date-fns/setHours')
-const {getIntWithProbability} = require('./utilities/getRndInteger')
-const {compose,partial,pipe,andThen} = require('ramda')
-const getIntervalsForDate = require('./getIntervalsForDate')(getNumberOfColumns)
-const addFurnitureString = require('./furniture')
-
-const getUser = require('./addPerson')
-const addPersons = require("./addPerson");
+import getDates from './getDates.js';
+import getColumns from './getIntervalsForDate/getColumns';
+import setHours from 'date-fns/setHours';
+import { getIntWithProbability } from './utilities/getRndInteger.js';
+import { compose, partial, pipe, andThen } from 'ramda';
+import getIntervalsForDateFactory from './getIntervalsForDate.js';
+const getIntervalsForDate = getIntervalsForDateFactory(getNumberOfColumns);
+import addFurnitureString from './furniture.js';
+import getUser from './addPerson';
+import addPersons from './addPerson.js';
 
 function getNumberOfColumns(){
     const numColumnsProbability = {
@@ -61,7 +61,7 @@ async function getData(sub){
     return data
 }
 
-module.exports = getData
+export default getData;
 
 
 async function main(){

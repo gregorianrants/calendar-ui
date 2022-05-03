@@ -1,11 +1,12 @@
-const {User} = require("./../model/user");
-const autoCatch = require("../lib/autoCatch");
-const AppError = require("./../errorUtilities/AppError");
+import { User } from '../model/User.js';
+import autoCatch from '../lib/autoCatch.js';
+import AppError from './../errorUtilities/AppError.js';
 
 
 async function getUser(req,res,next){
     const { sub } = req.user;
     console.log('8',req.user)
+    console.log(User)
     const user = await User.findById(sub)
     if (!user) {
         const error = new AppError("No user found with that id", 404);
@@ -27,7 +28,8 @@ async function createUser(req,res,next){
         }})
 }
 
-module.exports = ({
+//TODO add autocatch
+export default autoCatch({
     getUser,
     createUser
 });

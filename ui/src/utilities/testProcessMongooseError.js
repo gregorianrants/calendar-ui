@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const {
+import mongoose from 'mongoose'
+import  {
   processMongooseError,
   convertToLodashDotPath,
-} = require("./processMongooseError.js");
+} from "./processMongooseError.js"
 
 function printAsPlainObject(err) {
   const result =

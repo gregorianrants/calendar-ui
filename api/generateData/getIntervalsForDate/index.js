@@ -1,8 +1,8 @@
-const {getIntWithProbability} = require("../utilities/getRndInteger");
-const setHours = require("date-fns/setHours");
-const getColumns = require(".//getColumns");
-const {curry} = require("ramda");
-let setMinutes = require('date-fns/setMinutes')
+import { getIntWithProbability } from '../utilities/getRndInteger.js';
+import setHours from 'date-fns/setHours';
+import getColumns from './/getColumns.js';
+import { curry } from 'ramda';
+import setMinutes from 'date-fns/setMinutes';
 
 
 
@@ -38,6 +38,6 @@ function getIntervals(numberOfColumnsF,date){
         ))
     }
 
-module.exports = curry(getIntervals)
+export default curry(getIntervals);
 
 

@@ -1,17 +1,21 @@
-require("dotenv").config();
-const db = require("./model/db");
-const express = require("express");
-const jobs = require("./routes/jobsRoute");
-const auth = require("./routes/authRoute");
-const users = require("./routes/usersRoute");
-const cors = require("cors");
+import 'dotenv/config'
+import './model/db.js';
+import express from 'express';
+import jobs from './routes/jobsRoute.js';
+import auth from './routes/authRoute.js';
+import users from './routes/usersRoute.js';
+import cors from 'cors';
 const app = express();
-const http = require("http");
+import http from 'http';
 const server = http.createServer(app);
-const path = require("path");
-const errorHandlerChain = require("./controllers/errorControllers/errorControllers");
-const AppError = require('./errorUtilities/AppError')
+import path from 'path';
+import {errorHandlerChain} from './controllers/errorControllers/errorControllers.js';
+import AppError from './errorUtilities/AppError.js';
 //const AppError = require('./utils/appError')
+
+import * as url from 'url';
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 app.use(cors());
 

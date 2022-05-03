@@ -1,5 +1,5 @@
-const axios = require('axios')
-const data = require('./data.json')
+import axios from 'axios';
+import data from './data.json';
 
 function processUser({name,email,cell}){
     const {first,last} = name
@@ -36,7 +36,7 @@ function addPersons(jobs){
     )
 }
 
-module.exports = addPersons
+export default addPersons;
 
 console.log(getUsers(3))
 

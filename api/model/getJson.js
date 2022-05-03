@@ -1,4 +1,4 @@
-const {setHours} = require('date-fns/setHours')
+import { setHours } from 'date-fns/setHours';
 
 const jobs =    [
     {

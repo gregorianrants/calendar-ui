@@ -1,4 +1,4 @@
-const {produce} = require('immer')
+import { produce } from 'immer';
 
 const err = {
     "errors": {

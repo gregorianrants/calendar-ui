@@ -1,11 +1,11 @@
-const sub = require('date-fns/sub')
-const add = require('date-fns/add')
-const nextDay = require('date-fns/nextDay')
-const isWeekend = require('date-fns/isWeekend')
-const nextMonday = require('date-fns/nextMonday')
-const isAfter = require('date-fns/isAfter')
-var addDays = require('date-fns/addDays')
-var getDay = require('date-fns/getDay')
+import sub from 'date-fns/sub';
+import add from 'date-fns/add';
+import nextDay from 'date-fns/nextDay';
+import isWeekend from 'date-fns/isWeekend';
+import nextMonday from 'date-fns/nextMonday';
+import isAfter from 'date-fns/isAfter';
+import addDays from 'date-fns/addDays';
+import getDay from 'date-fns/getDay';
 
 function getStartDate(){
     const startDate = sub(new Date(),{months: 1})
@@ -53,7 +53,7 @@ function getDates(){
     return inner([getStartDate()])
 }
 
-module.exports = getDates
+export default getDates;
 
 function main(){
     const array = getDates()

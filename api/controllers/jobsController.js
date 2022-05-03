@@ -1,9 +1,11 @@
-const Job = require("./../model/job");
-const dateUtils = require("../dateUtilities/dateUtilities"); //TODO share between api and react app
+import Job from './../model/job.js';
+import dateUtils from '../dateUtilities/dateUtilities.js'; //TODO share between api and react app
+
 //const {notify} = require('../sockets')
-const autoCatch = require("../lib/autoCatch");
-const { nextDay } = require("date-fns");
-const AppError = require("./../errorUtilities/AppError");
+import autoCatch from '../lib/autoCatch.js';
+
+import { nextDay } from 'date-fns';
+import AppError from './../errorUtilities/AppError.js';
 
 async function getJobs(req, res) {
   //res.status(500).json({status: "error", message: 'something went very wrong'});
@@ -65,7 +67,7 @@ async function editJob(req, res) {
   res.status(200).json({ status: "success", data: data });
 }
 
-module.exports = autoCatch({
+export default autoCatch({
   getJobs,
   createJob,
   getJob,

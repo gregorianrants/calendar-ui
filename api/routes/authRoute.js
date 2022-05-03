@@ -1,15 +1,15 @@
-const express = require('express')
+import express from 'express';
 const router = express.Router()
-const gcalController = require('../controllers/gcalController')
-const checkJwt = require('./../authMiddleware/checkJwt')
-const {checkAuth} = require('../controllers/gcalController')
+import gcalController from '../controllers/gcalController.js';
+import checkJwt from './../authMiddleware/checkJwt.js';
+
 
 
 
 router.get('/url',gcalController.getUrl)
 router.get('/authourize',checkJwt,gcalController.authorizeUser)
 router.get('/events',checkJwt,gcalController.getJobs)
-router.get('/check-auth',checkJwt,checkAuth)
+router.get('/check-auth',checkJwt,gcalController.checkAuth)
 
 
-module.exports = router
+export default router;

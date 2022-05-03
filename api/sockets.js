@@ -10,4 +10,4 @@ function notify(){
 
 
 
-module.exports = {sockets,notify}
+export default {sockets,notify};

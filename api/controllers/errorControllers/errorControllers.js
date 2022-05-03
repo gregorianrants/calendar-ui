@@ -1,8 +1,14 @@
-const {
-    processValidationErrors,
-} = require("../../errorUtilities/processValidationErrors");
-const handleNonAppError = require('./handleNonAppError')
-const AppError = require("./../../errorUtilities/AppError");
+// const {
+//     processValidationErrors,
+// } = require("../../errorUtilities/processValidationErrors");
+import handleNonAppError from './handleNonAppError.js'
+import  AppError from "./../../errorUtilities/AppError.js"
+
+
+function printError(err,req,res,next){
+    console.error(9,err)
+    next(err)
+}
 
 function setStatusAndCode(err, req, res, next) {
     err.statusCode = err.statusCode || 500
@@ -21,7 +27,7 @@ function sendDevError(err, req, res, next) {
     });
 }
 
-function processNonAppError(err, res, res, next) {
+function processNonAppError(err, req, res, next) {
     if(err instanceof AppError) return next(err) //TODO: wouild like to skip here if error already app error
     console.log('fuck stikcs')
     // however instacne of
@@ -49,10 +55,13 @@ function finalHandler(err, req, res, next) {
     res.status(500).json({status: "error", message: 'something went very wrong'});
 }
 
-module.exports = [
+export const errorHandlerChain = [
+    printError,
     setStatusAndCode,
     sendDevError,
     processNonAppError,
     sendOperationalError,
     finalHandler,
 ];
+
+
