@@ -37,20 +37,30 @@ async function getUrl(req, res) {
     });
 }
 
-async function revokeAuth(req, res) {
+function isRevokedTokenError(err){
+    if (err?.response?.data?.error === 'invalid_grant' && err?.response?.data?.error_description === "Token has been expired or revoked."){
+        return true
+    }
+}
+
+async function revokeAuth(req, res, next) {
     const {sub} = req.user
     const user = await User.findById(sub)
     const {accessToken} = user
-    user.revocation = 'pending'
+
+    try{
+       var revokation =  await oauth2Client.revokeToken(accessToken)
+    }catch(err){
+        if(!isRevokedTokenError(err)) next(err)
+    }
+    console.log('50',revokation)
     user.authorizedToGcal = false
-    user.save()
-    await oauth2Client.revokeToken(accessToken)
     user.accessToken = ''
     user.refreshToken = ''
+    user.save()
 
     res.status(200).json({
         status: 'success',
-        data: user
     })
 }
 
@@ -65,6 +75,8 @@ async function checkAuth(req, res) {
     const result = await calendar.calendarList.list({});
     res.send(result.data);
 }
+
+
 
 
 async function authorizeUser(req, res) {
@@ -89,31 +101,16 @@ async function authorizeUser(req, res) {
 
 //havent actually made a route for this or tested it or anything yet.
 async function getGcalEvents(req, res, next) {
+    console.log('hellow')
     const {sub} = req.user
     const user = await User.findById(sub)
     const tokens = {
         access_token: user.accessToken,
         refresh_token: user.refreshToken
     }
-    try {
-        oauth2Client.setCredentials(tokens);
-    } catch (err) {
-        console.log(err)
-        next(err)
-    }
-
-
+    oauth2Client.setCredentials(tokens);
     const {from, to} = req.query
-    console.log('from', from)
-    console.log('to', to)
-
-    //if this fails because of invalid token due to user having invlaidated on there google account throws an error
-    //with the following properties
-    //result.status=='error'  and  result.message=='invalid_grant'
-    //i am not proccessing this in any way on the error handling controllers YET
-
     let events
-
     try {
         events = await calendar.events
             .list({
@@ -126,7 +123,7 @@ async function getGcalEvents(req, res, next) {
             })
     } catch (err)
     {
-        console.log(JSON.stringify(err,null,2))
+        console.log('143',JSON.stringify(err,null,2))
         if (err?.response?.data?.error === 'invalid_grant' && err?.response?.data?.error_description === "Token has been expired or revoked.") {
             return next(new AppError(
                 `You are not authorized to access google calendar.
@@ -135,6 +132,9 @@ async function getGcalEvents(req, res, next) {
                 `,
                 401
             ))
+        }
+        else{
+            return next(err)
         }
     }
 
@@ -150,7 +150,8 @@ export default autoCatch({
     getUrl,
     authorizeUser,
     getJobs: getGcalEvents,
-    checkAuth
+    checkAuth,
+    revokeAuth
 });
 
 

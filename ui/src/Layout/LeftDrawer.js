@@ -60,9 +60,9 @@ function LeftDrawer(){
                         <ListItemIcon><CalendarTodayIcon/></ListItemIcon>
                         <ListItemText>Calendar</ListItemText>
                     </ListItem>
-                    <ListItem component={Link} to='/gcal'>
+                    <ListItem component={Link} to='/settings'>
                         <ListItemIcon><SettingsIcon/></ListItemIcon>
-                        <ListItemText>google calendar</ListItemText>
+                        <ListItemText>Settings</ListItemText>
                     </ListItem>
                 </List>
             </div>

@@ -34,6 +34,9 @@ const authSlice = createSlice({
     authorizedToGcalSuccess(state,action){
       state.isAuthorizedToGcal = true
     },
+    revokeGcal(state,action){
+      state.isAuthorizedToGcal = false
+    },
     logOut(state,action){
       state.isAuthorizedToGcal = false
       state.isAuthenticated = false
@@ -89,6 +92,18 @@ export const authorizeGcalThunk = (code)=> async (dispatch,getState)=>{
   // }catch(err){
   //   console.error(err)
   // }
+}
+
+export const revokeGcalThunk = ()=>async (dispatch,getState)=>{
+  try{
+    fetch('http://localhost:8000/api/v1/gcal/revoke-auth')
+        .then(res=>res.json())
+        .then(console.log)
+        .then(()=>dispatch(actions.revokeGcal()))
+  }
+  catch(err){
+   console.log(err)
+  }
 }
 
 export const handleRedirectThunk = (payload) => async (dispatch, getState) => {

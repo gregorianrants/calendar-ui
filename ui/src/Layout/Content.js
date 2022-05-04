@@ -14,6 +14,7 @@ import LoginPage from "../features/auth/LoginPage";
 import OauthCallback from "../features/googleCalendar/Oauthcallback";
 import {makeStyles} from "@material-ui/core/styles";
 import {Toolbar} from "@material-ui/core";
+import Settings from '../features/Settings'
 
 const settingsValue = {
     borderWidth: 1,
@@ -81,8 +82,8 @@ function Content() {
                         <Route path='/auth'>
                             <Auth/>
                         </Route>
-                        <Route path="/gcal">
-                            <AuthorizeGcalButton/>
+                        <Route path="/settings">
+                            <Settings/>
                         </Route>
                         <Route path="/login">
                             <LoginPage/>
