@@ -16,6 +16,7 @@
     "start": "yarn workspace api run start",
     "build": "yarn workspace ui run build",
     "api-production-local": "yarn workspace api prod",
+    "api-production-authed": "yarn workspace api authed",
     "react-local": "yarn workspace ui start"
   },
   "engines": {

@@ -1,8 +1,8 @@
 import { getIntWithProbability } from '../utilities/getRndInteger.js';
-import setHours from 'date-fns/setHours';
+import {setHours} from 'date-fns';
 import getColumns from './/getColumns.js';
 import { curry } from 'ramda';
-import setMinutes from 'date-fns/setMinutes';
+import {setMinutes} from 'date-fns';
 
 
 

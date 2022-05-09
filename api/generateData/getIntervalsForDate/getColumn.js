@@ -42,6 +42,6 @@ function main(){
     console.log(getColumn())
 }
 
-if(require.main===module){
-    main()
-}
+// if(require.main===module){
+//     main()
+// }

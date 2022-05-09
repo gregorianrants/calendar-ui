@@ -1,5 +1,5 @@
 import axios from 'axios';
-import data from './data.json';
+import data from './data.js';
 
 function processUser({name,email,cell}){
     const {first,last} = name

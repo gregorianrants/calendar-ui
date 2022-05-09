@@ -3,6 +3,7 @@ import autoCatch from '../lib/autoCatch.js';
 import { google } from 'googleapis';
 //import { findBySubOrCreate } from '../model/User';
 import AppError from './../errorUtilities/AppError.js';
+import {listEventsFactory} from "../gcalClientLibrary/client.js";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
@@ -100,44 +101,17 @@ async function authorizeUser(req, res) {
 }
 
 //havent actually made a route for this or tested it or anything yet.
-async function getGcalEvents(req, res, next) {
-    console.log('hellow')
+async function getJobs(req, res, next) {
     const {sub} = req.user
     const user = await User.findById(sub)
     const tokens = {
         access_token: user.accessToken,
         refresh_token: user.refreshToken
     }
-    oauth2Client.setCredentials(tokens);
     const {from, to} = req.query
-    let events
-    try {
-        events = await calendar.events
-            .list({
-                calendarId: "primary",
-                timeMin: from,
-                timeMax: to,
-                maxResults: 200,
-                singleEvents: true,
-                orderBy: "startTime",
-            })
-    } catch (err)
-    {
-        console.log('143',JSON.stringify(err,null,2))
-        if (err?.response?.data?.error === 'invalid_grant' && err?.response?.data?.error_description === "Token has been expired or revoked.") {
-            return next(new AppError(
-                `You are not authorized to access google calendar.
-                you may have revoked access outside of VanCal, 
-                if so, to fix the problem revoke authorization from withing van cal then re authorize.
-                `,
-                401
-            ))
-        }
-        else{
-            return next(err)
-        }
-    }
 
+    const listEvents = listEventsFactory(tokens)
+    var events = await listEvents({from,to})
 
     res.status(200).json({
         status: 'success',
@@ -149,7 +123,7 @@ async function getGcalEvents(req, res, next) {
 export default autoCatch({
     getUrl,
     authorizeUser,
-    getJobs: getGcalEvents,
+    getJobs,
     checkAuth,
     revokeAuth
 });

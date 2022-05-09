@@ -1,13 +1,13 @@
 import getDates from './getDates.js';
-import getColumns from './getIntervalsForDate/getColumns';
-import setHours from 'date-fns/setHours';
+import getColumns from './getIntervalsForDate/getColumns.js';
+import {setHours} from 'date-fns';
 import { getIntWithProbability } from './utilities/getRndInteger.js';
 import { compose, partial, pipe, andThen } from 'ramda';
-import getIntervalsForDateFactory from './getIntervalsForDate.js';
-const getIntervalsForDate = getIntervalsForDateFactory(getNumberOfColumns);
+import getIntervalsForDateFactory from './getIntervalsForDate/index.js';
+
 import addFurnitureString from './furniture.js';
-import getUser from './addPerson';
-import addPersons from './addPerson.js';
+import getUser from './addPerson/index.js';
+import addPersons from './addPerson/index.js';
 
 function getNumberOfColumns(){
     const numColumnsProbability = {
@@ -17,6 +17,8 @@ function getNumberOfColumns(){
     }
     return getIntWithProbability(numColumnsProbability)
 }
+
+const getIntervalsForDate = getIntervalsForDateFactory(getNumberOfColumns);
 
 function map(F){
     return function (array){
@@ -31,11 +33,11 @@ function flatten(array){
 
 //TODO this function adds same values for all fields still need to randomise this part
 function addRestBasic(sub){
-
     return (job)=>{
         return {
             ...job,
             sub: sub,//uses gregorianrants4@gmail.com
+            isFake: true,
             charges: {
                 hourlyRate: 55,
                 fuelCharge: 20,
@@ -45,7 +47,6 @@ function addRestBasic(sub){
             addresses: [{ value: "19 coral glen" }, { value: "4 craigie avenue" }],
         }
     }
-
 }
 
 
@@ -57,7 +58,6 @@ async function getData(sub){
         map(addFurnitureString),
         map(addRestBasic(sub))
     )(getDates())
-
     return data
 }
 
@@ -69,6 +69,6 @@ async function main(){
     console.log(data)
 }
 
-if(require.main===module){
-    main().catch(console.error)
-}
+// if(require.main===module){
+//     main().catch(console.error)
+// }

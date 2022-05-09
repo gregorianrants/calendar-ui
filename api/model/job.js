@@ -89,6 +89,10 @@ export const jobSchema = new mongoose.Schema({
     type: String,
     default: cuid,
   },
+  isFake: {
+    type: Boolean,
+    default: false
+  },
   start: {
     type: Date,
     required: true,
@@ -169,6 +173,19 @@ async function edit(_id, change) {
   return job;
 }
 
+async function deleteFake(id){
+  await Job.deleteMany({
+    id,
+    fake: true
+  })
+}
+
+async function updateFake(id,data){
+  await deleteFake(id)
+  const result = await Job.insertMany(data)
+  return result
+}
+
 async function resetData(data) {
   await Job.deleteMany();
   console.log(data);
@@ -182,6 +199,7 @@ export default {
   remove,
   resetData,
   edit,
+  updateFake,
   jobSchema,
 };
 

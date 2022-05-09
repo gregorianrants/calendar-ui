@@ -18,7 +18,7 @@ async function getUsers(howMany=1000){
         .then(res=>res.data.results)
         .then(results=>results.map(processUser))
         .then(JSON.stringify)
-        .then(json=>writeFile('data.json',json))
+        .then(json=>writeFile('data.js',json))
         .catch(console.error)
 
     return users

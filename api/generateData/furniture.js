@@ -1,5 +1,5 @@
-import intervalToDuration from 'date-fns/intervalToDuration';
-import add from 'date-fns/add';
+import {intervalToDuration} from 'date-fns';
+import {add} from 'date-fns';
 const mediumItems = ['chest of drawers', 'desk', 'bedside cabinet', 'chair', 'cooker' ,'washing machine']
 
 const largeItems = ['wardrobe', '2 seater couch', 'fridge freezer', '3 seater Couch']
@@ -96,9 +96,9 @@ function main(){
 
 }
 
-if(require.main===module){
-main()
-}
+// if(require.main===module){
+// main()
+// }
 
 
 

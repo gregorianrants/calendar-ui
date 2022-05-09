@@ -7,6 +7,8 @@ import autoCatch from '../lib/autoCatch.js';
 import { nextDay } from 'date-fns';
 import AppError from './../errorUtilities/AppError.js';
 
+import generateData from '../generateData/index.js'
+
 async function getJobs(req, res) {
   //res.status(500).json({status: "error", message: 'something went very wrong'});
   const { monday, sunday } = dateUtils.weekBoundaries(
@@ -67,10 +69,20 @@ async function editJob(req, res) {
   res.status(200).json({ status: "success", data: data });
 }
 
+async function updateFakeData(req,res){
+  const { sub } = req.user;
+  const data = await generateData(sub)
+  const result = await Job.updateFake(sub,data)
+  res.status(200).json({ status: "success", data: result })
+}
+
+
+
 export default autoCatch({
   getJobs,
   createJob,
   getJob,
   deleteJob,
   editJob,
+  updateFakeData
 });

@@ -9,7 +9,7 @@ const app = express();
 import http from 'http';
 const server = http.createServer(app);
 import path from 'path';
-import {errorHandlerChain} from './controllers/errorControllers/errorControllers.js';
+import errorHandler from './controllers/errorController.js';
 import AppError from './errorUtilities/AppError.js';
 //const AppError = require('./utils/appError')
 
@@ -74,7 +74,7 @@ app.all("*", (req, res, next) => {
   next(new AppError(`Cant't find ${req.originalUrl} on this server`, 404));
 });
 
-app.use(errorHandlerChain);
+app.use(errorHandler);
 
 
 server.listen(port, () => {

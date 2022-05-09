@@ -18,6 +18,6 @@ function main(){
 }
 
 
-if (require.main === module){
-    main()
-}
+// if (require.main === module){
+//     main()
+// }

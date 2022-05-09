@@ -1,4 +1,4 @@
-function getRndInteger(min, max) {
+export function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
@@ -11,7 +11,7 @@ function forN(n,f){
 }
 
 
-function getIntWithProbability(dist){
+export function getIntWithProbability(dist){
     const items = []
     Object.entries(dist).forEach(([value,probability])=>{
         forN(probability,()=>{items.push(value)})
@@ -35,8 +35,8 @@ function main(){
 
 
 
-if(require.main===module){
-    main()
-}
+// if(require.main===module){
+//     main()
+// }
 
-export default {getRndInteger,getIntWithProbability};
+//export default {getRndInteger,getIntWithProbability};

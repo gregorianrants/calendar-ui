@@ -1,11 +1,11 @@
-import sub from 'date-fns/sub';
-import add from 'date-fns/add';
-import nextDay from 'date-fns/nextDay';
-import isWeekend from 'date-fns/isWeekend';
-import nextMonday from 'date-fns/nextMonday';
-import isAfter from 'date-fns/isAfter';
-import addDays from 'date-fns/addDays';
-import getDay from 'date-fns/getDay';
+import {sub} from 'date-fns';
+import {add} from 'date-fns';
+import {nextDay} from 'date-fns';
+import {isWeekend} from 'date-fns';
+import {nextMonday} from 'date-fns';
+import {isAfter} from 'date-fns';
+import {addDays} from 'date-fns';
+import {getDay} from 'date-fns';
 
 function getStartDate(){
     const startDate = sub(new Date(),{months: 1})
@@ -66,9 +66,9 @@ function main(){
 
 }
 
-if(require.main===module){
-    main()
-}
+// if(require.main===module){
+//     main()
+// }
 
 
 
