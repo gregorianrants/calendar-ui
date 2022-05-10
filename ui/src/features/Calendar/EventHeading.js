@@ -8,6 +8,9 @@ const StyledSummaryText = styled.p`
   margin-top: 0px;
   color: white;
   font-weight: 500;
+  text-overflow: clip;
+  //white-space: nowrap;
+  overflow: hidden;
 `
 
 const TimeText = styled.p`
@@ -17,7 +20,12 @@ const TimeText = styled.p`
   color: white;
   font-weight: 500;
   margin-bottom: 0;
+  text-overflow: clip;
+  //white-space: nowrap;
+  overflow: hidden;
 `
+
+
 
 export default function EventHeading({start, end, summary}) {
 
