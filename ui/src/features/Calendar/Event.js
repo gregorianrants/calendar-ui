@@ -44,6 +44,8 @@ export default function Event({
 
     const history = useHistory();
 
+    const parentElement = React.useRef(null)
+
     const dispatch = useDispatch();
 
     const [editJob, {isLoading}] = useEditJobMutation()
@@ -64,7 +66,7 @@ export default function Event({
       it is also used as last arg to useDrag and is checked when the drag is started to see what
       drag behaviour is used*/
     const {isCursorOverEdgeState, handleMouseMove, handleMouseLeave} =
-        useDetectBottomEdge();
+        useDetectBottomEdge(parentElement.current);
 
     function startTime(top) {
         return getTimeFromPosition(top, hourHeight * 24);
@@ -126,6 +128,7 @@ export default function Event({
 
     return (
         <StyledEvent
+            ref={parentElement}
             data-component={"event"}
             data-id={_id}
             className="event"
