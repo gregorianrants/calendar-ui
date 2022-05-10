@@ -28,6 +28,8 @@
 - lock scroll postion of portal when opening form.
 - look into refreshing gcal token. is this something i need to add to the app?
 - handle server error when posting data from form
+- opening job modal fails if job does not have hourlyRate and there is no validation 
+  to stop a job without an hourly rate being created
 
 # General Notes
 

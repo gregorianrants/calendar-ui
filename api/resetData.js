@@ -10,7 +10,7 @@ require("dotenv").config();
 
 const SUB = process.env.SUB
 
-import getData from './generateData.js';
+import getData from './generateData/index.js';
 
 function wrapInObject(el) {
   return {
@@ -19,7 +19,7 @@ function wrapInObject(el) {
   };
 }
 
-/*const jobs = [
+const jobs = [
   {
     sub: "google-oauth2|105644745115950757439",//uses jsonargonaught2001@gmail.com
     start: addDays(new Date().setHours(14), 1),
@@ -272,7 +272,7 @@ marsbar`,
             shopping
             marsbar`,
   },
-];*/
+];
 
 
 

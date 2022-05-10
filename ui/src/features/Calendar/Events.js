@@ -32,10 +32,14 @@ export default function Events({date}) {
     const firstDay = useSelector(state=>state.calendar.firstDay)
     const lastDay = useSelector(state=>state.calendar.lastDay)
 
+    const isAuthorizedToGcal = useSelector(state=>state.auth.isAuthorizedToGcal)
+
     React.useEffect(()=>{
-         prefetchGcal({from: lastDay, to: addDays(new Date(lastDay),7).toISOString()})
-        prefetchGcal({from: addDays(new Date(firstDay),-7).toISOString(), to: firstDay})
-     },[firstDay,lastDay])
+        if(isAuthorizedToGcal){
+            prefetchGcal({from: lastDay, to: addDays(new Date(lastDay),7).toISOString()})
+            prefetchGcal({from: addDays(new Date(firstDay),-7).toISOString(), to: firstDay})
+        }
+     },[firstDay,lastDay,isAuthorizedToGcal])
 
     const selectJobsForDate = useMemo(
         ()=>{
@@ -62,6 +66,7 @@ export default function Events({date}) {
         },[])
 
     const {gcalForDate} = useGetGcalQuery({from: firstDay, to: lastDay},{
+        skip: !isAuthorizedToGcal,
         selectFromResult: result=>({
             gcalForDate: selectGcalForDate(result,date)
         })
