@@ -11,9 +11,8 @@ import addPersons from './addPerson/index.js';
 
 function getNumberOfColumns(){
     const numColumnsProbability = {
-        1: 6,
-        2: 2,
-        3: 1,
+        1: 4,
+        2: 1,
     }
     return getIntWithProbability(numColumnsProbability)
 }
