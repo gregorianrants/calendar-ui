@@ -65,6 +65,11 @@ const useStyles = makeStyles({
       whiteSpace: "pre-line",
     },
   },
+  content:{
+    paddingTop: 0,
+    overflowY: 'auto',
+    maxHeight: '85vh'
+  }
 });
 
 export default function JobForm({ initialValues, title, handleSubmit }) {
@@ -123,7 +128,7 @@ export default function JobForm({ initialValues, title, handleSubmit }) {
     <Modal>
       <Card>
         <CardHeader title={title} />
-        <CardContent>
+        <CardContent className={classes.content}>
           <Formik
             initialValues={cloneDeep(initialValues || {})}
             onSubmit={handleSubmit}
