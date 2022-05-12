@@ -30,6 +30,12 @@
 - handle server error when posting data from form
 - opening job modal fails if job does not have hourlyRate and there is no validation 
   to stop a job without an hourly rate being created
+- not all api routes are checking for sub, for example get job just uses the id of the 
+  job which works becuase you only know id of jobs you own but this is not ideal from 
+  security point of view.
+- when form modal gets bigger than screen it doesnt scroll. what about job details modal?
+- a lot of the css depends on app bar height this is a bit of a hack i.e. see modal i 
+  need to set a 64px margin on content height - consider using a global constant.
 
 # General Notes
 

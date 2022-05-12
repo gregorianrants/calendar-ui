@@ -12,6 +12,10 @@ const BackGround = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  & {
+    margin-top: 64px;//this is to push modal content down to accomadate top bar and centre content within the main view
+  }//TODO i dont like this what if i change the height of the top bar maybe create a constant for the topbar height
+  
 `
 
 /*

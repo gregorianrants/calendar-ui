@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme)=>({
         whiteSpace: "pre-wrap"
     },
     modal: {
-        width: 448
+        width: 448,
+
     },
     toolbar: {
         justifyContent: "flex-end",
@@ -124,7 +125,6 @@ export function GcalDetails(){
 
     return (
         <Modal >
-
             <Card className={classes.modal}  >
                 <Toolbar className={classes.toolbar}>
                     <IconButton>
