@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         paddingTop: 0,
-        overflowY: "auto",
+        overflowY: "auto"
     },
     li: {
         listStyle: "none",
