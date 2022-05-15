@@ -15,6 +15,7 @@ import OauthCallback from "../features/googleCalendar/Oauthcallback";
 import {makeStyles} from "@material-ui/core/styles";
 import {Toolbar} from "@material-ui/core";
 import Settings from '../features/Settings'
+import List from '../features/List/List'
 
 const settingsValue = {
     borderWidth: 1,
@@ -79,6 +80,12 @@ function Content() {
                                 </Switch>
                             </PrivateRoute>
                         </Route>
+                        <Route path={'/list'}>
+                            <PrivateRoute>
+                                <List />
+                            </PrivateRoute>
+                        </Route>
+
                         <Route path='/auth'>
                             <Auth/>
                         </Route>

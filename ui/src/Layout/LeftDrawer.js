@@ -60,6 +60,10 @@ function LeftDrawer(){
                         <ListItemIcon><CalendarTodayIcon/></ListItemIcon>
                         <ListItemText>Calendar</ListItemText>
                     </ListItem>
+                    <ListItem component={Link} to='/list'>
+                        <ListItemIcon><SettingsIcon/></ListItemIcon>
+                        <ListItemText>List</ListItemText>
+                    </ListItem>
                     <ListItem component={Link} to='/settings'>
                         <ListItemIcon><SettingsIcon/></ListItemIcon>
                         <ListItemText>Settings</ListItemText>

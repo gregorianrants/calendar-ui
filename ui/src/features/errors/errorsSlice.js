@@ -31,7 +31,6 @@ export const errorsSlice = createSlice({
         builder.addMatcher(
             apiSlice.endpoints.getGcal.matchRejected,
             (state,{payload})=>{
-                console.log('hello')
                 if(payload){
                     state.message = payload.data?.message
                     state.status=payload.data?.status

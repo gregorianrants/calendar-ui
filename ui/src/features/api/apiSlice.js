@@ -41,6 +41,29 @@ export const apiSlice = createApi({
                 return r
             }
         }),
+        listJobs: builder.query({
+            query: ({skip}) => `/jobs?skip=${skip}&limit=${'10'}`,
+            transformResponse: response => {
+                return response.data.items
+            },
+            providesTags: (result=[],error,arg)=> {
+                console.log(result)
+                const r = [
+                    'Jobs',
+                    ...result.map(({_id}) => ({type: 'Jobs', id: _id}))
+                ]
+                console.log('47',r)
+                return r
+            }
+        }),
+        fakeData: builder.mutation({
+            query: () => ({
+                url: `/jobs/fake-data`,
+                method: 'POST',
+                body: {}
+            }),
+            invalidatesTags: ['Jobs']
+        }),
         editJob: builder.mutation({
             query: job => ({
                 url: `/jobs/${job._id}`,
@@ -93,6 +116,8 @@ function reshape(gcalEvent) {
 // Export the auto-generated hook for the `getPosts` query endpoint
 export const {
     useGetJobsQuery,
+    useListJobsQuery,
+    useFakeDataMutation,
     useGetJobQuery,
     useEditJobMutation,
     useAddJobMutation,

@@ -105,7 +105,6 @@ export default function Calendar() {
     React.useEffect(()=>{
         if(!initialScrollSet.current){
             rowEl.current.scrollTop =300
-            console.log(rowEl.current.scrollTop)
             initialScrollSet.current = true
         }
     },[rowEl])
