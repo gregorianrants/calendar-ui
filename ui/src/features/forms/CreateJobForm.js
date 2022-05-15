@@ -1,8 +1,6 @@
 import React from "react";
 import JobForm from "./JobForm";
-import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import { createJobThunk } from "../Calendar/calendarSlice";
 import { parseISO, setHours } from "date-fns";
 
 import {useAddJobMutation} from "../api/apiSlice";
@@ -14,7 +12,7 @@ function useQuery() {
 }
 
 export default function CreateJobForm() {
-  const dispatch = useDispatch();
+
   const query = useQuery();
   const history = useHistory();
   function getInitialValuesFromQuery() {
@@ -27,7 +25,7 @@ export default function CreateJobForm() {
     };
   }
 
-  const [addNewJob,{isLoading}] = useAddJobMutation()
+  const [addNewJob] = useAddJobMutation()
 
 
 

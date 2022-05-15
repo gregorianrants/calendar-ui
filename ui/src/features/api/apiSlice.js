@@ -1,7 +1,6 @@
 // Import the RTK Query methods from the React-specific entry point
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import auth0Client from "../auth/auth0";
-import {parseISO} from "date-fns";
+
 
 
 
@@ -32,12 +31,10 @@ export const apiSlice = createApi({
                 return response.data.items
             },
             providesTags: (result=[],error,arg)=> {
-                console.log(result)
                 const r = [
                     'Jobs',
                     ...result.map(({_id}) => ({type: 'Jobs', id: _id}))
                 ]
-                console.log('47',r)
                 return r
             }
         }),
@@ -47,12 +44,12 @@ export const apiSlice = createApi({
                 return response.data.items
             },
             providesTags: (result=[],error,arg)=> {
-                console.log(result)
+
                 const r = [
                     'Jobs',
                     ...result.map(({_id}) => ({type: 'Jobs', id: _id}))
                 ]
-                console.log('47',r)
+
                 return r
             }
         }),

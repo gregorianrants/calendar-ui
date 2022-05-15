@@ -1,0 +1,60 @@
+{
+  "response": {
+    "config": {
+      "method": "POST",
+      "url": "https://oauth2.googleapis.com/token",
+      "data": "refresh_token=1%2F%2F03vjeOJGqSx0PCgYIARAAGAMSNgF-L9Ir89dc-UQB5izM_aM-QIaiE-cGxx8j2HRigHHHK-Bau52EHtzGpsgoWdK19jptG4Guig&client_id=392789978801-vc3qkds18osc3ila8hlor0unc41hrlra.apps.googleusercontent.com&client_secret
+      =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&grant_type=refresh_token",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "google-api-nodejs-client/7.14.1",
+        "x-goog-api-client": "gl-node/14.17.6 auth/7.14.1",
+        "Accept": "application/json"
+      },
+      "body": "refresh_token=1%2F%2F03vjeOJGqSx0PCgYIARAAGAMSNgF-L9Ir89dc-UQB5izM_aM-QIaiE-cGxx8j2HRigHHHK-Bau52EHtzGpsgoWdK19jptG4Guig&client_id=392789978801-vc3qkds18osc3ila8hlor0unc41hrlra.apps.googleusercontent.com&client_secret
+      =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&grant_type=refresh_token",
+      "responseType": "json"
+    },
+    "data": {
+      "error": "invalid_grant",
+      "error_description": "Token has been expired or revoked."
+    },
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"",
+      "cache-control": "no-cache, no-store, max-age=0, must-revalidate",
+      "connection": "close",
+      "content-encoding": "gzip",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Sat, 30 Apr 2022 15:21:14 GMT",
+      "expires": "Mon, 01 Jan 1990 00:00:00 GMT",
+      "pragma": "no-cache",
+      "server": "scaffolding on HTTPServer2",
+      "transfer-encoding": "chunked",
+      "vary": "Origin, X-Origin, Referer",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "SAMEORIGIN",
+      "x-xss-protection": "0"
+    },
+    "status": 400,
+    "statusText": "Bad Request",
+    "request": {
+      "responseURL": "https://oauth2.googleapis.com/token"
+    }
+  },
+  "config": {
+    "method": "POST",
+    "url": "https://oauth2.googleapis.com/token",
+    "data": "refresh_token=1%2F%2F03vjeOJGqSx0PCgYIARAAGAMSNgF-L9Ir89dc-UQB5izM_aM-QIaiE-cGxx8j2HRigHHHK-Bau52EHtzGpsgoWdK19jptG4Guig&client_id=392789978801-vc3qkds18osc3ila8hlor0unc41hrlra.apps.googleusercontent.com&client_secret=G
+    OCSPX-_6sBvD6c6nt1gvb4MsM3Y1E6-78z&grant_type=refresh_token",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "User-Agent": "google-api-nodejs-client/7.14.1",
+      "x-goog-api-client": "gl-node/14.17.6 auth/7.14.1",
+      "Accept": "application/json"
+    },
+    "body": "refresh_token=1%2F%2F03vjeOJGqSx0PCgYIARAAGAMSNgF-L9Ir89dc-UQB5izM_aM-QIaiE-cGxx8j2HRigHHHK-Bau52EHtzGpsgoWdK19jptG4Guig&client_id=392789978801-vc3qkds18osc3ila8hlor0unc41hrlra.apps.googleusercontent.com&client_secret=G
+    OCSPX-_6sBvD6c6nt1gvb4MsM3Y1E6-78z&grant_type=refresh_token",
+    "responseType": "json"
+  },
+  "code": "400"
+}

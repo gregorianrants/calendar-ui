@@ -18,7 +18,7 @@ export default function Error(){
         })
 
         return unlisten
-    },[])
+    },[dispatch,history])
 
     const handleGoBack = ()=>{
         dispatch(clearErrors())

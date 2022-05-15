@@ -1,6 +1,4 @@
-import styled from "styled-components";
-import {Card, CardContent, CardHeader, IconButton, ListItemText} from "@material-ui/core";
-import Typography from '@material-ui/core/Typography';
+import {Card, CardContent, IconButton, ListItemText} from "@material-ui/core";
 import Modal from  '../../components/Modal'
 import {useParams} from "react-router-dom";
 import {useGetGcalQuery} from "../api/apiSlice";
@@ -50,13 +48,7 @@ const useStyles = makeStyles((theme)=>({
 }))
 
 
-const container = styled.div`
-  top: auto;
-  bottom: auto;
-  left: auto;
-  right: auto;
-  position: absolute;
-`
+
 
 
 export function GcalDetails(){
@@ -97,7 +89,7 @@ export function GcalDetails(){
 
     console.log(gcalEvent)
 
-    const {summary} = gcalEvent
+
 
     const start = new Date(gcalEvent?.start)
     const end = new Date(gcalEvent?.end)

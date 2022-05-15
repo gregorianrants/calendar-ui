@@ -9,7 +9,7 @@ import {GcalDetails} from "../features/Calendar/GcalDetails";
 import EditJobForm from "../features/forms/EditJobForm";
 import CreateJobForm from "../features/forms/CreateJobForm";
 import Auth from "../features/auth/Auth";
-import AuthorizeGcalButton from "../features/googleCalendar/AuthorizeGcalButton";
+//import AuthorizeGcalButton from "../features/googleCalendar/AuthorizeGcalButton";
 import LoginPage from "../features/auth/LoginPage";
 import OauthCallback from "../features/googleCalendar/Oauthcallback";
 import {makeStyles} from "@material-ui/core/styles";

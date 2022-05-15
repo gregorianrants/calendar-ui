@@ -15,7 +15,7 @@ export default function LoginPage(){
             history.push('/calendar')
         }
 
-    },[isAuthenticated])
+    },[isAuthenticated,history])
 
 
     return (

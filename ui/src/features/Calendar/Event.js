@@ -10,8 +10,8 @@ import {getTimeFromPosition} from "../../utilities/timeConversions.js";
 import {mergeDateAndTime} from "../../utilities/dateUtilities";
 import useDetectBottomEdge from "./useDetectBottomEdge";
 
-import {editJobThunk} from "./calendarSlice";
-import {useDispatch} from "react-redux";
+
+
 import {useHistory} from "react-router";
 import {useEditJobMutation} from "../api/apiSlice";
 
@@ -46,9 +46,8 @@ export default function Event({
 
     const parentElement = React.useRef(null)
 
-    const dispatch = useDispatch();
 
-    const [editJob, {isLoading}] = useEditJobMutation()
+    const [editJob] = useEditJobMutation()
 
     React.useEffect(() => {
         setTop(topProp);
@@ -104,7 +103,6 @@ export default function Event({
     };
 
     const onDragEnd = (totalTranslationY) => {
-        console.log(totalTranslationY);
         if (totalTranslationY !== 0) {
 
             editJob({

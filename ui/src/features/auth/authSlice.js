@@ -4,7 +4,6 @@ import {getOrCreateUser} from "../../Model/user";
 
 import auth0Client from "./auth0";
 import {authorize} from "../googleCalendar/gcalApi";
-import { fetchData } from "../Calendar/calendarSlice";
 
 const initialState = {
   isAuthenticated: false,

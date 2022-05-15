@@ -1,6 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
 import { useSelector} from "react-redux";
-import {clearErrors} from "./errorsSlice";
 
 
 export default function ErrorHandler({children,...rest}){

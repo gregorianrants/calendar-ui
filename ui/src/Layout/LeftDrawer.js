@@ -1,5 +1,5 @@
 import Drawer from "@material-ui/core/Drawer";
-import {AppBar, List, ListItem, ListItemIcon, ListItemText, Toolbar} from "@material-ui/core";
+import { List, ListItem, ListItemIcon, ListItemText, Toolbar} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import SettingsIcon from "@material-ui/icons/Settings";

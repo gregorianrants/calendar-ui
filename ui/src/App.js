@@ -13,7 +13,7 @@ import {
 //also need to think about the implciations of the fact that a pixel values in css can be rounded may need to put in some code to account for
 //border width being set by a user to something that gets rounded
 
-const drawerWidth = 240;
+//const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {

@@ -23,7 +23,7 @@ export default function OauthCallback(){
             }
         }
         asyncHandler()
-    },[])
+    },[dispatch,query])
 
     return <p>hello</p>
 }

@@ -1,11 +1,10 @@
 import Event from './Event'
 import GcalEvent from "./gcalEvent";
 import {configure} from "../../eventGeometry/eventGeometry";
-import React, {useCallback, useMemo} from "react";
+import React, {useMemo} from "react";
 import settingsContext from "./Contexts";
 import {batchProcess} from "../../utilities/batchProcess";
 import {useSelector} from "react-redux";
-import {calendarSelectors} from "./calendarSlice";
 import {useGetJobsQuery,useGetGcalQuery,usePrefetch} from "../api/apiSlice";
 import { createSelector } from '@reduxjs/toolkit'
 import compose from "compose-function";
@@ -39,7 +38,7 @@ export default function Events({date}) {
             prefetchGcal({from: lastDay, to: addDays(new Date(lastDay),7).toISOString()})
             prefetchGcal({from: addDays(new Date(firstDay),-7).toISOString(), to: firstDay})
         }
-     },[firstDay,lastDay,isAuthorizedToGcal])
+     },[firstDay,lastDay,isAuthorizedToGcal,prefetchGcal])//added prefetchgcal as per error warnings
 
     const selectJobsForDate = useMemo(
         ()=>{

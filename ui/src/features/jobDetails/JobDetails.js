@@ -22,7 +22,6 @@ import {makeStyles} from "@material-ui/core/styles";
 
 
 import {useParams, useHistory} from "react-router";
-import {useSelector} from "react-redux";
 import {useGetJobQuery} from "../api/apiSlice";
 import {useLocation} from "react-router-dom";
 
@@ -76,7 +75,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
 
     //TODO
     //returns /calendar/job-details/ckx30y8w2000jpgvags8peqpc
-    console.log(location.pathname)
+
     //may use to know what screen JobDetails has been launched from and select from the
     //the apropriate query to get the data rather than do another network request.
 
@@ -93,8 +92,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
 
     let {data: job, isFetching} = useGetJobQuery(id);
 
-    console.log(job)
-    console.log(isFetching)
+
 
 
     //const { start, end, customer, charges, operatives, items, addresses } = job;
@@ -166,7 +164,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
     )
 
     const Times = ({start, end}) => {
-        console.log(typeof format)
+
 
         return (
             <Grid container spacing={1} className={classes.pricing}>
@@ -204,7 +202,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
             <CardHeader title={"operatives"}/>
             <List>
                 {(operatives || []).map(operative=>(
-                    <ListItem>
+                    <ListItem key={operative._id}>
                         <ListItemIcon>
                             <AccessibilityIcon />
                         </ListItemIcon>
@@ -220,7 +218,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
             <CardHeader title={"Addresses"}/>
             <List>
                 {addresses.map(address=>(
-                    <ListItem>
+                    <ListItem key={address._id}>
                         <ListItemIcon>
                             <HomeIcon />
                         </ListItemIcon>

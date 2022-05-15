@@ -26,11 +26,11 @@ export default function Auth() {
       console.log("fuck off");
       dispatch(handleRedirectThunk({ code, state }));
     }
-  }, []);
+  }, [dispatch,query]);//added these as per error message
 
   React.useEffect(() => {
     if (isAuthenticated) history.push("/calendar");
-  }, [isAuthenticated]);
+  }, [isAuthenticated,history]);
 
   return <p>hello from auth</p>;
 }

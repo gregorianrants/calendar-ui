@@ -6,15 +6,15 @@ import HourTicks from "./HourTicks";
 import Header from "./Header";
 import settingsContext from "./Contexts";
 
-import React, {useRef} from "react";
+import React from "react";
 
-import {incrementWeekThunk, decrementWeekThunk, updateScrollPositions} from "./calendarSlice";
+import {incrementWeekThunk, decrementWeekThunk} from "./calendarSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 import {calendarSelectors} from "./calendarSlice";
 import Events from "./Events";
 import Hours from "./Hours";
-import {useGetJobsQuery} from "../api/apiSlice";
+
 
 const CalendarStyled = styled.div`
   margin: 5px;
@@ -75,7 +75,7 @@ export default function Calendar() {
     const dispatch = useDispatch();
 
     const {hourHeight} = React.useContext(settingsContext);
-    const {scrollPosition} = React.useState(0)
+
 
    /* const scrollPosition = useSelector(state => state.calendar.scrollPosition)
 
@@ -95,9 +95,7 @@ export default function Calendar() {
         dispatch(updateScrollPositions(e.target.scrollTop))
     }*/
 
-    function handleScroll(e){
-        rowEl.current.scrollTop +=30
-    }
+
     const rowEl = React.useRef(null)
 
     const initialScrollSet = React.useRef(null)
