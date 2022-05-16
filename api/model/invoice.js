@@ -1,4 +1,7 @@
-import {jobSchema} from "./job.js";
+import jobObj from "./jobObj.js";
+import mongoose from 'mongoose';
+import {isMain} from 'is-main'
+
 
 function markRequired(obj){
     const result = {...obj}
@@ -9,16 +12,56 @@ function markRequired(obj){
     },{})
 }
 
-//impure function
-function pickPath(path){
-    return jobSchema.obj[path].obj
+const invoiceObj = {
+    ...jobObj,
+    customer: markRequired(jobObj.customer),
+    charges: markRequired(jobObj.charges),
+    addresses: {
+        ...jobObj.addresses,
+        validate: {
+            validator: (v) =>v.length>0,
+            message: 'you must provide more than one address'
+        }
+    },
 }
 
-const customerObj = markRequired(pickPath('customer'))
 
-const chargesObj = markRequired(pickPath('charges'))
+const invoiceSchema = new mongoose.Schema(invoiceObj)
 
-console.log(jobSchema.obj.addresses)
+const Invoice = mongoose.model('Invoice',invoiceSchema)
+
+
+
+
+if(isMain(import.meta)){
+    const invoice = new Invoice({
+        "start": "2021-09-21T09:18:42.315+00:00",
+        "end": "2021-09-21T12:18:42.315+00:00",
+        "customer": {
+            "name": "Ala",
+            "mobile": 12345,
+            "email": "alan@btinternet.co.uk"
+        },
+        "charges": {
+            "hourlyRate": "five",
+            "fuelCharge": 20,
+            "travelTime": 30
+        },
+        "operatives": [
+            {
+                "value": "fenwick"
+            },
+            {
+                "value": "dave"
+            }
+        ],
+        "addresses": [],
+        "items":  "fridge is 5ft \n lawnmower \n"
+    })
+
+    console.log(JSON.stringify(invoice.validateSync(),null,2))
+}
+
 
 
 

@@ -6877,6 +6877,11 @@ is-installed-globally@^0.4.0:
     global-dirs "^3.0.0"
     is-path-inside "^3.0.2"
 
+is-main@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/is-main/-/is-main-0.3.4.tgz#a5b7dcd736c4e6c1300ae664e65478e66e1d5664"
+  integrity sha512-ZB8jyNWGX5pFJnJyg+4W2q/bpppdMX058LWgn5gz2BTdnC/JH6IYO1uL56ExLbg+o1d+Z5hxAqRrCdo2sY2xjw==
+
 is-map@^2.0.1, is-map@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/is-map/-/is-map-2.0.2.tgz#00922db8c9bf73e81b7a335827bc2a43f2b91127"

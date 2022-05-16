@@ -3,8 +3,8 @@ import cuid from 'cuid';
 /*const addGcalEvent = require('./../googleCalendar')*/
 import validator from 'validator'; //todo can we inmport only a subset
 
-import { setHours } from 'date-fns'
-import { nextDay } from 'date-fns';
+import {setHours} from 'date-fns'
+import {nextDay} from 'date-fns';
 
 const customerObj = {
     name: {
@@ -38,25 +38,32 @@ const customerObj = {
 };
 
 const chargesObj = {
-    hourlyRate: { type: Number },
-    fuelCharge: { type: Number },
-    travelTime: { type: Number },
+    hourlyRate: {type: Number},
+    fuelCharge: {type: Number},
+    travelTime: {type: Number},
 };
 
-const addressObj = {
+const address = {
     _id: {
         type: String,
-        default: cuid,
-    },
+        default:
+        cuid,
+    }
+    ,
     value: {
         validate: {
             validator: (v) => {
                 return v.length > 4;
             },
             message: `address must have more than 4 characters`,
-        },
+        }
+        ,
         type: String,
-    },
+    }
+}
+
+const addressObj = {
+    type: [address]
 };
 
 const operativeObj = {
@@ -95,7 +102,7 @@ const jobObj = {
     customer: customerObj,
     charges: chargesObj,
     items: String,
-    addresses: [addressObj],
+    addresses: addressObj,
     operatives: [operativeObj],
     markCompleted: Boolean,
     sub: {
