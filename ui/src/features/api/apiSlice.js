@@ -39,15 +39,15 @@ export const apiSlice = createApi({
             }
         }),
         listJobs: builder.query({
-            query: ({skip}) => `/jobs?skip=${skip}&limit=${'10'}`,
+            query: ({skip}) => `/jobs?skip=${skip}&limit=10`,
             transformResponse: response => {
-                return response.data.items
+                return response.data
             },
             providesTags: (result=[],error,arg)=> {
 
                 const r = [
                     'Jobs',
-                    ...result.map(({_id}) => ({type: 'Jobs', id: _id}))
+                    ...result.items.map(({_id}) => ({type: 'Jobs', id: _id}))
                 ]
 
                 return r

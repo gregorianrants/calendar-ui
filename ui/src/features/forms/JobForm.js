@@ -255,7 +255,7 @@ export default function JobForm({ initialValues, title, handleSubmit }) {
                   helperText={props.errors?.items}
                   fullWidth
                   multiline
-                  rows={5}
+                  minRows={5}
                 />
                 <ListBuilder
                   value={props.values.addresses}

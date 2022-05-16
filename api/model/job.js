@@ -132,7 +132,7 @@ async function list({ from, to, skip, limit, sub }) {
 
   const count = await Job.countDocuments(filter)
   console.log(count)
-  if(skip && limit){
+  if((typeof skip!=='undefined') && (typeof limit!=='undefined')){
     query.limit(Number(limit))
         .skip(Number(skip))
   }
