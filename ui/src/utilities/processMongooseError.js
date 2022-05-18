@@ -30,7 +30,6 @@ function processMongooseError(err) {
 
   for (let [key, value] of Object.entries(err.errors)) {
     const path = convertToLodashDotPath(key);
-    console.log(path);
     if (isCastError(value)) set(result, path, getCastMessage(value));
     else if (isValidatorError(value)) {
       set(result, path, getValidatorMessage(value));

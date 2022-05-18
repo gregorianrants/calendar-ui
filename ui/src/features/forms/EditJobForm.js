@@ -3,6 +3,7 @@ import JobForm from "./JobForm";
 import { useParams, useHistory } from "react-router";
 
 import {useEditJobMutation, useGetJobQuery} from "../api/apiSlice";
+import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
 
 export default function EditJobForm() {
   const { id } = useParams();
@@ -23,6 +24,11 @@ export default function EditJobForm() {
   if(isFetching) return null
 
   return (
-    <JobForm handleSubmit={handleSubmit} initialValues={job} title="Edit Job" />
+    <JobForm
+        handleSubmit={handleSubmit}
+        initialValues={job}
+        title="Edit Job"
+        schema={jobSchema}
+    />
   );
 }

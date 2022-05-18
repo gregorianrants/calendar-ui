@@ -1,7 +1,22 @@
 import mongoose from 'mongoose';
 import jobObj from "./jobObj.js";
+import {invoiceSchema} from "./invoice.js";
 
-export const jobSchema = new mongoose.Schema(jobObj);
+const opts = { toJSON: { virtuals: true } };
+export const jobSchema = new mongoose.Schema(jobObj,opts);
+
+jobSchema.virtual('readyForInvoice').get(function(){
+  const docValues = JSON.parse(JSON.stringify(this._doc))
+  const invoiceDoc = new mongoose.Document(docValues,invoiceSchema)
+  const validationResult = invoiceDoc.validateSync()
+  console.log(9, validationResult)
+  if(typeof validationResult==='undefined'){
+    return (true)
+  }
+  else {
+    return false
+  }
+})
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 

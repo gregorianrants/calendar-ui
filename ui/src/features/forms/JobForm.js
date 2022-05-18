@@ -9,13 +9,10 @@ import { ListBuilder } from "./AddressInput";
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
-
-
+import {get} from 'lodash-es'
 
 import Modal from "../../components/Modal";
 import { Card, CardContent, CardHeader } from "@material-ui/core";
-
-
 
 import {
   DatePicker,
@@ -23,9 +20,8 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
-
-
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
+import {invoiceSchema} from "api/model/invoice";
 import { processMongooseError } from "../../utilities/processMongooseError";
 
 //es6 import was casuing a bug when building
@@ -72,49 +68,37 @@ const useStyles = makeStyles({
   }
 });
 
-export default function JobForm({ initialValues, title, handleSubmit }) {
+function showError(path,touched,errors){
+  const error = get(errors,path)
+  const isTouched = get(touched,path)
+  return error && isTouched
+}
+
+function getErrorText(path,touched,errors){
+  if(!showError(path,touched,errors)) return null
+
+  return get(errors,path)
+}
+
+function isGlobalError(path,errors){
+  const error = get(errors,path)
+  if (error && !Array.isArray(error)){
+    return true
+  }
+}
+
+
+
+export default function JobForm({ initialValues, title, handleSubmit, schema }) {
   const classes = useStyles();
-  // const dispatch = useDispatch();
-  // const history = useHistory();
-  // const query = useQuery();
 
-  // const { id } = useParams();
-
-  // let job = useSelector((state) =>
-  //   state.calendar.events.find((event) => event._id == id)
-  // );
-
-  // function isEditForm() {
-  //   console.log(id);
-  //   if (id) {
-  //     return true;
-  //   } else {
-  //     console.log("returning flasot");
-  //     return false;
-  //   }
-  // }
-
-  // function getInitialValuesFromQuery() {
-  //   const date = parseISO(query.get("iso-date"));
-  //   const start = setHours(date, query.get("hours") * 1);
-  //   const end = setHours(date, query.get("hours") + 1);
-  //   return {
-  //     start,
-  //     end,
-  //   };
-  // }
-
-  // //const initialValues = isEditForm() ? job : getInitialValuesFromQuery();
-
-  // const handleSubmit = (data) => {
-  //   dispatch(editJobThunk(data));
-  //   history.goBack();
-  // };
 
   const validator = async (values) => {
-    const doc = new mongoose.Document(values, jobSchema);
+    const doc = new mongoose.Document(values, schema);
 
     const validationResult = await doc.validateSync();
+
+    console.log(validationResult)
 
     const processed = processMongooseError(validationResult);
 
@@ -134,40 +118,46 @@ export default function JobForm({ initialValues, title, handleSubmit }) {
             onSubmit={handleSubmit}
             validate={validator}
           >
-            {(props) => (
-              //<Typography variant="h4">Create Job</Typography>
-              <form onSubmit={props.handleSubmit}>
-                <Field
-                  as={TextField}
-                  className={classes.inputRow}
-                  name="customer.name"
-                  label="name"
-                  error={props.errors?.customer?.name}
-                  helperText={props.errors?.customer?.name}
-                  fullWidth
-                />
-                <Field
-                  as={TextField}
-                  className={classes.inputRow}
-                  error={props.errors?.customer?.mobile}
-                  helperText={props.errors?.customer?.mobile}
-                  name="customer.mobile"
-                  label="mobile"
-                  fullWidth
-                />
-                <Field
-                  as={TextField}
-                  className={classes.inputRow}
-                  name="customer.email"
-                  label="email"
-                  error={props.errors?.customer?.email}
-                  helperText={props.errors?.customer?.email}
-                  fullWidth
-                />
-                <FlexRow className={classes.inputRow}>
-                  {/*utils prop sets date library to use*/}
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    {/*according to docs https://material-ui-pickers.dev/api/TimePicker
+            {({touched,
+                handleSubmit,
+                errors,
+              values,
+              setFieldValue,
+              handleChange,setFieldTouched}) => {
+              return (
+                  //<Typography variant="h4">Create Job</Typography>
+                  <form onSubmit={handleSubmit}>
+                    <Field
+                        as={TextField}
+                        className={classes.inputRow}
+                        name="customer.name"
+                        label="name"
+                        error={showError('customer.name',touched,errors)}
+                        helperText={getErrorText('customer.name',touched,errors)}
+                        fullWidth
+                    />
+                    <Field
+                        as={TextField}
+                        className={classes.inputRow}
+                        error={showError("customer.mobile",touched,errors)}
+                        helperText={getErrorText("customer.mobile",touched,errors)}
+                        name="customer.mobile"
+                        label="mobile"
+                        fullWidth
+                    />
+                    <Field
+                        as={TextField}
+                        className={classes.inputRow}
+                        name="customer.email"
+                        label="email"
+                        error={showError("customer.email",touched,errors)}
+                        helperText={getErrorText("customer.email",touched,errors)}
+                        fullWidth
+                    />
+                    <FlexRow className={classes.inputRow}>
+                      {/*utils prop sets date library to use*/}
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        {/*according to docs https://material-ui-pickers.dev/api/TimePicker
                     type passed to on change is of same type as used by library passed to utils
                     value must be a "Parseable Date" - see docs
                     docs say - Pass any value to the picker, and if it won't be parsed as expected
@@ -175,115 +165,120 @@ export default function JobForm({ initialValues, title, handleSubmit }) {
                     i have taken decision to pass date object which is what date-fns uses rather than a string (which seems to work)
                     selector in calendar slice converts dates to objects already.
                     */}
-                    <TimePicker
-                      className={classes.flexItem}
-                      value={new Date(props.values.start)}
-                      onChange={(date) => {
-                        props.setFieldValue("start", date, true);
-                      }}
-                      label="start time"
-                    />
-                  </MuiPickersUtilsProvider>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <TimePicker
-                      className={classes.flexItem}
-                      value={props.values.end}
-                      onChange={(date) => {
-                        props.setFieldValue("end", date, true);
-                      }}
-                      label="end time"
-                    />
-                  </MuiPickersUtilsProvider>
-                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DatePicker
-                      className={classes.flexItem}
-                      value={props.values.start}
-                      onChange={(date) => {
-                        props.setFieldValue(
-                          "start",
-                          dateTimeFromInput(date, props.values.start),
-                          true
-                        );
-                        props.setFieldValue(
-                          "end",
-                          dateTimeFromInput(date, props.values.end),
-                          true
-                        );
-                        console.log("hello");
-                      }}
-                      label="date"
-                    />
-                  </MuiPickersUtilsProvider>
-                </FlexRow>
+                        <TimePicker
+                            className={classes.flexItem}
+                            value={new Date(values.start)}
+                            onChange={(date) => {
+                              setFieldValue("start", date, true);
+                            }}
+                            label="start time"
+                        />
+                      </MuiPickersUtilsProvider>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <TimePicker
+                            className={classes.flexItem}
+                            value={values.end}
+                            onChange={(date) => {
+                              setFieldValue("end", date, true);
+                            }}
+                            label="end time"
+                        />
+                      </MuiPickersUtilsProvider>
+                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <DatePicker
+                            className={classes.flexItem}
+                            value={values.start}
+                            onChange={(date) => {
+                              setFieldValue(
+                                  "start",
+                                  dateTimeFromInput(date, values.start),
+                                  true
+                              );
+                              setFieldValue(
+                                  "end",
+                                  dateTimeFromInput(date, values.end),
+                                  true
+                              );
+                              console.log("hello");
+                            }}
+                            label="date"
+                        />
+                      </MuiPickersUtilsProvider>
+                    </FlexRow>
 
-                <FlexRow className={classes.inputRow}>
-                  <Field
-                    className={classes.flexItem}
-                    as={TextField}
-                    name="charges.hourlyRate"
-                    label="hourly rate"
-                    error={props.errors?.charges?.hourlyRate}
-                    helperText={props.errors?.charges?.hourlyRate}
-                    fullWidth
-                  />
-                  <Field
-                    className={classes.flexItem}
-                    as={TextField}
-                    name="charges.fuelCharge"
-                    label="fuelCharge"
-                    error={props.errors?.charges?.fuelCharge}
-                    helperText={props.errors?.charges?.fuelCharge}
-                    fullWidth
-                  />
-                  <Field
-                    className={classes.flexItem}
-                    as={TextField}
-                    name="charges.travelTime"
-                    label="travelTime"
-                    error={props.errors?.charges?.travelTime}
-                    helperText={props.errors?.charges?.travelTime}
-                    fullWidth
-                  />
-                </FlexRow>
+                    <FlexRow className={classes.inputRow}>
+                      <Field
+                          className={classes.flexItem}
+                          as={TextField}
+                          name="charges.hourlyRate"
+                          label="hourly rate"
+                          error={showError("charges.hourlyRate",touched,errors)}
+                          helperText={getErrorText("charges.hourlyRate",touched,errors)}
+                          fullWidth
+                      />
+                      <Field
+                          className={classes.flexItem}
+                          as={TextField}
+                          name="charges.fuelCharge"
+                          label="fuelCharge"
+                          error={showError("charges.fuelCharge",touched,errors)}
+                          helperText={getErrorText("charges.fuelCharge",touched,errors)}
+                          fullWidth
+                      />
+                      <Field
+                          className={classes.flexItem}
+                          as={TextField}
+                          name="charges.travelTime"
+                          label="travelTime"
+                          error={showError("charges.travelTime",touched,errors)}
+                          helperText={getErrorText("charges.travelTime",touched,errors)}
+                          fullWidth
+                      />
+                    </FlexRow>
 
-                <Field
-                  as={TextField}
-                  className={classes.inputRow}
-                  name="items"
-                  label="items"
-                  error={props.errors?.items}
-                  helperText={props.errors?.items}
-                  fullWidth
-                  multiline
-                  minRows={5}
-                />
-                <ListBuilder
-                  value={props.values.addresses}
-                  onChange={props.handleChange}
-                  label="add address"
-                  name="addresses"
-                  itemName="address"
-                  errors={props.errors?.addresses}
-                />
-                <ListBuilder
-                  value={props.values.operatives}
-                  onChange={props.handleChange}
-                  label="add operative"
-                  name="operatives"
-                  itemName="operative"
-                  errors={props.errors?.operatives}
-                />
+                    <Field
+                        as={TextField}
+                        className={classes.inputRow}
+                        name="items"
+                        label="items"
+                        error={errors?.items}
+                        helperText={errors?.items}
+                        fullWidth
+                        multiline
+                        minRows={5}
+                    />
+                    <ListBuilder
+                        value={values.addresses}
+                        onChange={handleChange}
+                        label="add address"
+                        name="addresses"
+                        itemName="address"
+                        errors={errors?.addresses}
+                        onTouch={()=>setFieldTouched('addresses')}
+                        touched={touched?.addresses}
+                    />
+                    <ListBuilder
+                        value={values.operatives}
+                        onChange={handleChange}
+                        label="add operative"
+                        name="operatives"
+                        itemName="operative"
+                        errors={errors?.operatives}
+                        onTouch={()=>setFieldTouched('operatives')}
+                        touched={touched?.operatives}
+                    />
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  save
-                </Button>
-              </form>
-            )}
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                    >
+                      save
+                    </Button>
+                  </form>
+              )
+            }}
           </Formik>
         </CardContent>
       </Card>

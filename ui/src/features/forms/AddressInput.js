@@ -17,7 +17,12 @@ import cuid from "cuid";
 import produce from "immer";
 
 
-
+function isGlobalError(error){
+  if (error && !Array.isArray(error)){
+    return true
+  }
+  return false
+}
 
 export function ListBuilder({
   name,
@@ -26,6 +31,8 @@ export function ListBuilder({
   label,
   errors,
   itemName,
+    onTouch,
+    touched
 }) {
   //TODO should maybe be thinking about a shared constructor for this
   //we are making an object like this on api as well
@@ -122,7 +129,12 @@ export function ListBuilder({
           label={label}
           value={input}
           fullWidth
+          onBlur={()=> {
+            console.log('hellow')
+            onTouch()
+          }}
           onChange={(e) => {
+            console.log('fuck')
             setInput(e.target.value);
           }}
         />
@@ -135,6 +147,7 @@ export function ListBuilder({
         >
           +
         </button>
+        {isGlobalError(errors) && touched && <p>{errors}</p>}
       </Grid>
     </>
   );

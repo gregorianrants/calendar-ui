@@ -1,6 +1,6 @@
 import jobObj from "./jobObj.js";
 import mongoose from 'mongoose';
-import {isMain} from 'is-main'
+
 
 
 function markRequired(obj){
@@ -26,44 +26,44 @@ const invoiceObj = {
 }
 
 
-const invoiceSchema = new mongoose.Schema(invoiceObj)
+export const invoiceSchema = new mongoose.Schema(invoiceObj)
 
 const Invoice = mongoose.model('Invoice',invoiceSchema)
 
 
 
 
-if(isMain(import.meta)){
-    const invoice = new Invoice({
-        "start": "2021-09-21T09:18:42.315+00:00",
-        "end": "2021-09-21T12:18:42.315+00:00",
-        "customer": {
-            "name": "Ala",
-            "mobile": 12345,
-            "email": "alan@btinternet.co.uk"
-        },
-        "charges": {
-            "hourlyRate": "five",
-            "fuelCharge": 20,
-            "travelTime": 30
-        },
-        "operatives": [
-            {
-                "value": "fenwick"
-            },
-            {
-                "value": "dave"
-            }
-        ],
-        "addresses": [],
-        "items":  "fridge is 5ft \n lawnmower \n"
-    })
 
-    console.log(JSON.stringify(invoice.validateSync(),null,2))
-}
-
-
-
+//     const invoice = new Invoice({
+//         "start": "2021-09-21T09:18:42.315+00:00",
+//         "end": "2021-09-21T12:18:42.315+00:00",
+//         "customer": {
+//             "name": "Ala",
+//             "mobile": 12345,
+//             "email": "alan@btinternet.co.uk"
+//         },
+//         "charges": {
+//             "hourlyRate": "five",
+//             "fuelCharge": 20,
+//             "travelTime": 30
+//         },
+//         "operatives": [
+//             {
+//                 "value": "fenwick"
+//             },
+//             {
+//                 "value": "dave"
+//             }
+//         ],
+//         "addresses": [],
+//         "items":  "fridge is 5ft \n lawnmower \n"
+//     })
+//
+//     console.log(JSON.stringify(invoice.validateSync(),null,2))
+//
+//
+//
+//
 
 
 

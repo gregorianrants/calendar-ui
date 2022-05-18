@@ -3,9 +3,11 @@ import {DataGrid} from '@material-ui/data-grid';
 import {Button} from "@material-ui/core";
 import {format} from "date-fns";
 import React from "react";
+import {useHistory} from "react-router-dom";
 
 //note the npm page for data grid says we need mui 4.12 and we are using 4.11
 export default function List() {
+    const history = useHistory()
 
     const [skip,setSkip] = React.useState(0)
     const [page,setPage] = React.useState(0)
@@ -37,6 +39,10 @@ export default function List() {
                     color="primary"
                     size="small"
                     style={{ marginLeft: 16 }}
+                    onClick={()=> {
+                        console.log(params)
+                        history.push(`list/prepare-for-invoice/${params.id}`)
+                    }}
                 >
                     prepare
                 </Button>

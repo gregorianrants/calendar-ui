@@ -7,6 +7,7 @@ import Calendar from "../features/Calendar/Calendar";
 import {JobDetails} from "../features/jobDetails/JobDetails";
 import {GcalDetails} from "../features/Calendar/GcalDetails";
 import EditJobForm from "../features/forms/EditJobForm";
+import PrepareForInvoice from "../features/forms/PrepareForInvoice";
 import CreateJobForm from "../features/forms/CreateJobForm";
 import Auth from "../features/auth/Auth";
 //import AuthorizeGcalButton from "../features/googleCalendar/AuthorizeGcalButton";
@@ -84,6 +85,11 @@ function Content() {
                             <PrivateRoute>
                                 <List />
                             </PrivateRoute>
+                            <Switch>
+                                <Route path={"/list/prepare-for-invoice/:id"}>
+                                    <PrepareForInvoice/>
+                                </Route>
+                            </Switch>
                         </Route>
 
                         <Route path='/auth'>
