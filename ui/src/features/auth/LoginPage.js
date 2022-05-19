@@ -26,6 +26,10 @@ export default function LoginPage(){
             </div>
 
             :
-            <p>this is the login page</p>
+            <div>
+                <p>You need to login to use the application</p>
+                <p>The login button can be found at the top right hand side of the screen</p>
+            </div>
+
     )
 }

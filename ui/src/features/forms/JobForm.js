@@ -9,6 +9,7 @@ import { ListBuilder } from "./AddressInput";
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import {getHours,getMinutes,setHours,setMinutes} from "date-fns";
 import {get} from 'lodash-es'
 
 import Modal from "../../components/Modal";
@@ -34,11 +35,12 @@ import { processMongooseError } from "../../utilities/processMongooseError";
 // }
 
 function dateTimeFromInput(date, time) {
-  const hours = time.getHours();
-  const minutes = time.getMinutes();
+  time = new Date(time)
+  const hours = getHours(time);
+  const minutes = getMinutes(time);
   let res = new Date(date);
-  res.setHours(hours);
-  res.setMinutes(minutes);
+  res = setHours(res,hours);
+  res = setMinutes(res, minutes);
   return res;
 }
 
@@ -189,14 +191,16 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
                             className={classes.flexItem}
                             value={values.start}
                             onChange={(date) => {
+                              const start =  dateTimeFromInput(date, values.start)
+                              const end = dateTimeFromInput(date,values.end)
                               setFieldValue(
                                   "start",
-                                  dateTimeFromInput(date, values.start),
+                                 start,
                                   true
                               );
                               setFieldValue(
                                   "end",
-                                  dateTimeFromInput(date, values.end),
+                                  end,
                                   true
                               );
                               console.log("hello");

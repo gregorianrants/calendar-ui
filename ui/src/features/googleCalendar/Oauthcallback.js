@@ -1,7 +1,8 @@
 import React from 'react'
 import {useLocation} from "react-router-dom";
 import {authorizeGcalThunk} from "../auth/authSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useHistory} from "react-router-dom";
 
 
 function useQuery() {
@@ -14,6 +15,14 @@ function useQuery() {
 export default function OauthCallback(){
     const query = useQuery()
     const dispatch = useDispatch()
+    const history = useHistory()
+    const isAuthenticated = useSelector(state=>state.auth.isAuthorizedToGcal)
+
+    React.useEffect(()=>{
+        if(isAuthenticated){
+            history.push('/calendar')
+        }
+    },[isAuthenticated])
 
     React.useEffect(()=>{
         async function asyncHandler(){
@@ -25,5 +34,5 @@ export default function OauthCallback(){
         asyncHandler()
     },[dispatch,query])
 
-    return <p>hello</p>
+    return <p>Authorizing to google calendar...</p>
 }

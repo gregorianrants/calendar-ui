@@ -11,6 +11,7 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
 import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import HomeIcon from '@material-ui/icons/Home';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -22,7 +23,7 @@ import {makeStyles} from "@material-ui/core/styles";
 
 
 import {useParams, useHistory} from "react-router";
-import {useGetJobQuery} from "../api/apiSlice";
+import {useGetJobQuery,useDeleteJobMutation} from "../api/apiSlice";
 import {useLocation} from "react-router-dom";
 
 import {format} from 'date-fns'
@@ -91,6 +92,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
     // );
 
     let {data: job, isFetching} = useGetJobQuery(id);
+    let [deleteJob] = useDeleteJobMutation()
 
 
 
@@ -139,7 +141,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
             <Grid item xs={4}>
                 <Card>
                     <CardHeader
-                        title={charges.hourlyRate}
+                        title={charges?.hourlyRate}
                         subheader={"per hour"}
                     />
                 </Card>
@@ -147,7 +149,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
             <Grid item xs={4}>
                 <Card>
                     <CardHeader
-                        title={charges.fuelCharge}
+                        title={charges?.fuelCharge}
                         subheader={"fuel charge"}
                     />
                 </Card>
@@ -155,7 +157,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
             <Grid item xs={4}>
                 <Card>
                     <CardHeader
-                        title={charges.travelTime}
+                        title={charges?.travelTime}
                         subheader={"travel time"}
                     />
                 </Card>
@@ -164,8 +166,6 @@ export function JobDetails({displayEvent, close, updateEvent}) {
     )
 
     const Times = ({start, end}) => {
-
-
         return (
             <Grid container spacing={1} className={classes.pricing}>
                 <Grid item xs={4}>
@@ -250,11 +250,20 @@ export function JobDetails({displayEvent, close, updateEvent}) {
                                 </IconButton>
                                 <IconButton
                                     onClick={() => {
+                                        deleteJob(id)
+                                        history.push("/calendar");
+                                    }}
+                                >
+                                    <DeleteIcon/>
+                                </IconButton>
+                                <IconButton
+                                    onClick={() => {
                                         history.push("/calendar");
                                     }}
                                 >
                                     <CloseIcon/>
                                 </IconButton>
+
                             </>
                         }
                     />

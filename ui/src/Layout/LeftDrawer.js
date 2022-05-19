@@ -3,6 +3,7 @@ import { List, ListItem, ListItemIcon, ListItemText, Toolbar} from "@material-ui
 import {Link} from "react-router-dom";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import SettingsIcon from "@material-ui/icons/Settings";
+import TableChartIcon from '@material-ui/icons/TableChart';
 import {makeStyles} from "@material-ui/core/styles";
 
 const drawerWidth = 240;
@@ -61,7 +62,7 @@ function LeftDrawer(){
                         <ListItemText>Calendar</ListItemText>
                     </ListItem>
                     <ListItem component={Link} to='/list'>
-                        <ListItemIcon><SettingsIcon/></ListItemIcon>
+                        <ListItemIcon><TableChartIcon/></ListItemIcon>
                         <ListItemText>List</ListItemText>
                     </ListItem>
                     <ListItem component={Link} to='/settings'>

@@ -89,6 +89,16 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Jobs']
         }),
+        deleteJob: builder.mutation({
+            query: id => ({
+                url: `/jobs/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: (result, error, arg) => {
+                const r = [{type: 'Jobs', id: arg._id}]
+                return r
+            }
+        }),
         getGcal: builder.query({
             query: ({from, to}) => `/gcal/events?from=${from}&to=${to}`,
             transformResponse: response => {
@@ -114,6 +124,7 @@ function reshape(gcalEvent) {
 export const {
     useGetJobsQuery,
     useListJobsQuery,
+    useDeleteJobMutation,
     useFakeDataMutation,
     useGetJobQuery,
     useEditJobMutation,

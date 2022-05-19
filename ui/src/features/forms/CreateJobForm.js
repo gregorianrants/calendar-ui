@@ -2,6 +2,7 @@ import React from "react";
 import JobForm from "./JobForm";
 import { useHistory, useLocation } from "react-router";
 import { parseISO, setHours } from "date-fns";
+import { jobSchema } from "api/model/job";
 
 import {useAddJobMutation} from "../api/apiSlice";
 
@@ -47,7 +48,8 @@ export default function CreateJobForm() {
     <JobForm
       handleSubmit={handleSubmit}
       initialValues={initialValues}
-      title="Create Joby"
+      title="Create Job"
+      schema={jobSchema}
     />
   );
 }

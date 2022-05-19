@@ -36,6 +36,8 @@
 - when form modal gets bigger than screen it doesnt scroll. what about job details modal?
 - a lot of the css depends on app bar height this is a bit of a hack i.e. see modal i 
   need to set a 64px margin on content height - consider using a global constant.
+- add feature to recover deleted data
+- job details fails if no charges object consider setting default value in schema
 
 # General Notes
 
