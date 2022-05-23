@@ -4,8 +4,52 @@ import {Button} from "@material-ui/core";
 import {format} from "date-fns";
 import React from "react";
 import {useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {useGetJobsQuery} from "../api/apiSlice";
+import {omit} from "lodash-es";
+import {useCreateInvoiceMutation} from "../api/apiSlice";
 
 //note the npm page for data grid says we need mui 4.12 and we are using 4.11
+
+function PrepareForInvoiceButton({id}){
+    const history = useHistory()
+
+    return (
+        <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            style={{ marginLeft: 16 }}
+            onClick={()=> {
+                history.push(`list/prepare-for-invoice/${id}`)
+            }}
+        >
+            prepare
+        </Button>
+    )
+}
+
+function CreateInvoiceButton({id,job}){
+    console.log(job)
+    const invoice = {...omit(job,['__v','_id','id']),
+    jobId: job._id
+    }
+    console.log(invoice)
+
+    const [createInvoice] = useCreateInvoiceMutation()
+
+    return <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        style={{ marginLeft: 16 }}
+        onClick={()=>createInvoice(invoice)}
+    >
+        Create
+    </Button>
+}
+
+
 export default function List() {
     const history = useHistory()
 
@@ -33,30 +77,13 @@ export default function List() {
         {field: 'email', headerName: 'Email', width: 200},
         {field: 'firstAddress', headerName: 'First Address', width: 200},
         {field: 'bill',headerName: 'Bill', width: 100},
-        {field: 'prepare', headerName: 'Invoice', width: 170, renderCell: (params)=>{
-                return <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{ marginLeft: 16 }}
-                    onClick={()=> {
-                        console.log(params)
-                        history.push(`list/prepare-for-invoice/${params.id}`)
-                    }}
-                >
-                    prepare
-                </Button>
-            }},
-        {field: 'button', headerName: 'Invoice', width: 170, renderCell: (params)=>{
-                return <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{ marginLeft: 16 }}
-                >
-                    send
-                </Button>
-            }},
+        {field: 'prepare', headerName: 'Invoice', width: 170, renderCell: ({row})=> (
+                    row.readyForInvoice
+                    ?
+                    <CreateInvoiceButton id={row._id} job={row.job}/>
+                    :
+                    <PrepareForInvoiceButton id={row._id} />)
+            },
         {field: 'paid',headerName: 'Paid',width: 120},
     ]
 
@@ -70,7 +97,8 @@ export default function List() {
 
     else if (isSuccess) {
         const rows = (jobsForDate?.items || []).map(row => {
-            const {_id,customer,addresses,start } = row
+            const {_id,customer,addresses,start,readyForInvoice } = row
+            console.log(readyForInvoice)
             const {name, mobile, email} = customer
 
             return {
@@ -80,7 +108,9 @@ export default function List() {
                 prepared: 'no',
                 paid: 'no',
                 firstAddress: addresses.length> 1 ? addresses[0].value : '',
-                date: format(new Date(start),'dd/LL/yy')
+                date: format(new Date(start),'dd/LL/yy'),
+                readyForInvoice: readyForInvoice,
+                job: row
             }
         })
 

@@ -1,7 +1,7 @@
 import React from "react";
 import JobForm from "./JobForm";
 import { useParams, useHistory } from "react-router";
-import {invoiceSchema} from "api/model/invoice";
+import {invoiceSchemaFront} from "api/model/invoice";
 
 import {useEditJobMutation, useGetJobQuery} from "../api/apiSlice";
 export default function PrepareForInvoice(){
@@ -27,7 +27,7 @@ export default function PrepareForInvoice(){
             handleSubmit={handleSubmit}
             initialValues={job}
             title="Prepare For Invoice"
-            schema={invoiceSchema}
+            schema={invoiceSchemaFront}
         />
     );
 }

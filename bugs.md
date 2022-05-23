@@ -38,6 +38,19 @@
   need to set a 64px margin on content height - consider using a global constant.
 - add feature to recover deleted data
 - job details fails if no charges object consider setting default value in schema
+- have a look at the http methods we are using in authroute some. some of them should 
+  maybe be custom methods.
+- have a look at authRoute - we are mixing up auth stuff with google cal stuff at the 
+  moment.
+- getting validation error if i delete email think it is validating an empty string 
+  because field has been touched.
+- jobs list isnt sorted might look that way but try adding a new job.
+- remove sub from client side
+- when i create invoice i am using the client version of job to create the invoice is 
+  this the corect way to do this, should be using server version, what if server 
+  version has changed since client recieved it but at same time i want to be able to 
+  see job data on client before i create invoice, perhaps i should through an error if 
+  client data does not match server data?
 
 # General Notes
 

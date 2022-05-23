@@ -4,6 +4,7 @@ import express from 'express';
 import jobs from './routes/jobsRoute.js';
 import auth from './routes/authRoute.js';
 import users from './routes/usersRoute.js';
+import invoice from "./routes/invoice.js";
 import cors from 'cors';
 const app = express();
 import http from 'http';
@@ -51,6 +52,8 @@ app.use("/api/v1/jobs", jobs);
 app.use("/api/v1/gcal", auth);
 
 app.use('/api/v1/users',users)
+
+app.use('/api/v1/invoice',invoice)
 
 
 const staticPath = path.join(__dirname, "../ui/build")

@@ -12,7 +12,7 @@ function markRequired(obj){
     },{})
 }
 
-const invoiceObj = {
+const invoiceObjFront = {
     ...jobObj,
     customer: markRequired(jobObj.customer),
     charges: markRequired(jobObj.charges),
@@ -25,45 +25,50 @@ const invoiceObj = {
     },
 }
 
+const invoiceObj = {
+    ...invoiceObjFront,
+    jobId: mongoose.Schema.ObjectId,
+}
+
+
 
 export const invoiceSchema = new mongoose.Schema(invoiceObj)
 
-const Invoice = mongoose.model('Invoice',invoiceSchema)
+export const invoiceSchemaFront = new mongoose.Schema(invoiceObjFront)
+
+const Invoice = mongoose.model('Invoice',invoiceSchemaFront)
+
+async function create(data, sub) {
+    let invoice = new Invoice({ ...data, sub });
+    await invoice.save(); //TODO add some validation start must be before end
+    return invoice;
+}
+
+async function list({ from, to, skip, limit, sub }) {
+    const filter = {}
+    if(from) filter.start = { $gte: from }
+    if(to) filter.end = { $lte: to }
+    filter.sub = sub
+    const query  = Job
+        .find(filter)
+
+    const count = await Invoice.countDocuments(filter)
+    console.log(count)
+    if((typeof skip!=='undefined') && (typeof limit!=='undefined')){
+        query.limit(Number(limit))
+            .skip(Number(skip))
+    }
+    let items = await query;
+    return {items,
+        pagination: getPagination(skip,limit,count),
+        count: items.length
+    };
+}
 
 
-
-
-
-//     const invoice = new Invoice({
-//         "start": "2021-09-21T09:18:42.315+00:00",
-//         "end": "2021-09-21T12:18:42.315+00:00",
-//         "customer": {
-//             "name": "Ala",
-//             "mobile": 12345,
-//             "email": "alan@btinternet.co.uk"
-//         },
-//         "charges": {
-//             "hourlyRate": "five",
-//             "fuelCharge": 20,
-//             "travelTime": 30
-//         },
-//         "operatives": [
-//             {
-//                 "value": "fenwick"
-//             },
-//             {
-//                 "value": "dave"
-//             }
-//         ],
-//         "addresses": [],
-//         "items":  "fridge is 5ft \n lawnmower \n"
-//     })
-//
-//     console.log(JSON.stringify(invoice.validateSync(),null,2))
-//
-//
-//
-//
-
+export default {
+    create,
+    list,
+}
 
 

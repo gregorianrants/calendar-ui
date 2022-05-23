@@ -1,14 +1,9 @@
 // Import the RTK Query methods from the React-specific entry point
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
-
-
-
-
 const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : 'https://dry-earth-66864.herokuapp.com'
 
 console.log(BASE_URL)
-
 
 export const apiSlice = createApi({
     reducerPath: 'api',
@@ -23,7 +18,7 @@ export const apiSlice = createApi({
             return headers
         },
     }),
-    tagTypes: ['Jobs'],
+    tagTypes: ['Jobs','Invoice'],
     endpoints: builder => ({
         getJobs: builder.query({
             query: ({from, to}) => `/jobs?from=${from}&to=${to}`,
@@ -106,6 +101,14 @@ export const apiSlice = createApi({
             },
             //providesTags: ['GCal']
         }),
+        createInvoice: builder.mutation({
+            query: invoice => ({
+                url: `/invoice`,
+                method: 'POST',
+                body: invoice
+            }),
+            invalidatesTags: ['Jobs']
+        }),
     })
 })
 
@@ -129,6 +132,7 @@ export const {
     useGetJobQuery,
     useEditJobMutation,
     useAddJobMutation,
+    useCreateInvoiceMutation,
     useGetGcalQuery,
     usePrefetch
 } = apiSlice

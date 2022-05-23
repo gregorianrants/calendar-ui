@@ -1,7 +1,7 @@
 import React from "react";
 import mongoose from "mongoose";
 import styled from "styled-components";
-import { Formik, Field } from "formik";
+import { Formik, Field, Form } from "formik";
 import { cloneDeep } from "lodash";
 
 import { ListBuilder } from "./AddressInput";
@@ -22,7 +22,7 @@ import {
 } from "@material-ui/pickers";
 
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
-import {invoiceSchema} from "api/model/invoice";
+
 import { processMongooseError } from "../../utilities/processMongooseError";
 
 //es6 import was casuing a bug when building
@@ -96,12 +96,12 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
 
 
   const validator = async (values) => {
+
+    console.log(values)
     const doc = new mongoose.Document(values, schema);
-
+    console.log(doc._doc)
     const validationResult = await doc.validateSync();
-
     console.log(validationResult)
-
     const processed = processMongooseError(validationResult);
 
     //TODO: log an error message if validation fails anything that fails that is not on form will fail silently
@@ -128,7 +128,7 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
               handleChange,setFieldTouched}) => {
               return (
                   //<Typography variant="h4">Create Job</Typography>
-                  <form onSubmit={handleSubmit}>
+                  <Form onSubmit={handleSubmit}>
                     <Field
                         as={TextField}
                         className={classes.inputRow}
@@ -280,7 +280,7 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
                     >
                       save
                     </Button>
-                  </form>
+                  </Form>
               )
             }}
           </Formik>
