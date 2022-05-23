@@ -103,7 +103,7 @@ export const apiSlice = createApi({
         }),
         createInvoice: builder.mutation({
             query: invoice => ({
-                url: `/invoice`,
+                url: `/invoices`,
                 method: 'POST',
                 body: invoice
             }),

@@ -53,7 +53,7 @@ app.use("/api/v1/gcal", auth);
 
 app.use('/api/v1/users',users)
 
-app.use('/api/v1/invoice',invoice)
+app.use('/api/v1/invoices',invoice)
 
 
 const staticPath = path.join(__dirname, "../ui/build")

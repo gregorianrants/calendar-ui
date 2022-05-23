@@ -1,12 +1,19 @@
 import generateAttachment from './generateAttachement.js'
 import sendEmail from './sendEmail.js'
 
-export default async function sendInvoice(){
-    const attachment = await generateAttachment({    invoiceNumber: '1',
-        customerName: 'gregor murray',
-        date: new Date().toLocaleDateString(),
-        addresses: '4 craigie avenue\n19 coral glen',
-        bill: '£1000000'})
+export default async function sendInvoice({invoiceNumber=1,
+                                              customerName,
+                                              date,
+                                              addresses,
+                                              bill
+                                          }) {
+    const attachment = await generateAttachment({
+        invoiceNumber,
+        customerName,
+        date,
+        addresses,
+        bill
+    })
 
     await sendEmail({attachment})
 

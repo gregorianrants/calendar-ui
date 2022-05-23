@@ -5,6 +5,12 @@ import {invoiceSchema} from "./invoice.js";
 const opts = { toJSON: { virtuals: true } };
 export const jobSchema = new mongoose.Schema(jobObj,opts);
 
+jobSchema.virtual('invoices',{
+  ref: 'Invoice',
+  localField: '_id',
+  foreignField: 'job'
+})
+
 jobSchema.virtual('readyForInvoice').get(function(){
   const docValues = JSON.parse(JSON.stringify(this._doc))
   const invoiceDoc = new mongoose.Document(docValues,invoiceSchema)
@@ -42,7 +48,7 @@ async function list({ from, to, skip, limit, sub }) {
     query.limit(Number(limit))
         .skip(Number(skip))
   }
-  let items = await query;
+  let items = await query.populate('invoices');
   return {items,
     pagination: getPagination(skip,limit,count),
     count: items.length
@@ -56,7 +62,7 @@ async function create(data, sub) {
 }
 
 async function get(id) {
-  const job = await Job.findById(id);
+  const job = await Job.findById(id).populate('invoices');
   return job;
 }
 

@@ -25,18 +25,27 @@ const invoiceObjFront = {
     },
 }
 
+// const invoiceObj = {
+//     ...invoiceObjFront,
+//     jobId: mongoose.Schema.ObjectId,
+// }
+
 const invoiceObj = {
     ...invoiceObjFront,
-    jobId: mongoose.Schema.ObjectId,
+    job: {type: mongoose.Schema.Types.ObjectId, ref: 'Job'}
 }
 
 
 
 export const invoiceSchema = new mongoose.Schema(invoiceObj)
 
+
+
+
+
 export const invoiceSchemaFront = new mongoose.Schema(invoiceObjFront)
 
-const Invoice = mongoose.model('Invoice',invoiceSchemaFront)
+const Invoice = mongoose.model('Invoice',invoiceSchema)
 
 async function create(data, sub) {
     let invoice = new Invoice({ ...data, sub });
@@ -44,12 +53,20 @@ async function create(data, sub) {
     return invoice;
 }
 
+function getPagination(skip,limit,count){
+    return{
+        from: skip +1,
+        to: Math.min(skip + limit,count),
+        of: count
+    }
+}
+
 async function list({ from, to, skip, limit, sub }) {
     const filter = {}
     if(from) filter.start = { $gte: from }
     if(to) filter.end = { $lte: to }
     filter.sub = sub
-    const query  = Job
+    const query  = Invoice
         .find(filter)
 
     const count = await Invoice.countDocuments(filter)
@@ -65,10 +82,16 @@ async function list({ from, to, skip, limit, sub }) {
     };
 }
 
+async function get(id) {
+    const invoice = await Invoice.findById(id);
+    return invoice;
+}
+
 
 export default {
     create,
     list,
+    get
 }
 
 

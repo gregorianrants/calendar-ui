@@ -49,7 +49,7 @@ async function createJob(req, res) {
 }
 
 async function getJob(req, res, next) {
-  const job = await Job.get(req.params.id);
+  const job = await Job.get(req.params.id)
   if (!job) {
     const error = new AppError("No job found with that id", 404);
     return next(error);

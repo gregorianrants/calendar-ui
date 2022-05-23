@@ -7,10 +7,9 @@ import invoiceController from '../controllers/invoiceController.js'
 
 
 router
-    .post('/:id[:]send-email', (req, res) => {
-        res.send('hello world')
-    })
+    .post('/:id[:]send-email',checkJwt,invoiceController.sendInvoice)
     .post("/", checkJwt, invoiceController.createInvoice)
+    .get('/',checkJwt,invoiceController.getInvoices)
 
 
 export default router;
