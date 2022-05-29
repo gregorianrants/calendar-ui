@@ -4,15 +4,16 @@ import {Button, Typography} from "@material-ui/core";
 import styled from "styled-components";
 import {useHistory} from "react-router-dom";
 import {omit} from "lodash-es";
+import ordinal from "ordinal";
 
 
 const Container = styled.div`
-font-family: Roboto;
+  font-family: Roboto;
   color: #1A2027;
   width: fit-content;
 `
 const Title = styled.h2`
-font-size: 18px;
+  font-size: 18px;
 `
 
 const SectionHeading = styled.h2`
@@ -23,7 +24,7 @@ const SectionHeading = styled.h2`
   color: #757de8;
 `
 
-const Property  = styled.td`
+const Property = styled.td`
   width: 150px;
   font-weight: 400;
   font-family: Roboto;
@@ -38,15 +39,14 @@ const Value = styled.td`
 `
 
 const ActionsStyled = styled.div`
-margin-top: 16px;
+  margin-top: 16px;
 `
 
 
-
-function Address({address,number}){
-    return(
+function Address({address, number}) {
+    return (
         <tr>
-            <Property>Address {number}</Property>
+            <Property>{ordinal((number * 1) + 1) + ' '}Address</Property>
             <Value>{address}</Value>
         </tr>
     )
@@ -63,7 +63,7 @@ function PrepareForInvoiceButton({id}) {
             size="small"
             style={{width: '100%'}}
             onClick={() => {
-                history.push(`list/prepare-for-invoice/${id}`)
+                history.push(`/job-page/${id}/prepare-for-invoice/`)
             }}
         >
             prepare for invoice
@@ -92,34 +92,33 @@ function CreateInvoiceButton({job}) {
     </Button>
 }
 
-function Actions({job}){
+function Actions({job}) {
 
-    const {readyForInvoice, invoices, id} = job
-    return(
-        <ActionsStyled>{
-            readyForInvoice
+    const {readyForInvoice, invoiceState} = job
+
+    const needsInvoice = invoiceState === 'void' || invoiceState === 'none'
+
+
+    return (
+        <ActionsStyled>
+            {!readyForInvoice
                 ?
-                <CreateInvoiceButton job={job}/>
+                <PrepareForInvoiceButton id={job._id}/>
                 :
-                invoices && invoices.length === 0
-                    ?
-                    <PrepareForInvoiceButton id={job._id}/>
-                    :
-                    null
-        }
+                needsInvoice && <CreateInvoiceButton job={job}/>
+            }
         </ActionsStyled>
     )
 }
 
 
-export default function JobPage(){
+export default function JobPage() {
     let {id} = useParams();
     let {data: job, isFetching} = useGetJobQuery(id);
-    const {customer,charges,addresses,readyForInvoice} = job || {}
-    const {name,email,mobile} = customer ||{}
+    const {customer, charges, addresses, readyForInvoice} = job || {}
+    const {name, email, mobile} = customer || {}
 
-    const{hourlyRate,fuelCharge,travelTime} = charges||{}
-
+    const {hourlyRate, fuelCharge, travelTime} = charges || {}
 
 
     console.log(job)
@@ -127,87 +126,86 @@ export default function JobPage(){
     console.log(id);
     return (
         isFetching
-        ?
+            ?
             <p>loading...</p>
             :
-        <Container>
-            <Title variant='h5'>
-                Booking for {name}
-            </Title>
+            <Container>
+                <Title variant='h5'>
+                    Booking for {name}
+                </Title>
 
-            <SectionHeading variant='h6'>
-                Customer Details
-            </SectionHeading>
+                <SectionHeading variant='h6'>
+                    Customer Details
+                </SectionHeading>
 
-            <table>
-                <tr>
-                    <Property>Name</Property>
-                    <Value>{name}</Value>
-                </tr>
-                <tr>
-                    <Property>
-                        Email Address
-                    </Property>
-                    <Value>
-                        {email}
-                    </Value>
-                </tr>
-                <tr>
-                    <Property>
-                        Mobile Number
-                    </Property>
-                    <Value>
-                        {mobile}
-                    </Value>
-                </tr>
-            </table>
+                <table>
+                    <tr>
+                        <Property>Name</Property>
+                        <Value>{name}</Value>
+                    </tr>
+                    <tr>
+                        <Property>
+                            Email Address
+                        </Property>
+                        <Value>
+                            {email}
+                        </Value>
+                    </tr>
+                    <tr>
+                        <Property>
+                            Mobile Number
+                        </Property>
+                        <Value>
+                            {mobile}
+                        </Value>
+                    </tr>
+                </table>
 
-            <SectionHeading variant='h6'>
-                Charges
-            </SectionHeading>
+                <SectionHeading variant='h6'>
+                    Charges
+                </SectionHeading>
 
-            <table>
-                <tr>
-                    <Property>
-                        Hourly Rate
-                    </Property>
-                    <Value>
-                        {`£${hourlyRate}`}
-                    </Value>
-                </tr>
-                <tr>
-                    <Property>
-                        Fuel Charge
-                    </Property>
-                    <Value>
-                        {`£${fuelCharge}`}
-                    </Value>
-                </tr>
-                <tr>
-                    <Property>
-                        Travel Time
-                    </Property>
-                    <Value>
-                        {`${travelTime} minutes`}
-                    </Value>
-                </tr>
-            </table>
-            <SectionHeading variant='h6'>
-                Addresses
-            </SectionHeading>
-            {addresses.map((address,i)=> {
-                console.log(address.value)
-                    return Address({
-                        address: address.value,
-                        number: String(i)
-                    })
-                }
-            )}
-            <Actions job={job}/>
+                <table>
+                    <tr>
+                        <Property>
+                            Hourly Rate
+                        </Property>
+                        <Value>
+                            {`£${hourlyRate}`}
+                        </Value>
+                    </tr>
+                    <tr>
+                        <Property>
+                            Fuel Charge
+                        </Property>
+                        <Value>
+                            {`£${fuelCharge}`}
+                        </Value>
+                    </tr>
+                    <tr>
+                        <Property>
+                            Travel Time
+                        </Property>
+                        <Value>
+                            {`${travelTime} minutes`}
+                        </Value>
+                    </tr>
+                </table>
+                <SectionHeading variant='h6'>
+                    Addresses
+                </SectionHeading>
+                {addresses.map((address, i) => {
+                        console.log(address.value)
+                        return Address({
+                            address: address.value,
+                            number: String(i)
+                        })
+                    }
+                )}
+                <Actions job={job}/>
 
 
-
-        </Container>
+            </Container>
 
     )
 }

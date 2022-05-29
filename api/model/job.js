@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import jobObj from "./jobObj.js";
 import {invoiceSchema} from "./invoice.js";
+import {sortBy,pipe,prop,last} from 'ramda'
 
 const opts = { toJSON: { virtuals: true } };
 export const jobSchema = new mongoose.Schema(jobObj,opts);
@@ -22,6 +23,21 @@ jobSchema.virtual('readyForInvoice').get(function(){
   else {
     return false
   }
+})
+
+jobSchema.virtual('invoiceState').get(function(){
+  if(!this.invoices || this.invoices.length===0) return 'none'
+  const latest = pipe(
+      sortBy(prop('createdAt')),
+      last
+  )
+  if(latest.void){
+    return 'void'
+  }
+  if(latest.sent){
+    return 'sent'
+  }
+  return 'created'
 })
 
 let Job = mongoose.model("Job", jobSchema, "jobs");

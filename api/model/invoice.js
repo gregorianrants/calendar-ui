@@ -16,8 +16,13 @@ const invoiceObjFront = {
     ...jobObj,
     customer: markRequired(jobObj.customer),
     charges: markRequired(jobObj.charges),
+    bill: {...jobObj.bill, required: true},
     void: {type: Boolean,
     default: false
+    },
+    sent: {
+        type: Boolean,
+        default: false
     },
     addresses: {
         ...jobObj.addresses,
@@ -40,7 +45,7 @@ const invoiceObj = {
 
 
 
-export const invoiceSchema = new mongoose.Schema(invoiceObj)
+export const invoiceSchema = new mongoose.Schema(invoiceObj,{timestamps: true})
 
 
 

@@ -86,16 +86,16 @@ function Content() {
                             <PrivateRoute>
                                 <List />
                             </PrivateRoute>
-                            <Switch>
-                                <Route path={"/list/prepare-for-invoice/:id"}>
-                                    <PrepareForInvoice/>
-                                </Route>
-                            </Switch>
                         </Route>
                         <Route path={'/job-page/:id'}>
                             <PrivateRoute>
                                 <JobPage/>
                             </PrivateRoute>
+                            <Switch>
+                                <Route path={"/job-page/:id/prepare-for-invoice"}>
+                                    <PrepareForInvoice/>
+                                </Route>
+                            </Switch>
                         </Route>
 
 
