@@ -16,6 +16,9 @@ const invoiceObjFront = {
     ...jobObj,
     customer: markRequired(jobObj.customer),
     charges: markRequired(jobObj.charges),
+    void: {type: Boolean,
+    default: false
+    },
     addresses: {
         ...jobObj.addresses,
         validate: {

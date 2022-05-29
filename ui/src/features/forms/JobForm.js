@@ -271,6 +271,15 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
                         onTouch={()=>setFieldTouched('operatives')}
                         touched={touched?.operatives}
                     />
+                    <Field
+                        className={classes.flexItem}
+                        as={TextField}
+                        name="bill"
+                        label="bill"
+                        error={showError("bill",touched,errors)}
+                        helperText={getErrorText("bill",touched,errors)}
+                        fullWidth
+                    />
 
                     <Button
                         type="submit"

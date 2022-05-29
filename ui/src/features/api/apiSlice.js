@@ -38,11 +38,21 @@ export const apiSlice = createApi({
             transformResponse: response => {
                 return response.data
             },
-            providesTags: (result=[],error,arg)=> {
-
+            /*providesTags: (result=[],error,arg)=> {
                 const r = [
                     'Jobs',
                     ...result.items.map(({_id}) => ({type: 'Jobs', id: _id}))
+                ]
+
+                return r
+            }*/
+            providesTags: (result,error,arg)=> {
+                const items = result?.items || []
+
+
+                const r = [
+                    'Jobs',
+                    ...items.map(({_id}) => ({type: 'Jobs', id: _id}))
                 ]
 
                 return r

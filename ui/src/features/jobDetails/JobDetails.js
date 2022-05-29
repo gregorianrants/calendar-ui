@@ -229,11 +229,19 @@ export function JobDetails({displayEvent, close, updateEvent}) {
         </Card>
     )
 
+    const Bill = ({bill='not finalised yet'})=>(
+        <Card  className={classes.row}>
+            <CardHeader title={"Bill"}/>
+            <CardContent>{bill}</CardContent>
+        </Card>
+    )
+
 
     if (isFetching) {
         return null
     } else {
-        const {customer, charges, items, addresses, operatives, start, end} = job;
+        const {customer, charges, items, addresses, operatives, start, end, bill} = job;
+        console.log(bill)
         return (
             <Modal>
                 <Card style={{width: 1200, backgroundColor: "#F3F3FB"}}>
@@ -285,6 +293,7 @@ export function JobDetails({displayEvent, close, updateEvent}) {
                           <Grid item xs={4}>
                            <Operatives operatives={operatives}/>
                               <Addresses addresses={addresses}/>
+                              <Bill bill={bill}/>
                           </Grid>
                         </Grid>
                     </CardContent>

@@ -1,12 +1,15 @@
-import {useGetJobQuery} from "./api/apiSlice";
+import {useCreateInvoiceMutation, useGetJobQuery} from "./api/apiSlice";
 import {useParams} from "react-router";
-import {Typography} from "@material-ui/core";
+import {Button, Typography} from "@material-ui/core";
 import styled from "styled-components";
+import {useHistory} from "react-router-dom";
+import {omit} from "lodash-es";
 
 
 const Container = styled.div`
 font-family: Roboto;
   color: #1A2027;
+  width: fit-content;
 `
 const Title = styled.h2`
 font-size: 18px;
@@ -34,6 +37,10 @@ const Value = styled.td`
   font-size: 14px;
 `
 
+const ActionsStyled = styled.div`
+margin-top: 16px;
+`
+
 
 
 function Address({address,number}){
@@ -46,13 +53,72 @@ function Address({address,number}){
 
 }
 
+function PrepareForInvoiceButton({id}) {
+    const history = useHistory()
+
+    return (
+        <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            style={{width: '100%'}}
+            onClick={() => {
+                history.push(`list/prepare-for-invoice/${id}`)
+            }}
+        >
+            prepare for invoice
+        </Button>
+    )
+}
+
+function CreateInvoiceButton({job}) {
+    console.log(job)
+    const invoice = {
+        ...omit(job, ['__v', '_id', 'id']),
+        job: job._id
+    }
+    console.log(invoice)
+
+    const [createInvoice] = useCreateInvoiceMutation()
+
+    return <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        style={{width: '100%'}}
+        onClick={() => createInvoice(invoice)}
+    >
+        Create Invoice
+    </Button>
+}
+
+function Actions({job}){
+
+    const {readyForInvoice, invoices, id} = job
+    return(
+        <ActionsStyled>{
+            readyForInvoice
+                ?
+                <CreateInvoiceButton job={job}/>
+                :
+                invoices && invoices.length === 0
+                    ?
+                    <PrepareForInvoiceButton id={job._id}/>
+                    :
+                    null
+        }
+        </ActionsStyled>
+    )
+}
+
+
 export default function JobPage(){
     let {id} = useParams();
     let {data: job, isFetching} = useGetJobQuery(id);
-    const {customer,charges,addresses} = job
-    const {name,email,mobile} = customer
+    const {customer,charges,addresses,readyForInvoice} = job || {}
+    const {name,email,mobile} = customer ||{}
 
-    const{hourlyRate,fuelCharge,travelTime} = charges
+    const{hourlyRate,fuelCharge,travelTime} = charges||{}
 
 
 
@@ -60,6 +126,10 @@ export default function JobPage(){
 
     console.log(id);
     return (
+        isFetching
+        ?
+            <p>loading...</p>
+            :
         <Container>
             <Title variant='h5'>
                 Booking for {name}
@@ -133,6 +203,10 @@ export default function JobPage(){
                     })
                 }
             )}
+            <Actions job={job}/>
+
+
+
         </Container>
 
     )

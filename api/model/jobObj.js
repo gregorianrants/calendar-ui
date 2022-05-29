@@ -34,7 +34,7 @@ const customerObj = {
             validator: validator.isEmail,
             message: "must be a valid email",
         },
-    },
+    }
 };
 
 const chargesObj = {
@@ -108,6 +108,9 @@ const jobObj = {
     sub: {
         type: String,//TODO add validation to this using hook as adding it to schema will cause to fail on client
     },
+    bill: {
+        type: Number
+    }
 }
 
 export default jobObj

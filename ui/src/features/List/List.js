@@ -112,7 +112,7 @@ export default function List() {
         content = <p>loading</p>
     } else if (isSuccess) {
         const rows = (jobsForDate?.items || []).map(row => {
-            const {_id, customer, addresses, start, readyForInvoice, invoices} = row
+            const {_id, customer, addresses, start, readyForInvoice, invoices,bill} = row
             console.log(readyForInvoice)
             const {name, mobile, email} = customer
 
@@ -123,7 +123,7 @@ export default function List() {
             return {
                 _id,
                 name, mobile, email,
-                bill: '55',
+                bill,
                 prepared: 'no',
                 paid: 'no',
                 firstAddress: addresses.length > 1 ? addresses[0].value : '',
