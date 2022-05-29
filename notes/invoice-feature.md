@@ -9,15 +9,28 @@
 
 a user should be able to:
 
-- use a form to validate a booking into a state where the information can be used to 
-  validate an invoice.
-- be able to tell from list of bookings if the information in the booking is in a 
-  state to 
-generate as an invoice 
-- be able to generate an invoice from a booking if it is in a suitable state
-- be able to send an invoice either from there own domain or from the email client on 
+- create an invoice record on db from the data held in a job record.
+- email that invoice  either from there own domain or from the email client on
   the device they are using the application on.
-- see which jobs have had invoices sent
+- void an invoice
+
+ui should provide
+- a way to see what job records have:
+  - had an invoice created
+  - have had an invoice sent
+  - have had an invoice sent but invalidated
+- a way to create and send an invoice.
+- a way to see all invoices
+- a way to see invoices for a certain booking as some bookings may have multiple 
+  invoices due to marking 
+
+ui features
+- a list of job records showing the current invoice state:
+  - not created, created, sent, invalidated
+- a page that can be opened from the booking records list to see all details for the 
+  booking, any invoice records and perform invoice actions - create, email , invalidate
+- a list of invoice records to summarise information about invoices e.g bill, paid 
+  and calculate summary statistics.
 
 ##api needs
 
@@ -63,6 +76,11 @@ in api design patterns https://livebook.manning.com/book/api-design-patterns/cha
 JJ geewax recomends using custom method when sending an email
 
 also see https://github.com/expressjs/express/issues/3857 - putting a colon in request
+
+##what kind of ui do we need to manage invoicing
+
+need to be able to do the following
+- prepare booking s
 
 
 

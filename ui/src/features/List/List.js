@@ -91,16 +91,16 @@ export default function List() {
         {field: 'firstAddress', headerName: 'First Address', width: 200},
         {field: 'bill', headerName: 'Bill', width: 100},
         {
-            field: 'prepare', headerName: 'Invoice', width: 170, renderCell: ({row}) => (
-                row.hasInvoice
-                    ?
-                   <SendInvoice/>
-                    :
-                    row.readyForInvoice
-                        ?
-                        <CreateInvoiceButton id={row._id} job={row.job}/>
-                        :
-                        <PrepareForInvoiceButton id={row._id}/>)
+            field: 'jobPage', headerName: 'VisitPage', width: 170, renderCell: ({row}) => (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={()=>history.push(`/job-page/${row._id}`)}
+                >
+                    visit page
+                </Button>
+                )
         },
         {field: 'paid', headerName: 'Paid', width: 120},
     ]

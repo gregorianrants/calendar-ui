@@ -10,6 +10,7 @@ import EditJobForm from "../features/forms/EditJobForm";
 import PrepareForInvoice from "../features/forms/PrepareForInvoice";
 import CreateJobForm from "../features/forms/CreateJobForm";
 import Auth from "../features/auth/Auth";
+import JobPage from '../features/JobPage'
 //import AuthorizeGcalButton from "../features/googleCalendar/AuthorizeGcalButton";
 import LoginPage from "../features/auth/LoginPage";
 import OauthCallback from "../features/googleCalendar/Oauthcallback";
@@ -91,6 +92,12 @@ function Content() {
                                 </Route>
                             </Switch>
                         </Route>
+                        <Route path={'/job-page/:id'}>
+                            <PrivateRoute>
+                                <JobPage/>
+                            </PrivateRoute>
+                        </Route>
+
 
                         <Route path='/auth'>
                             <Auth/>
