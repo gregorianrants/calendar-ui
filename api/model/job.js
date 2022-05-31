@@ -16,7 +16,6 @@ jobSchema.virtual('readyForInvoice').get(function(){
   const docValues = JSON.parse(JSON.stringify(this._doc))
   const invoiceDoc = new mongoose.Document(docValues,invoiceSchema)
   const validationResult = invoiceDoc.validateSync()
-  console.log(9, validationResult)
   if(typeof validationResult==='undefined'){
     return (true)
   }
