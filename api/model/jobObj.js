@@ -83,10 +83,6 @@ const operativeObj = {
 };
 
 const jobObj = {
-    _id: {
-        type: String,
-        default: cuid,
-    },
     isFake: {
         type: Boolean,
         default: false
