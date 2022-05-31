@@ -12,7 +12,7 @@ const initialState = {
   token: null
 };
 
-const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://dry-earth-66864.herokuapp.com'
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 console.log(BASE_URL)
 
