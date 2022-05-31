@@ -8,6 +8,7 @@
 
 /ui/node_modules
 /api/node_modules
+/api/.env
 
 # testing
 /coverage
@@ -28,3 +29,4 @@ yarn-error.log*
 
 /useGapi/constants.js
 /ui/build/
+/ui/.env
