@@ -1,10 +1,12 @@
 import auth0Client from "../features/auth/auth0";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL
+
 export async function getUser(){
     const auth0 = await auth0Client;
     const token = await auth0.getTokenSilently();
 
-    return fetch(`http://localhost:8000/api/v1/users`, {
+    return fetch(`${BASE_URL}/api/v1/users`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -19,7 +21,7 @@ export async function createUser(){
     const auth0 = await auth0Client;
     const token = await auth0.getTokenSilently();
 
-    return fetch(`http://localhost:8000/api/v1/users`, {
+    return fetch(`${BASE_URL}/api/v1/users`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",

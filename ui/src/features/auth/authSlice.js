@@ -95,7 +95,7 @@ export const authorizeGcalThunk = (code)=> async (dispatch,getState)=>{
 
 export const revokeGcalThunk = ()=>async (dispatch,getState)=>{
   try{
-    fetch('http://localhost:8000/api/v1/gcal/revoke-auth',{
+    fetch(`${BASE_URL}/api/v1/gcal/revoke-auth`,{
 headers: {
   'authorization': `Bearer ${getState().auth.token}`
 }

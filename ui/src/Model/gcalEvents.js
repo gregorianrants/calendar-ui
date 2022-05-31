@@ -3,6 +3,8 @@ import auth0Client from "../features/auth/auth0";
 
 //TODO: should this file be in src? what should be in src and outside it generally?
 
+const BASE_URL = process.env.REACT_APP_BASE_URL
+
 export function reshape(gcalEvent){
     const {start,end,id} = gcalEvent
     return{
@@ -21,7 +23,7 @@ export async function fetchDays(from, to) {
     const auth0 = await auth0Client;
     const token = await auth0.getTokenSilently();
 
-    return fetch(`http://localhost:8000/api/v1/gcal/events?from=${from}&to=${to}`, {
+    return fetch(`${BASE_URL}/api/v1/gcal/events?from=${from}&to=${to}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
