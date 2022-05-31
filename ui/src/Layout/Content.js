@@ -54,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 
 function Content() {
     const classes = useStyles();
+    console.log(process.env.REACT_APP_SERVER_URL)
+
     return (
 
         <div className={classes.content}>
