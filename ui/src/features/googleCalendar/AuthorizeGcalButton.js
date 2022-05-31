@@ -9,7 +9,7 @@ export default function AuthorizeGcalButton(){
     const dispatch = useDispatch()
 
     function handleAuthorize(){
-        fetch("http://localhost:8000/api/v1/gcal/url")
+        fetch("https://dry-earth-66864.herokuapp.com/api/v1/gcal/url")
             .then((res) => res.json())
             .then((res) => {
                 console.log(res);
