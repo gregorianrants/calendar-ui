@@ -39,7 +39,12 @@ async function sendInvoice(req,res){
 
     let invoice = await Invoice.get(id)
 
-   await emailInvoice(invoice)
+    invoice.status = 'sending'
+    invoice = await invoice.save()
+    await emailInvoice(invoice)
+    invoice.status = 'sent'
+    invoice = await invoice.save()
+
 
     res.status(200).json({
         status: "success",

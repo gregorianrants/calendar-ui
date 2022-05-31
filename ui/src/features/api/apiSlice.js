@@ -119,6 +119,14 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Jobs']
         }),
+        sendInvoice: builder.mutation({
+            query: id => ({
+                url: `/invoices/${id}:send-email`,
+                method: 'POST',
+                body: {}
+            }),
+            invalidatesTags: ['Jobs']
+        }),
     })
 })
 
@@ -143,6 +151,7 @@ export const {
     useEditJobMutation,
     useAddJobMutation,
     useCreateInvoiceMutation,
+    useSendInvoiceMutation,
     useGetGcalQuery,
     usePrefetch
 } = apiSlice

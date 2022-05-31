@@ -17,7 +17,7 @@
 
 # Todo
 
-- change ui/src/features/jobDetails/JobPage.js to select from the query used to get data for parent page
+- change ui/src/features/jobDetails/Index.js to select from the query used to get data for parent page
   (could be calendar or table), currently i am doing another network request, its fast just now but may not be when it
   isnt hosted on local server.
 - consider creating nicer strings for message in error returned by api for validation errors (maybe not worth it though

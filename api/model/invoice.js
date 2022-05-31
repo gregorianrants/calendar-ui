@@ -20,9 +20,10 @@ const invoiceObjFront = {
     void: {type: Boolean,
     default: false
     },
-    sent: {
-        type: Boolean,
-        default: false
+    status: {
+        type: String,
+        default: 'created',
+        enum: ['created','sending','sent']
     },
     addresses: {
         ...jobObj.addresses,

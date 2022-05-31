@@ -10,7 +10,7 @@ import EditJobForm from "../features/forms/EditJobForm";
 import PrepareForInvoice from "../features/forms/PrepareForInvoice";
 import CreateJobForm from "../features/forms/CreateJobForm";
 import Auth from "../features/auth/Auth";
-import JobPage from '../features/JobPage'
+import Index from '../features/jobPage'
 //import AuthorizeGcalButton from "../features/googleCalendar/AuthorizeGcalButton";
 import LoginPage from "../features/auth/LoginPage";
 import OauthCallback from "../features/googleCalendar/Oauthcallback";
@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     },
     wrapper: {display: 'flex'}
 }));
+
+
+
 
 
 function Content() {
@@ -89,7 +92,7 @@ function Content() {
                         </Route>
                         <Route path={'/job-page/:id'}>
                             <PrivateRoute>
-                                <JobPage/>
+                                <Index/>
                             </PrivateRoute>
                             <Switch>
                                 <Route path={"/job-page/:id/prepare-for-invoice"}>
