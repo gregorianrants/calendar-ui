@@ -35,7 +35,7 @@ function getCalendarClient({access_token, refresh_token}){
 }
 
 export function getAuthUrl(){
-    const scopes = ["openid", 'https://www.googleapis.com/auth/calendar'];
+    const scopes = ["openid", 'https://www.googleapis.com/auth/calendar.events.readonly'];
     const oauth2Client = getOauth2Client()
     const url = oauth2Client.generateAuthUrl({
         // 'online' (default) or 'offline' (gets refresh_token)
