@@ -3,13 +3,14 @@ import {useSelector} from "react-redux";
 import {revokeGcalThunk} from "../auth/authSlice";
 import {useDispatch} from "react-redux";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL
 
 export default function AuthorizeGcalButton(){
     const authorized = useSelector(state=>state.auth.isAuthorizedToGcal)
     const dispatch = useDispatch()
 
     function handleAuthorize(){
-        fetch("https://dry-earth-66864.herokuapp.com/api/v1/gcal/url")
+        fetch(`${BASE_URL}/api/v1/gcal/url`)
             .then((res) => res.json())
             .then((res) => {
                 console.log(res);
@@ -24,6 +25,7 @@ export default function AuthorizeGcalButton(){
             ?
                 <div>
                     <p>you are authorized to Google Calendar yay!</p>
+
                     <button onClick={()=>dispatch(revokeGcalThunk())}>
                         revoke authorization
                     </button>

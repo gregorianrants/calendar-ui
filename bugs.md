@@ -51,7 +51,7 @@
   version has changed since client recieved it but at same time i want to be able to 
   see job data on client before i create invoice, perhaps i should through an error if 
   client data does not match server data?
-
+-have a look at the todo in the revokeAuth function in gcalController
 # General Notes
 
 -this article suggested an api reponse shape that i liked  
