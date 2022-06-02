@@ -12,7 +12,7 @@ const initialState = {
   token: null
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL
+const BASE_URL = process.env.REACT_APP_UI_BASE_URL
 
 console.log(BASE_URL)
 
