@@ -52,6 +52,7 @@
   see job data on client before i create invoice, perhaps i should through an error if 
   client data does not match server data?
 -have a look at the todo in the revokeAuth function in gcalController
+- make sure api isnt returning fields that should be private e.g. userid access tokens etc
 # General Notes
 
 -this article suggested an api reponse shape that i liked  

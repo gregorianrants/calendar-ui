@@ -1,6 +1,7 @@
-import { User } from '../model/User.js';
+import { User,edit } from '../model/User.js';
 import autoCatch from '../lib/autoCatch.js';
 import AppError from './../errorUtilities/AppError.js';
+
 
 
 async function getUser(req,res,next){
@@ -13,9 +14,7 @@ async function getUser(req,res,next){
         return next(error);
     }
     const {authorizedToGcal} = user
-    res.status(200).json({ status: "success", data: {
-        authorizedToGcal
-        }});
+    res.status(200).json({ status: "success", data: user});
 }
 
 async function createUser(req,res,next){
@@ -28,8 +27,18 @@ async function createUser(req,res,next){
         }})
 }
 
+async function patchUser(req,res,next){
+    const { sub } = req.user;
+    const user = await edit(sub,req.body)
+    res.status(200).json({
+        status: 'success',
+        data: user
+    })
+}
+
 //TODO add autocatch
 export default autoCatch({
     getUser,
-    createUser
+    createUser,
+    patchUser
 });

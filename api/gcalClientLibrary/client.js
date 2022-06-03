@@ -13,7 +13,6 @@ function getOauth2Client(){
         GOOGLE_CLIENT_SECRET,
         GOOGLE_REDIRECT_URL,
     );
-
     return oauth2Client
 }
 
@@ -51,6 +50,11 @@ function isRevokedTokenError(err){
         return true
     }
 }
+// function isRevokedTokenError(err){
+//     if (err?.response?.data?.error === 'invalid_grant' && err?.response?.data?.error_description === "Token has been expired or revoked."){
+//         return true
+//     }
+// }
 
 export async function revokeAuth(accessToken){
     const oauth2Client = getOauth2Client()

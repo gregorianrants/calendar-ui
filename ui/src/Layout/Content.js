@@ -16,7 +16,7 @@ import LoginPage from "../features/auth/LoginPage";
 import OauthCallback from "../features/googleCalendar/Oauthcallback";
 import {makeStyles} from "@material-ui/core/styles";
 import {Toolbar} from "@material-ui/core";
-import Settings from '../features/Settings'
+import Settings from '../features/Settings/Settings'
 import List from '../features/List/List'
 
 const settingsValue = {
@@ -108,7 +108,9 @@ function Content() {
                             <Auth/>
                         </Route>
                         <Route path="/settings">
-                            <Settings/>
+                            <PrivateRoute>
+                                <Settings/>
+                            </PrivateRoute>
                         </Route>
                         <Route path="/login">
                             <LoginPage/>

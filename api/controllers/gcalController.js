@@ -47,14 +47,16 @@ async function authorizeUser(req, res) {
     //TODO: look at errors that can be thrown by oauth2client and handle them
     const {sub} = req.user
     const {code} = req.query;
-    const {access_token,refresh_token} = await gcalService.getTokens(code)
-    const user = await User.findById(sub)
 
+    const {access_token,refresh_token} = await gcalService.getTokens(code)
+
+    const user = await User.findById(sub)
     user.accessToken = access_token
     user.refreshToken = refresh_token
     user.authorizedToGcal = true
-
     await user.save()
+
+
     res.status(200).json({
         status: 'success',
         data: {authorizedToGcal: user.authorizedToGcal}

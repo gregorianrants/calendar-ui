@@ -11,5 +11,6 @@ import checkJwt from './../authMiddleware/checkJwt.js';
 
 router.get('/',checkJwt,usersController.getUser)
 router.post('/',checkJwt,usersController.createUser)
+router.patch('/',checkJwt,usersController.patchUser)
 
 export default router;

@@ -18,7 +18,7 @@ export const apiSlice = createApi({
             return headers
         },
     }),
-    tagTypes: ['Jobs','Invoice'],
+    tagTypes: ['Jobs','Invoice','User'],
     endpoints: builder => ({
         getJobs: builder.query({
             query: ({from, to}) => `/jobs?from=${from}&to=${to}`,
@@ -127,6 +127,21 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Jobs']
         }),
+        getUser: builder.query({
+            query: () => `/users`,
+            transformResponse: response => {
+                return response.data
+            },
+            providesTags: ['User']
+        }),
+        editUser: builder.mutation({
+            query: user => ({
+                url: `/users`,
+                method: 'PATCH',
+                body: user
+            }),
+            invalidatesTags: ['User']
+        }),
     })
 })
 
@@ -153,5 +168,7 @@ export const {
     useCreateInvoiceMutation,
     useSendInvoiceMutation,
     useGetGcalQuery,
-    usePrefetch
+    usePrefetch,
+    useGetUserQuery,
+    useEditUserMutation
 } = apiSlice
