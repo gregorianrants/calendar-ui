@@ -17,8 +17,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default async function generateAttachment({    invoiceNumber,
                             customerName,
                             date,
-                            addresses,
-                            bill}){
+                            collectionAddress,
+                            bill,
+                            companyName,
+                            companyAddress
+                                                 }){
     const content = await fsPromises.readFile(
         path.resolve(__dirname, "invoice-template.docx"),
         "binary"
@@ -37,8 +40,11 @@ export default async function generateAttachment({    invoiceNumber,
     doc.render({    invoiceNumber,
         customerName,
         date,
-        addresses,
-        bill});
+        collectionAddress,
+        bill,
+        companyName,
+        companyAddress
+    });
 
     const buf = doc.getZip().generate({
         type: "nodebuffer",

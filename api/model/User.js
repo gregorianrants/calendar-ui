@@ -16,13 +16,14 @@ const userSchema = new mongoose.Schema({
         emailPassword: {
                 type: String
         },
-        companyName: String
+        companyName: String,
+        companyAddress: String,
 })
 
 export let User = mongoose.model("User",userSchema)
 
 
-async function get(id) {
+export async function get(id) {
         const user =  await User.findById(id)
         return user
 }

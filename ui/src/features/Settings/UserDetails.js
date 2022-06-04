@@ -24,6 +24,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import BusinessIcon from '@material-ui/icons/Business';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const Row = styled.div`
   display: flex;
@@ -254,10 +255,12 @@ export default function UserDetails() {
             <p>loading....</p>
             :
             <Formik
+                //TODO are we creating a problem setting to empty string what if we later perform logical test
                 initialValues={{
                     email: data?.email || '',
                     emailPassword: data?.emailPassword || '',
-                    companyName: data?.companyName || ''
+                    companyName: data?.companyName || '',
+                    companyAddress: data?.companyAddress || ''
                 }}
                 onSubmit={(user) => {
                     editUser(user)
@@ -285,6 +288,14 @@ export default function UserDetails() {
                         icon={<BusinessIcon fontSize={"small"}/>}
                         name={'companyName'}
                         label={'Company Name'}
+                    >
+                        <ReadRow/>
+                        <EditRow/>
+                    </FormRow>
+                    <FormRow
+                        icon={<LocationOnIcon fontSize={"small"}/>}
+                        name={'companyAddress'}
+                        label={'Company Address'}
                     >
                         <ReadRow/>
                         <EditRow/>

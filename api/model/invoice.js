@@ -92,6 +92,7 @@ async function list({ from, to, skip, limit, sub }) {
 }
 
 async function get(id) {
+    console.log(95,id)
     const invoice = await Invoice.findById(id);
     return invoice;
 }

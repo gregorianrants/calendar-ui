@@ -1,14 +1,10 @@
-import AppError from './../errorUtilities/AppError.js';
 import Invoice from '../model/invoice.js'
 import autoCatch from "../lib/autoCatch.js";
-import emailInvoice from "../createInvoice/index.js";
-//import Job from "../model/job";
+import invoiceService from '../services/invoiceService/index.js'
 
 async function createInvoice(req, res) {
     const { sub } = req.user;
-    console.log('22', sub)
     let invoice = await Invoice.create(req.body,sub);
-    //notify()
     res.status(200).json({
         status: "success",
         data: invoice,
@@ -16,7 +12,6 @@ async function createInvoice(req, res) {
 }
 
 async function getInvoices(req,res){
-
     const { sub } = req.user;
     const { from = undefined, to = undefined, skip=0, limit=1000 } = req.query;
     let data = await Invoice.list({
@@ -36,16 +31,7 @@ async function getInvoices(req,res){
 async function sendInvoice(req,res){
     const {sub} = req.user
     const {id} = req.params
-
-    let invoice = await Invoice.get(id)
-
-    invoice.status = 'sending'
-    invoice = await invoice.save()
-    await emailInvoice(invoice)
-    invoice.status = 'sent'
-    invoice = await invoice.save()
-
-
+    const invoice = await invoiceService.sendInvoice({userId: sub,invoiceId: id})
     res.status(200).json({
         status: "success",
         data: invoice,
