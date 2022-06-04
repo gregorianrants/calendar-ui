@@ -23,6 +23,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import LockIcon from '@material-ui/icons/Lock';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import BusinessIcon from '@material-ui/icons/Business';
 
 const Row = styled.div`
   display: flex;
@@ -63,7 +64,7 @@ function ReadRow() {
     const {values, handleChange, touched, errors, handleSubmit} = useFormikContext()
     const context = React.useContext(Context)
 
-    const {icon, name, toggleEdit} = context
+    const {icon, name, label, toggleEdit} = context
     const value = values[name]
 
     return (
@@ -72,8 +73,31 @@ function ReadRow() {
                 {icon}
             </IconContainer>
             <Values>
-                <Key>{name}</Key>
+                <Key>{label}</Key>
                 <Value>{value}</Value>
+            </Values>
+            <IconButtonContainer onClick={toggleEdit}>
+                <EditIcon fontSize='small'/>
+            </IconButtonContainer>
+        </Row>
+    )
+}
+
+function ReadRowPassword() {
+    const {values, handleChange, touched, errors, handleSubmit} = useFormikContext()
+    const context = React.useContext(Context)
+
+    const {icon, name, label, toggleEdit} = context
+    const value = values[name]
+
+    return (
+        <Row alignItems={"flex-start"}>
+            <IconContainer>
+                {icon}
+            </IconContainer>
+            <Values>
+                <Key>{label}</Key>
+                <Value>{value.replace(/./ig, '\u2022')}</Value>
             </Values>
             <IconButtonContainer onClick={toggleEdit}>
                 <EditIcon fontSize='small'/>
@@ -126,7 +150,7 @@ function EditRowPassword() {
         setShowPassword(val=>!val)
     }
 
-    const {icon, name, toggleEdit} = context
+    const {icon, name, label, toggleEdit} = context
     console.log(values)
     return (
         <Row>
@@ -136,7 +160,7 @@ function EditRowPassword() {
             <Values>
                 <TextField id={name}
                            name={name}
-                           label={name}
+                           label={label}
                            value={values[name]}
                            onChange={handleChange}
                            error={touched[name] && Boolean(errors[name])}
@@ -173,7 +197,7 @@ function EditRowPassword() {
 }
 
 
-function FormRow({value, name, icon, children}) {
+function FormRow({value, name, icon, label, children}) {
     const [edit, setEdit] = React.useState(false)
 
     function toggleEdit() {
@@ -183,6 +207,7 @@ function FormRow({value, name, icon, children}) {
     const contextValue = React.useMemo(() => ({
         toggleEdit,
         name,
+        label,
         icon
     }), [toggleEdit, value, icon])
 
@@ -216,10 +241,11 @@ export default function UserDetails() {
     const validationSchema = yup.object({
         email: yup
             .string('Enter your email')
-            .email('Enter a valid email')
-            .required('Email is required'),
+            .email('Enter a valid email'),
         emailPassword: yup
-            .string('Enter your password')
+            .string('Enter your password'),
+        companyName: yup
+            .string('enter your company name')
     });
 
     return (
@@ -230,7 +256,8 @@ export default function UserDetails() {
             <Formik
                 initialValues={{
                     email: data?.email || '',
-                    emailPassword: data?.emailPassword || ''
+                    emailPassword: data?.emailPassword || '',
+                    companyName: data?.companyName || ''
                 }}
                 onSubmit={(user) => {
                     editUser(user)
@@ -241,6 +268,7 @@ export default function UserDetails() {
                     <FormRow
                         icon={<EmailIcon fontSize={"small"}/>}
                         name={'email'}
+                        label={'Email'}
                     >
                         <ReadRow/>
                         <EditRow/>
@@ -248,9 +276,18 @@ export default function UserDetails() {
                     <FormRow
                         icon={<LockIcon fontSize={"small"}/>}
                         name={'emailPassword'}
+                        label={'Email Password'}
+                    >
+                        <ReadRowPassword/>
+                        <EditRowPassword/>
+                    </FormRow>
+                    <FormRow
+                        icon={<BusinessIcon fontSize={"small"}/>}
+                        name={'companyName'}
+                        label={'Company Name'}
                     >
                         <ReadRow/>
-                        <EditRowPassword/>
+                        <EditRow/>
                     </FormRow>
                 </Form>
 
