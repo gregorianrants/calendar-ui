@@ -1,6 +1,6 @@
 import Invoice from '../model/invoice.js'
 import autoCatch from "../lib/autoCatch.js";
-import invoiceService from '../services/invoiceService/index.js'
+import * as sendInvoiceService from '../services/sendInvoice/sendInvoice.js'
 
 async function createInvoice(req, res) {
     const { sub } = req.user;
@@ -31,7 +31,7 @@ async function getInvoices(req,res){
 async function sendInvoice(req,res){
     const {sub} = req.user
     const {id} = req.params
-    const invoice = await invoiceService.sendInvoice({userId: sub,invoiceId: id})
+    const invoice = await sendInvoiceService.sendInvoice({userId: sub,invoiceId: id})
     res.status(200).json({
         status: "success",
         data: invoice,

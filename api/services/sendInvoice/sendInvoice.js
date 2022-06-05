@@ -1,14 +1,14 @@
 import Invoice from "../../model/invoice.js";
 import composeEmail from "./composeEmail.js";
 import sendEmail from "./sendEmail.js";
-import usersService from "../usersService.js";
+import * as userModel from "../../model/User.js";
 import {getInvoiceCount} from "../../model/invoiceNumbers/invoiceNumbers.js";
 
-export default async function sendInvoice({userId,invoiceId}){
+export async function sendInvoice({userId,invoiceId}){
     let invoice = await Invoice.get(invoiceId)
     console.log(8,invoice)
     console.log('.................')
-    let user = await usersService.getUser(userId)
+    let user = await userModel.get(userId)
     console.log(user)
     invoice.status = 'sending'
     invoice = await invoice.save()

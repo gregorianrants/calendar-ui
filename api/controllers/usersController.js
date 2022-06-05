@@ -1,12 +1,12 @@
-import { User,edit } from '../model/User.js';
+import { User,edit,get } from '../model/User.js';
 import autoCatch from '../lib/autoCatch.js';
 import AppError from './../errorUtilities/AppError.js';
-import usersService from "../services/usersService.js";
-
 
 async function getUser(req,res,next){
     const { sub } = req.user;
-    const user = await usersService.getUser(sub)
+    const user = await get(sub)
+    if (!user) next(new AppError("No user found with that id", 404));
+
     res.status(200).json({ status: "success", data: user});
 }
 
