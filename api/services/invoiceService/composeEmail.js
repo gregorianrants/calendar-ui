@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // buf is a nodejs Buffer, you can either write it to a
 // file or res.send it with express for example.
 
-export default async function generateAttachment({    invoiceNumber,
+async function generateAttachment({invoiceNumber,
                             customerName,
                             date,
                             collectionAddress,
@@ -58,10 +58,55 @@ export default async function generateAttachment({    invoiceNumber,
     //fs.writeFileSync(path.resolve(__dirname, `../invoices/invoice${invoiceNumber}.docx`), buf);
 }
 
-// generateAttachment({    invoiceNumber: '1',
-//     customerName: 'gregor murray',
-//     date: new Date().toLocaleDateString(),
-//     addresses: '4 craigie avenue\n19 coral glen',
-//     bill: '£1000000'})
+function createBody({companyName,customerName}){
+    return (
+        `
+Dear ${customerName},
+        
+Thank you for using ${companyName}, please find your invoice attached.
+        
+Best wishes from ${companyName}
+        `
+    )
+}
+
+function createSubject({companyName, invoiceNumber}){
+    return (
+        `${companyName} invoice number ${invoiceNumber}`
+    )
+}
 
 
+export default async function composeEmail({invoiceNumber,
+                          customerName,
+                          date,
+                          collectionAddress,
+                          bill,
+                          companyName,
+                          companyAddress
+                      }){
+
+    const attachment = await generateAttachment({invoiceNumber,
+        customerName,
+        date,
+        collectionAddress,
+        bill,
+        companyName,
+        companyAddress
+    })
+
+
+    return {
+        from: '"invoice" <invoice@gregorianrants.co.uk>', // sender address
+        to: "gregorian_rants@hotmail.com", // list of receivers
+        subject: createSubject({companyName, invoiceNumber}), // Subject line
+        text: createBody({companyName,customerName}), // plain text body
+        //html: "<b>Hello world?</b>", // html body
+        attachments: [
+            {filename: 'invoice.docx',
+                content: attachment
+            }
+        ]
+    }
+
+}

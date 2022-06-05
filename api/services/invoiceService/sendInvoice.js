@@ -1,5 +1,5 @@
 import Invoice from "../../model/invoice.js";
-import generateAttachment from "./generateAttachement.js";
+import composeEmail from "./composeEmail.js";
 import sendEmail from "./sendEmail.js";
 import usersService from "../usersService.js";
 import {getInvoiceCount} from "../../model/invoiceNumbers/invoiceNumbers.js";
@@ -14,7 +14,7 @@ export default async function sendInvoice({userId,invoiceId}){
     invoice = await invoice.save()
     const invoiceCount = await getInvoiceCount(userId)
 
-    const attachment = await generateAttachment({
+    const emailComposition = await composeEmail({
         invoiceNumber: invoiceCount,
         customerName: invoice.customer.name,
         date: invoice.start,
@@ -25,9 +25,10 @@ export default async function sendInvoice({userId,invoiceId}){
     })
 
     const email = await sendEmail({
+        host: user.emailHost,
         pass: user.emailPassword,
         user: user.email,
-        attachment
+        emailComposition
     })
 
     invoice.status = 'sent'

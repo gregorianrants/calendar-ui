@@ -1,9 +1,9 @@
 import nodemailer from "nodemailer";
 
-export default async function sendEmail({user,pass,attachment}) {
+export default async function sendEmail({user,pass,host,emailComposition}) {
         // create reusable transporter object using the default SMTP transport
         let transporter = nodemailer.createTransport({
-            host: "mail.gregorianrants.co.uk",
+            host,
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
@@ -14,7 +14,7 @@ export default async function sendEmail({user,pass,attachment}) {
         });
 
         // send mail with defined transport object
-        let info = await transporter.sendMail({
+        /*let info = await transporter.sendMail({
             from: '"invoice" <invoice@gregorianrants.co.uk>', // sender address
             to: "gregorian_rants@hotmail.com", // list of receivers
             subject: "Hello ✔", // Subject line
@@ -25,8 +25,10 @@ export default async function sendEmail({user,pass,attachment}) {
                     content: attachment
                 }
             ]
-        });
+        });*/
 
+
+    let info = await transporter.sendMail(emailComposition);
         console.log("Message sent: %s", info.messageId);
         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 

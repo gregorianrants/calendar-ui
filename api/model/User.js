@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
         emailPassword: {
                 type: String
         },
+        emailHost: {
+          type: String
+        },
         companyName: String,
         companyAddress: String,
 })

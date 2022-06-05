@@ -25,6 +25,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import BusinessIcon from '@material-ui/icons/Business';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import DnsIcon from '@material-ui/icons/Dns';
 
 const Row = styled.div`
   display: flex;
@@ -98,7 +99,7 @@ function ReadRowPassword() {
             </IconContainer>
             <Values>
                 <Key>{label}</Key>
-                <Value>{value.replace(/./ig, '\u2022')}</Value>
+                <Value>{value ? value.replace(/./ig, '\u2022') : ''}</Value>
             </Values>
             <IconButtonContainer onClick={toggleEdit}>
                 <EditIcon fontSize='small'/>
@@ -246,7 +247,10 @@ export default function UserDetails() {
         emailPassword: yup
             .string('Enter your password'),
         companyName: yup
-            .string('enter your company name')
+            .string('enter your company name'),
+        emailHost: yup
+            .string('please provide your email server host name')
+
     });
 
     return (
@@ -260,7 +264,8 @@ export default function UserDetails() {
                     email: data?.email || '',
                     emailPassword: data?.emailPassword || '',
                     companyName: data?.companyName || '',
-                    companyAddress: data?.companyAddress || ''
+                    companyAddress: data?.companyAddress || '',
+                    emailHost: data?.emailHost || ''
                 }}
                 onSubmit={(user) => {
                     editUser(user)
@@ -283,6 +288,14 @@ export default function UserDetails() {
                     >
                         <ReadRowPassword/>
                         <EditRowPassword/>
+                    </FormRow>
+                    <FormRow
+                        icon={<DnsIcon fontSize={"small"}/>}
+                        name={'emailHost'}
+                        label={'Email Server Host'}
+                    >
+                        <ReadRow/>
+                        <EditRow/>
                     </FormRow>
                     <FormRow
                         icon={<BusinessIcon fontSize={"small"}/>}
