@@ -34,7 +34,13 @@ export const apiSlice = createApi({
             }
         }),
         listJobs: builder.query({
-            query: ({skip}) => `/jobs?skip=${skip}&limit=10`,
+            query: ({skip, invoiceState}) =>(
+                invoiceState==='all'
+                    ?
+                    `/jobs?skip=${skip}&limit=10`
+                    :
+                    `/jobs?skip=${skip}&limit=10&invoiceState=${invoiceState}`
+            ),
             transformResponse: response => {
                 return response.data
             },

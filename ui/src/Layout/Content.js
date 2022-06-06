@@ -11,6 +11,7 @@ import PrepareForInvoice from "../features/forms/PrepareForInvoice";
 import CreateJobForm from "../features/forms/CreateJobForm";
 import Auth from "../features/auth/Auth";
 import Index from '../features/jobPage'
+import PrivacyPolicy from "../features/PrivacyPolicy";
 //import AuthorizeGcalButton from "../features/googleCalendar/AuthorizeGcalButton";
 import LoginPage from "../features/auth/LoginPage";
 import OauthCallback from "../features/googleCalendar/Oauthcallback";
@@ -119,6 +120,9 @@ function Content() {
                         {/*auth handles call back from Auth0*/}
                         <Route path="/oauthcallback">
                             <OauthCallback/>
+                        </Route>
+                        <Route path='/privacy-policy'>
+                            <PrivacyPolicy />
                         </Route>
                         <Route>
                             <Redirect to="/calendar"/>

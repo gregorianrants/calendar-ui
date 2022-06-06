@@ -1,4 +1,4 @@
-import Invoice from "../../model/invoice.js";
+import Invoice from "../../model/invoice/invoice.js";
 import composeEmail from "./composeEmail.js";
 import sendEmail from "./sendEmail.js";
 import * as userModel from "../../model/User.js";

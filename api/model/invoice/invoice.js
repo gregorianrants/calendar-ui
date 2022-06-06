@@ -1,7 +1,6 @@
-import jobObj from "./jobObj.js";
+import jobObj from "../jobObj.js";
 import mongoose from 'mongoose';
-
-
+import job from '../job.js'
 
 function markRequired(obj){
     const result = {...obj}
@@ -48,9 +47,20 @@ const invoiceObj = {
 
 export const invoiceSchema = new mongoose.Schema(invoiceObj,{timestamps: true})
 
+// invoiceSchema.post('save',async function(doc,next){
+//     console.log('flibbertyjibbit',doc)
+//     const id = String(doc.job)
+//     console.log(id)
+//     await job.edit(id, {invoiceStatus: doc.status})
+//     next()
+// })
 
-
-
+invoiceSchema.post('save',async function(doc,next){
+    const id = String(doc.job)
+    console.log(id)
+    await job.edit(id, {invoiceState: doc.status})
+    next()
+})
 
 export const invoiceSchemaFront = new mongoose.Schema(invoiceObjFront)
 
@@ -97,11 +107,21 @@ async function get(id) {
     return invoice;
 }
 
+async function edit(_id, change) {
+    const invoice = await get(_id);
+    Object.keys(change).forEach(function (key) {
+        invoice[key] = change[key];
+    });
+    await invoice.save();
+    return invoice;
+}
+
 
 export default {
     create,
     list,
-    get
+    get,
+    edit
 }
 
 

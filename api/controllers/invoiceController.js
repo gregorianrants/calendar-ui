@@ -1,4 +1,4 @@
-import Invoice from '../model/invoice.js'
+import Invoice from '../model/invoice/invoice.js'
 import autoCatch from "../lib/autoCatch.js";
 import * as sendInvoiceService from '../services/sendInvoice/sendInvoice.js'
 

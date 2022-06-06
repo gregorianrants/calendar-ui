@@ -16,12 +16,13 @@ async function getJobs(req, res) {
   );
   //todo need to set monday to start of day and sunday to end of day
   const { sub } = req.user;
-  const { from = undefined, to = undefined, skip=0, limit=1000 } = req.query;
+  const { from = undefined, to = undefined, skip=0, limit=1000,invoiceState=null } = req.query;
   let data = await Job.list({
     from,
     to,
     skip: Number(skip),
     limit: Number(limit),
+    invoiceState,
     sub });
 
   // res.status(400)

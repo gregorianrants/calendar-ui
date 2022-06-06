@@ -1,10 +1,19 @@
 import mongoose from 'mongoose';
 import jobObj from "./jobObj.js";
-import {invoiceSchema} from "./invoice.js";
+import {invoiceSchema} from "./invoice/invoice.js";
 import {sortBy,pipe,prop,last} from 'ramda'
 
 const opts = { toJSON: { virtuals: true } };
-export const jobSchema = new mongoose.Schema(jobObj,opts);
+export const jobSchema = new mongoose.Schema(
+    {
+      ...jobObj,
+      invoiceState: {
+        type: String,
+        default: 'none',
+        enum: ['none','created','sending','sent']
+      }
+    }
+    ,opts);
 
 jobSchema.virtual('invoices',{
   ref: 'Invoice',
@@ -24,20 +33,15 @@ jobSchema.virtual('readyForInvoice').get(function(){
   }
 })
 
-jobSchema.virtual('invoiceState').get(function(){
-  if(!this.invoices || this.invoices.length===0) return 'none'
-  const latest = pipe(
-      sortBy(prop('createdAt')),
-      last
-  )
-  if(latest.void){
-    return 'void'
-  }
-  if(latest.sent){
-    return 'sent'
-  }
-  return 'created'
-})
+// jobSchema.virtual('invoiceState').get(function(){
+//   if(!this.invoices || this.invoices.length===0) return 'none'
+//   const latest = pipe(
+//       sortBy(prop('createdAt')),
+//       last
+//   )(this.invoices)
+//   if(latest.void) return 'void'
+//   return latest.status
+// })
 
 let Job = mongoose.model("Job", jobSchema, "jobs");
 
@@ -49,16 +53,22 @@ function getPagination(skip,limit,count){
   }
 }
 
-async function list({ from, to, skip, limit, sub }) {
+async function list({ from, to, skip, limit, invoiceState=null, sub }) {
   const filter = {}
   if(from) filter.start = { $gte: from }
   if(to) filter.end = { $lte: to }
+  if(invoiceState){
+    filter.invoiceState=invoiceState
+  }
   filter.sub = sub
   const query  = Job
       .find(filter)
 
   const count = await Job.countDocuments(filter)
   console.log(count)
+
+
+
   if((typeof skip!=='undefined') && (typeof limit!=='undefined')){
     query.limit(Number(limit))
         .skip(Number(skip))
