@@ -282,22 +282,6 @@ export default function UserDetails() {
                         <EditRow/>
                     </FormRow>
                     <FormRow
-                        icon={<LockIcon fontSize={"small"}/>}
-                        name={'emailPassword'}
-                        label={'Email Password'}
-                    >
-                        <ReadRowPassword/>
-                        <EditRowPassword/>
-                    </FormRow>
-                    <FormRow
-                        icon={<DnsIcon fontSize={"small"}/>}
-                        name={'emailHost'}
-                        label={'Email Server Host'}
-                    >
-                        <ReadRow/>
-                        <EditRow/>
-                    </FormRow>
-                    <FormRow
                         icon={<BusinessIcon fontSize={"small"}/>}
                         name={'companyName'}
                         label={'Company Name'}

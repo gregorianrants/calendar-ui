@@ -41,6 +41,8 @@ export default function Settings() {
             </p>
             <FakeDataButton/>
             <h2>User Details</h2>
+            <p>these details will be used to provide details about your company on any invoices sent by VanCal</p>
+            <p>If a receiver of an invoice replies to the invoice the reply will go to the email address provided here</p>
             <UserDetails/>
         </div>
     )

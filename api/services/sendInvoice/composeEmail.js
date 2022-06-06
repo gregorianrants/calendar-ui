@@ -1,10 +1,10 @@
 import PizZip from "pizzip"
 import Docxtemplater from "docxtemplater"
 
-import { promises as fsPromises } from 'fs'
-import { dirname} from 'path';
+import {promises as fsPromises} from 'fs'
+import {dirname} from 'path';
 import path from 'path'
-import { fileURLToPath } from 'url';
+import {fileURLToPath} from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -14,14 +14,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // buf is a nodejs Buffer, you can either write it to a
 // file or res.send it with express for example.
 
-async function generateAttachment({invoiceNumber,
-                            customerName,
-                            date,
-                            collectionAddress,
-                            bill,
-                            companyName,
-                            companyAddress
-                                                 }){
+async function generateAttachment({
+                                      invoiceNumber,
+                                      customerName,
+                                      date,
+                                      collectionAddress,
+                                      bill,
+                                      companyName,
+                                      companyAddress
+                                  }) {
     const content = await fsPromises.readFile(
         path.resolve(__dirname, "invoice-template.docx"),
         "binary"
@@ -37,7 +38,8 @@ async function generateAttachment({invoiceNumber,
     console.log(typeof doc)
 
 // Render the document (Replace {first_name} by John, {last_name} by Doe, ...)
-    doc.render({    invoiceNumber,
+    doc.render({
+        invoiceNumber,
         customerName,
         date,
         collectionAddress,
@@ -58,7 +60,7 @@ async function generateAttachment({invoiceNumber,
     //fs.writeFileSync(path.resolve(__dirname, `../invoices/invoice${invoiceNumber}.docx`), buf);
 }
 
-function createBody({companyName,customerName}){
+function createBody({companyName, customerName}) {
     return (
         `
 Dear ${customerName},
@@ -70,23 +72,33 @@ Best wishes from ${companyName}
     )
 }
 
-function createSubject({companyName, invoiceNumber}){
+function createSubject({companyName, invoiceNumber}) {
     return (
         `${companyName} invoice number ${invoiceNumber}`
     )
 }
 
 
-export default async function composeEmail({invoiceNumber,
-                          customerName,
-                          date,
-                          collectionAddress,
-                          bill,
-                          companyName,
-                          companyAddress
-                      }){
+function getFrom(emailAddress) {
+    return `"${emailAddress.split('@')[0]}" <${emailAddress}>`
+}
 
-    const attachment = await generateAttachment({invoiceNumber,
+//console.log(getFrom('invoice@gregorianrants.co.uk'))
+
+export default async function composeEmail({
+                                               invoiceNumber,
+                                               customerName,
+                                               date,
+                                               collectionAddress,
+                                               bill,
+                                               companyName,
+                                               companyAddress,
+                                               replyTo,
+                                               from
+                                           }) {
+
+    const attachment = await generateAttachment({
+        invoiceNumber,
         customerName,
         date,
         collectionAddress,
@@ -95,15 +107,20 @@ export default async function composeEmail({invoiceNumber,
         companyAddress
     })
 
+    const fromAddress = getFrom(from)
+
+    console.log(fromAddress)
 
     return {
-        from: '"invoice" <invoice@gregorianrants.co.uk>', // sender address
+        from: getFrom(from), // sender address
+        replyTo,
         to: "gregorian_rants@hotmail.com", // list of receivers
         subject: createSubject({companyName, invoiceNumber}), // Subject line
-        text: createBody({companyName,customerName}), // plain text body
+        text: createBody({companyName, customerName}), // plain text body
         //html: "<b>Hello world?</b>", // html body
         attachments: [
-            {filename: 'invoice.docx',
+            {
+                filename: 'invoice.docx',
                 content: attachment
             }
         ]
