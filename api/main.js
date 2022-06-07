@@ -62,6 +62,8 @@ console.log(staticPath)
 
 app.use(express.static(staticPath));
 
+app.get('')
+
 app.get("/*", function (req, res) {
   const thePath = path.join(__dirname, "../ui/build", "index.html")
   console.log(thePath)
