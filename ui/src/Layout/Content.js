@@ -12,6 +12,7 @@ import CreateJobForm from "../features/forms/CreateJobForm";
 import Auth from "../features/auth/Auth";
 import Index from '../features/jobPage'
 import PrivacyPolicy from "../features/PrivacyPolicy";
+import HomePage from "../features/HomePage";
 //import AuthorizeGcalButton from "../features/googleCalendar/AuthorizeGcalButton";
 import LoginPage from "../features/auth/LoginPage";
 import OauthCallback from "../features/googleCalendar/Oauthcallback";
@@ -65,6 +66,7 @@ function Content() {
                 <Route path="/error">
                     <Error/>
                 </Route>
+
                 <ErrorHandler>
                     <Switch>
                         <Route path="/calendar">
@@ -124,8 +126,11 @@ function Content() {
                         <Route path='/privacy-policy'>
                             <PrivacyPolicy />
                         </Route>
+                        <Route path="/">
+                            <HomePage/>
+                        </Route>
                         <Route>
-                            <Redirect to="/calendar"/>
+                            <Redirect to="/"/>
                         </Route>
                     </Switch>
                 </ErrorHandler>
