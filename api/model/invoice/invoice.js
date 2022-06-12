@@ -16,13 +16,10 @@ const invoiceObjFront = {
     customer: markRequired(jobObj.customer),
     charges: markRequired(jobObj.charges),
     bill: {...jobObj.bill, required: true},
-    void: {type: Boolean,
-    default: false
-    },
     status: {
         type: String,
         default: 'created',
-        enum: ['created','sending','sent']
+        enum: ['created','sending','sent','void']
     },
     addresses: {
         ...jobObj.addresses,

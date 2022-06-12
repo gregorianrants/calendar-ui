@@ -23,9 +23,11 @@ export async function sendInvoice({userId,invoiceId}){
         companyName: user.companyName,
         companyAddress: user.companyAddress,
         from: process.env.EMAIL_ADDRESS,
-        replyTo: user.email
+        replyTo: user.email,
+        to: invoice.customer.email
     })
 
+    console.log('asdfasdfwee4dde',invoice.customer.email)
     console.log('asdfsdf',emailComposition)
 
     const email = await sendEmail({

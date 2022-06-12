@@ -38,8 +38,19 @@ async function sendInvoice(req,res){
     });
 }
 
+async function updateInvoice(req,res){
+    const {sub} = req.user
+    const {id} = req.params
+    const invoice = await Invoice.edit(id,req.body)
+    res.status(200).json({
+        status: 'success',
+        data: invoice
+    })
+}
+
 export default autoCatch({
     createInvoice,
     sendInvoice,
-    getInvoices
+    getInvoices,
+    updateInvoice
 });

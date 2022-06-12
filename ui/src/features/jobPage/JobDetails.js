@@ -18,13 +18,14 @@ import Accordion from "../../components/Accordion";
 import {Container,Title,SectionHeading,Property,Value,ActionsStyled,Items} from "./style";
 
 import {makeStyles} from "@material-ui/core/styles";
-
-
+import {ButtonSpacer} from "./style";
 
 
 const AccordionSummaryStyled = styled(Accordion.Summary)`
 color: #757de8;
 `
+
+
 
 
 function Address({address, number}) {
@@ -85,12 +86,14 @@ function Actions({job}) {
 
     return (
         <ActionsStyled>
-            {!readyForInvoice
-                ?
-                <PrepareForInvoiceButton id={job._id}/>
-                :
-                needsInvoice && <CreateInvoiceButton job={job}/>
-            }
+            <PrepareForInvoiceButton id={job._id}/>
+            {readyForInvoice
+            && needsInvoice
+            &&
+                <ButtonSpacer>
+                    <CreateInvoiceButton job={job} />
+                </ButtonSpacer>
+          }
         </ActionsStyled>
     )
 }

@@ -12,6 +12,10 @@ export const Title = styled.h2`
   margin-top: 0;
 `
 
+export const TitleVoid = styled(Title)`
+  color: #f44336;
+`
+
 export const SectionHeading = styled.h2`
   font-family: Roboto;
   font-weight: 500;
@@ -40,4 +44,8 @@ export const ActionsStyled = styled.div`
 
 export const Items = styled.div`
   white-space: pre-line;
+`
+
+export const ButtonSpacer = styled.div`
+padding-top: 5px;
 `

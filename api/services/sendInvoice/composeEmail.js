@@ -94,7 +94,8 @@ export default async function composeEmail({
                                                companyName,
                                                companyAddress,
                                                replyTo,
-                                               from
+                                               from,
+                                                to
                                            }) {
 
     const attachment = await generateAttachment({
@@ -114,7 +115,7 @@ export default async function composeEmail({
     return {
         from: getFrom(from), // sender address
         replyTo,
-        to: "gregorian_rants@hotmail.com", // list of receivers
+        to,
         subject: createSubject({companyName, invoiceNumber}), // Subject line
         text: createBody({companyName, customerName}), // plain text body
         //html: "<b>Hello world?</b>", // html body

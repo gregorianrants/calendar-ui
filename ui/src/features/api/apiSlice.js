@@ -133,6 +133,14 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: ['Jobs']
         }),
+        voidInvoice: builder.mutation({
+            query: id => ({
+                url: `/invoices/${id}`,
+                method: 'PATCH',
+                body: {status: 'void'}
+            }),
+            invalidatesTags: ['Jobs']
+        }),
         getUser: builder.query({
             query: () => `/users`,
             transformResponse: response => {
@@ -173,6 +181,7 @@ export const {
     useAddJobMutation,
     useCreateInvoiceMutation,
     useSendInvoiceMutation,
+    useVoidInvoiceMutation,
     useGetGcalQuery,
     usePrefetch,
     useGetUserQuery,

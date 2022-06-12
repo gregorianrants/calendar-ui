@@ -10,6 +10,7 @@ router
     .post('/:id[:]send-email',checkJwt,invoiceController.sendInvoice)
     .post("/", checkJwt, invoiceController.createInvoice)
     .get('/',checkJwt,invoiceController.getInvoices)
+    .patch('/:id',checkJwt,invoiceController.updateInvoice)
 
 
 export default router;

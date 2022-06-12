@@ -10,7 +10,7 @@ export const jobSchema = new mongoose.Schema(
       invoiceState: {
         type: String,
         default: 'none',
-        enum: ['none','created','sending','sent']
+        enum: ['none','created','sending','sent','void']
       }
     }
     ,opts);
