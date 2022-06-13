@@ -25,8 +25,6 @@ const StyledEvent = styled.div`
   padding: 0.25rem;
 `;
 
-
-
 export default function Event({
                                   top: topProp,
                                   bottom: bottomProp,
