@@ -6,6 +6,7 @@ import EventHeading from "./EventHeading";
 import {useHistory} from "react-router-dom";
 
 
+
 const StyledEvent = styled.div`
   position: absolute;
   background-color: blue;
@@ -26,12 +27,17 @@ export default function GcalEvent({
                                   end,
                                   updateEvent,
                                   updateDisplayEvent,
-                                      summary
+                                      summary,
+                                      attendees
                               }) {
 
     const [top, setTop] = React.useState(topProp)
     const [bottom, setBottom] = React.useState(bottomProp)
     //const {hourHeight} = React.useContext(settingsContext)
+
+    const operatives = attendees.filter(attendee=>!(attendee.organizer===true))
+
+    console.log(operatives)
 
     let history = useHistory()
 
@@ -54,7 +60,7 @@ export default function GcalEvent({
                      }}
                      onClick={handleCLick}
         >
-            <EventHeading start={start} end={end} summary={summary}/>
+            <EventHeading start={start} end={end} summary={summary} attendees={operatives}/>
         </StyledEvent>
     )
 }

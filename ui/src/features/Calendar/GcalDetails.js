@@ -15,6 +15,10 @@ import SubjectIcon from '@material-ui/icons/Subject';
 import {format} from "date-fns";
 import {isSameDay} from "date-fns";
 import {useHistory} from "react-router-dom";
+import PeopleIcon from '@material-ui/icons/People';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck, faEnvelope, faXmark} from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
 
 
 
@@ -44,10 +48,18 @@ const useStyles = makeStyles((theme)=>({
     },
     firstItem: {
         paddingTop: 0
+    },
+    nestedList: {
+        paddingTop: 0,
+        marginTop: 0
     }
 }))
 
-
+const NestedList = styled(List)`
+  margin-top: 0;
+  padding-top: 0;
+  
+`
 
 
 
@@ -136,6 +148,35 @@ export function GcalDetails(){
                         <ListItem alignItems="flex-start">
                             <ListItemIcon><SubjectIcon/></ListItemIcon>
                             <ListItemText primary={htmlBlobToString(gcalEvent?.description)} className={classes.description} primaryTypographyProps={{variant: 'body2'}}/>
+                        </ListItem>
+                        <ListItem alignItems="flex-start">
+                            <ListItemIcon><PeopleIcon/></ListItemIcon>
+
+                                <List className={classes.nestedList}>
+                                    {gcalEvent.attendees.map(attendee=>{
+                                        let icon = '!'
+
+                                        if (attendee.responseStatus === 'accepted') {
+                                            icon =  <FontAwesomeIcon icon={faCheck}/>
+                                        }
+                                        if (attendee.responseStatus === 'needsAction') {
+                                            icon =  <FontAwesomeIcon icon={faEnvelope}/>
+                                        }
+                                        if (attendee.responseStatus === 'declined') {
+                                            icon =  <FontAwesomeIcon icon={faXmark}/>
+                                        }
+
+
+
+                                        return (
+                                            <ListItem alignItems="flex-start">
+                                                <ListItemIcon>{icon}</ListItemIcon>
+                                                <ListItemText primary={attendee.email}/>
+                                            </ListItem>
+                                        )
+                                    })}
+                                </List>
+
                         </ListItem>
                     </List>
                 </CardContent>
