@@ -4,28 +4,38 @@ import useDrag from "./useDrag";
 import styled from "styled-components";
 
 import {fromTop, fromBottom, roundToNearest} from "../../utilities/utilities";
-import settingsContext from "./Contexts";
+import settingsContext from "../Calendar/Contexts";
 
 import {getTimeFromPosition} from "../../utilities/timeConversions.js";
 import {mergeDateAndTime} from "../../utilities/dateUtilities";
 import useDetectBottomEdge from "./useDetectBottomEdge";
-
+import {StyledEvent} from "./styles";
 
 
 import {useHistory} from "react-router";
 import {useEditJobMutation} from "../api/apiSlice";
+import {TimeText,StyledSummaryText} from "./styles";
 
-import EventHeading from "./EventHeading";
 
-const StyledEvent = styled.div`
-  position: absolute;
-  background-color: ${(props) => props.backgroundColor};
-  border: 0.5px solid white;
-  cursor: ${(props) => (props.overEdge ? "row-resize" : "default")};
-  padding: 0.25rem;
-`;
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck, faEnvelope, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {format} from "date-fns";
 
-export default function Event({
+function EventHeading({start, end, summary}) {
+
+
+    return (
+        <>
+            <TimeText>{format(start, 'p') + ' - ' + format(end, 'p')}</TimeText>
+            <StyledSummaryText variant="subtitle2"><span>{summary}</span></StyledSummaryText>
+        </>
+    )
+
+}
+
+
+
+export default function JobTile({
                                   top: topProp,
                                   bottom: bottomProp,
                                   left,

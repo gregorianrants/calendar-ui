@@ -1,5 +1,5 @@
 import {Card, CardContent, IconButton, ListItemText} from "@material-ui/core";
-import Modal from  '../../components/Modal'
+import Modal from '../../components/Modal'
 import {useParams} from "react-router-dom";
 import {useGetGcalQuery} from "../api/apiSlice";
 import {useMemo} from "react";
@@ -19,6 +19,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faEnvelope, faXmark} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+import AttendeesList from "./attendeesList";
 
 
 
@@ -146,38 +147,16 @@ export function GcalDetails(){
                             />
                         </ListItem>
                         <ListItem alignItems="flex-start">
+                            <ListItemIcon><PeopleIcon/></ListItemIcon>
+
+                            <AttendeesList attendees={gcalEvent.attendees}/>
+
+                        </ListItem>
+                        <ListItem alignItems="flex-start">
                             <ListItemIcon><SubjectIcon/></ListItemIcon>
                             <ListItemText primary={htmlBlobToString(gcalEvent?.description)} className={classes.description} primaryTypographyProps={{variant: 'body2'}}/>
                         </ListItem>
-                        <ListItem alignItems="flex-start">
-                            <ListItemIcon><PeopleIcon/></ListItemIcon>
 
-                                <List className={classes.nestedList}>
-                                    {gcalEvent.attendees.map(attendee=>{
-                                        let icon = '!'
-
-                                        if (attendee.responseStatus === 'accepted') {
-                                            icon =  <FontAwesomeIcon icon={faCheck}/>
-                                        }
-                                        if (attendee.responseStatus === 'needsAction') {
-                                            icon =  <FontAwesomeIcon icon={faEnvelope}/>
-                                        }
-                                        if (attendee.responseStatus === 'declined') {
-                                            icon =  <FontAwesomeIcon icon={faXmark}/>
-                                        }
-
-
-
-                                        return (
-                                            <ListItem alignItems="flex-start">
-                                                <ListItemIcon>{icon}</ListItemIcon>
-                                                <ListItemText primary={attendee.email}/>
-                                            </ListItem>
-                                        )
-                                    })}
-                                </List>
-
-                        </ListItem>
                     </List>
                 </CardContent>
             </Card>

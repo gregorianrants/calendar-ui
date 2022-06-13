@@ -5,7 +5,7 @@ import PrivateRoute from "../features/auth/PrivateRoute";
 import SettingsContext from "../features/Calendar/Contexts";
 import Calendar from "../features/Calendar/Calendar";
 import {JobDetails} from "../features/jobDetails/JobDetails";
-import {GcalDetails} from "../features/Calendar/GcalDetails";
+import {GcalDetails} from "../features/gcalDetails/GcalDetails";
 import EditJobForm from "../features/forms/EditJobForm";
 import PrepareForInvoice from "../features/forms/PrepareForInvoice";
 import CreateJobForm from "../features/forms/CreateJobForm";

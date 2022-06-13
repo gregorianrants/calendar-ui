@@ -2,22 +2,56 @@ import React from "react";
 
 
 import styled from 'styled-components'
-import EventHeading from "./EventHeading";
+
 import {useHistory} from "react-router-dom";
+import {StyledEvent} from "./styles";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck, faEnvelope, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {format} from "date-fns";
+import {StyledSummaryText,TimeText,InviteStatusText} from "./styles";
 
 
+// const StyledEvent = styled.div`
+//   position: absolute;
+//   background-color: blue;
+//   border: 0.5px solid white;
+//   cursor: ${(props) => (props.overEdge ? "row-resize" : "default")};
+//   padding: 0.25rem;
+// `;
 
-const StyledEvent = styled.div`
-  position: absolute;
-  background-color: blue;
-  border: 0.5px solid white;
-  cursor: ${(props) => (props.overEdge ? "row-resize" : "default")};
-  padding: 0.25rem;
-`;
+function EventHeading({start, end, summary, attendees = []}) {
+    console.log(attendees)
+
+    //"needsAction"
+
+    const inviteStatus = attendees.map(attendee => {
+        if (attendee.responseStatus === 'accepted') {
+            return <FontAwesomeIcon icon={faCheck}/>
+        }
+        if (attendee.responseStatus === 'needsAction') {
+            return <FontAwesomeIcon icon={faEnvelope}/>
+        }
+        if (attendee.responseStatus === 'declined') {
+            return <FontAwesomeIcon icon={faXmark}/>
+        }
+
+        return <span>{attendee.responseStatus}</span>
+
+    })
 
 
+    return (
+        <>
+            <TimeText>{format(start, 'p') + ' - ' + format(end, 'p')}</TimeText>
+            <StyledSummaryText variant="subtitle2"><span>{summary}</span></StyledSummaryText>
+            <InviteStatusText>{inviteStatus}</InviteStatusText>
 
-export default function GcalEvent({
+        </>
+    )
+
+}
+
+export default function GcalTile({
                                   top: topProp,
                                   bottom: bottomProp,
                                   left,
@@ -54,7 +88,7 @@ export default function GcalEvent({
         <StyledEvent data-component={'event'}
                      data-id={_id}
                      className='event'
-
+                    backgroundColor='blue'
                      style={{
                          top: top+'px', bottom: bottom+'px', left, right
                      }}

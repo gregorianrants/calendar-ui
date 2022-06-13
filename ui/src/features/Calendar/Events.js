@@ -1,5 +1,5 @@
-import Event from './Event'
-import GcalEvent from "./gcalEvent";
+import JobTile from '../eventTiles/jobTile'
+import GcalTile from "../eventTiles/gcalTile";
 import {configure} from "../../eventGeometry/eventGeometry";
 import React, {useMemo} from "react";
 import settingsContext from "./Contexts";
@@ -90,7 +90,7 @@ export default function Events({date}) {
             [...eventsProcessed
             .map(
                 (evnt, i) => {
-                    return <Event
+                    return <JobTile
                         {...evnt}
                         key={evnt._id}
                     />
@@ -98,7 +98,7 @@ export default function Events({date}) {
                 ),
                 ...gcalProcessed.map(
                 (evnt, i) => {
-                    return <GcalEvent
+                    return <GcalTile
                         {...evnt}
                         key={evnt.id}
                     />
