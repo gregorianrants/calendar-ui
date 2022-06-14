@@ -107,7 +107,7 @@ export default function List() {
 
         console.log(jobsForDate.pagination)
 
-        content = <div style={{height: '700px', width: '100%'}}>
+        content = <div style={{height: '700px', width: '100%', marginTop: '15px'}}>
             <DataGrid
                 page={page}
                 rows={rows}
@@ -135,9 +135,10 @@ export default function List() {
                     value={filter}
                 onChange={handleSelectChange}
                 >
-                    <MenuItem value={'created'}>created</MenuItem>
-                    <MenuItem value={'sent'}>sent</MenuItem>
-                    <MenuItem value={'all'}>all</MenuItem>
+                    <MenuItem value={'none'}>Not Created</MenuItem>
+                    <MenuItem value={'created'}>Created</MenuItem>
+                    <MenuItem value={'sent'}>Sent</MenuItem>
+                    <MenuItem value={'all'}>All</MenuItem>
                 </Select>
             </FormControl>
 
