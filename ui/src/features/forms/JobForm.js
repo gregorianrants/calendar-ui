@@ -3,14 +3,17 @@ import mongoose from "mongoose";
 import styled from "styled-components";
 import { Formik, Field, Form } from "formik";
 import { cloneDeep } from "lodash";
+import PersonIcon from "@material-ui/icons/Person";
 
-import { ListBuilder } from "./AddressInput";
+import { ListBuilder } from "./ListBuilder";
 
-import { TextField, Button } from "@material-ui/core";
+import {TextField, Button, IconButton} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import {getHours,getMinutes,setHours,setMinutes} from "date-fns";
 import {get} from 'lodash-es'
+import HouseIcon from "@material-ui/icons/House";
+import CloseIcon from "@material-ui/icons/Close";
 
 import Modal from "../../components/Modal";
 import { Card, CardContent, CardHeader } from "@material-ui/core";
@@ -24,6 +27,7 @@ import {
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
 
 import { processMongooseError } from "../../utilities/processMongooseError";
+import {useHistory} from "react-router-dom";
 
 //es6 import was casuing a bug when building
 //const { processMongooseError } = require("../../utilities/processMongooseError")
@@ -93,6 +97,8 @@ function isGlobalError(path,errors){
 
 export default function JobForm({ initialValues, title, handleSubmit, schema }) {
   const classes = useStyles();
+  const history = useHistory()
+
 
 
   const validator = async (values) => {
@@ -113,7 +119,16 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
   return (
     <Modal>
       <Card>
-        <CardHeader title={title} />
+        <CardHeader
+            title={title}
+        action={
+          <IconButton>
+            <CloseIcon
+                onClick={()=>history.goBack()}
+            />
+          </IconButton>
+          }
+        />
         <CardContent className={classes.content}>
           <Formik
             initialValues={cloneDeep(initialValues || {})}
@@ -260,6 +275,7 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
                         errors={errors?.addresses}
                         onTouch={()=>setFieldTouched('addresses')}
                         touched={touched?.addresses}
+                        Icon={HouseIcon}
                     />
                     <ListBuilder
                         value={values.operatives}
@@ -270,6 +286,7 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
                         errors={errors?.operatives}
                         onTouch={()=>setFieldTouched('operatives')}
                         touched={touched?.operatives}
+                        Icon={PersonIcon}
                     />
                     <Field
                         className={classes.flexItem}

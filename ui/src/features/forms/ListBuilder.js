@@ -8,14 +8,23 @@ import {
   ListItemText,
   TextField,
   Typography,
+    Button,
+    IconButton
 } from "@material-ui/core";
-import HouseIcon from "@material-ui/icons/House";
+
+import AddBoxIcon from '@material-ui/icons/AddBox';
+
 import CloseIcon from "@material-ui/icons/Close";
+import styled from "styled-components";
 
 
 import cuid from "cuid";
 import produce from "immer";
 
+
+const Row = styled.div`
+display: flex;
+`
 
 function isGlobalError(error){
   if (error && !Array.isArray(error)){
@@ -32,7 +41,8 @@ export function ListBuilder({
   errors,
   itemName,
     onTouch,
-    touched
+    touched,
+    Icon
 }) {
   //TODO should maybe be thinking about a shared constructor for this
   //we are making an object like this on api as well
@@ -88,7 +98,7 @@ export function ListBuilder({
           value.map((a, i) => (
             <ListItem key={a._id}>
               <ListItemAvatar>
-                <HouseIcon></HouseIcon>
+                <Icon></Icon>
               </ListItemAvatar>
               <ListItemText
                 //className={classes.inline}
@@ -113,40 +123,49 @@ export function ListBuilder({
                 disableTypography
               />
               <ListItemSecondaryAction>
-                <CloseIcon
-                  color="primary"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    removeAddress(value, a._id);
-                  }}
-                />
+                <IconButton>
+                  <CloseIcon
+                      color="primary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        removeAddress(value, a._id);
+                      }}
+                  />
+                </IconButton>
+
               </ListItemSecondaryAction>
             </ListItem>
           ))}
       </List>
       <Grid item>
-        <TextField
-          label={label}
-          value={input}
-          fullWidth
-          onBlur={()=> {
-            console.log('hellow')
-            onTouch()
-          }}
-          onChange={(e) => {
-            console.log('fuck')
-            setInput(e.target.value);
-          }}
-        />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            addAddress(value, input);
-            setInput("");
-          }}
-        >
-          +
-        </button>
+        <Row>
+          <TextField
+              label={label}
+              value={input}
+              fullWidth
+              onBlur={()=> {
+                console.log('hellow')
+                onTouch()
+              }}
+              onChange={(e) => {
+                console.log('fuck')
+                setInput(e.target.value);
+              }}
+              InputProps={{endAdornment: <IconButton>
+                  <AddBoxIcon
+                      color="primary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        addAddress(value, input);
+                        setInput("");
+                      }}
+                  />
+                </IconButton>}}
+          />
+
+
+        </Row>
+
         {isGlobalError(errors) && touched && <p>{errors}</p>}
       </Grid>
     </>
