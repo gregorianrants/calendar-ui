@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
 export function JobDetails({displayEvent, close, updateEvent}) {
     const classes = useStyles();
-    const location = useLocation()
+
 
     //TODO
     //returns /calendar/job-details/ckx30y8w2000jpgvags8peqpc

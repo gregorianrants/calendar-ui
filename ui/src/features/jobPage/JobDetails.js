@@ -148,7 +148,7 @@ export default function JobDetails({job}){
                         Hourly Rate
                     </Property>
                     <Value>
-                        {`£${hourlyRate}`}
+                        { hourlyRate && `£${hourlyRate}`}
                     </Value>
                 </tr>
                 <tr>
@@ -156,7 +156,7 @@ export default function JobDetails({job}){
                         Fuel Charge
                     </Property>
                     <Value>
-                        {`£${fuelCharge}`}
+                        {fuelCharge && `£${fuelCharge}`}
                     </Value>
                 </tr>
                 <tr>
@@ -164,7 +164,7 @@ export default function JobDetails({job}){
                         Travel Time
                     </Property>
                     <Value>
-                        {`${travelTime} minutes`}
+                        {travelTime && `${travelTime} minutes`}
                     </Value>
                 </tr>
                 </tbody>

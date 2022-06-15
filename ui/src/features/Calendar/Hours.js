@@ -3,6 +3,7 @@ import styled from "styled-components";
 import settingsContext from "./Contexts";
 import { useHistory } from "react-router";
 import { formatISO } from "date-fns";
+import {useLocation} from "react-router-dom";
 
 const HoursStyled = styled.div`
   display: flex;
@@ -27,6 +28,7 @@ const HourStyled = styled.div`
 export default function Hours({ className, date }) {
   const { borderWidth, hourHeight } = React.useContext(settingsContext);
   const history = useHistory();
+  const location = useLocation()
 
   const handleClick = (hour) => {
     history.push(
@@ -34,7 +36,7 @@ export default function Hours({ className, date }) {
         date,
         { representation: "date" }
       )}`
-    ,{});
+    );
   };
 
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import mongoose from "mongoose";
 import styled from "styled-components";
 import { Formik, Field, Form } from "formik";
-import { cloneDeep,merge } from "lodash";
+import {mergeLeft} from 'ramda'
 import PersonIcon from "@material-ui/icons/Person";
 
 import { ListBuilder } from "./ListBuilder";
@@ -27,7 +27,7 @@ import {
 import { jobSchema } from "api/model/job"; //TODO change name of buildSchema
 
 import { processMongooseError } from "../../utilities/processMongooseError";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 
 //es6 import was casuing a bug when building
 //const { processMongooseError } = require("../../utilities/processMongooseError")
@@ -96,7 +96,16 @@ function isGlobalError(path,errors){
 const initial = {
   charges: {
     hourlyRate: null,
-  }
+    fuelCharge: null,
+    travelTime: null,
+  },
+  customer: {
+    name: null,
+    mobile: null,
+    email: null
+  },
+  items: null,
+  bill: null
 }
 
 
@@ -104,6 +113,9 @@ const initial = {
 export default function JobForm({ initialValues={}, title, handleSubmit, schema }) {
   const classes = useStyles();
   const history = useHistory()
+  const location = useLocation()
+
+  console.log(initialValues)
 
 
 
@@ -137,7 +149,7 @@ export default function JobForm({ initialValues={}, title, handleSubmit, schema 
         />
         <CardContent className={classes.content}>
           <Formik
-            initialValues={merge(initial,initialValues)}
+            initialValues={mergeLeft(initialValues,initial)}//merge mutates the second arg! hence the cloneDeep
             onSubmit={handleSubmit}
             validate={validator}
           >

@@ -15,7 +15,7 @@ const invoiceObjFront = {
     ...jobObj,
     customer: markRequired(jobObj.customer),
     charges: markRequired(jobObj.charges),
-    bill: {...jobObj.bill, required: true},
+    bill: {...jobObj.bill, required: [true, 'bill is required']},
     status: {
         type: String,
         default: 'created',

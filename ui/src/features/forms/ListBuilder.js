@@ -166,7 +166,7 @@ export function ListBuilder({
 
         </Row>
 
-        {isGlobalError(errors) && touched && <p>{errors}</p>}
+        {isGlobalError(errors) && touched && <Typography color='error' variant='caption'>{errors}</Typography>}
       </Grid>
     </>
   );
