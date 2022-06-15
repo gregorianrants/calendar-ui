@@ -48,8 +48,7 @@ const address = {
         type: String,
         default:
         cuid,
-    }
-    ,
+    },
     value: {
         validate: {
             validator: (v) => {

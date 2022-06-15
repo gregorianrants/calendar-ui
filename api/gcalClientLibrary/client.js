@@ -44,9 +44,9 @@ export function getAuthUrl(){
     })
     return url
 }
-
+//TODO sometimes i get invalid_grant and others invalid_token needs investigation is one from revoking outside of van cal and the other from within
 function isRevokedTokenError(err){
-    if (err?.response?.data?.error === 'invalid_grant' && err?.response?.data?.error_description === "Token has been expired or revoked."){
+    if (err?.response?.data?.error === 'invalid_grant' || err?.response?.data?.error === "invalid_token"){
         return true
     }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import mongoose from "mongoose";
 import styled from "styled-components";
 import { Formik, Field, Form } from "formik";
-import { cloneDeep } from "lodash";
+import { cloneDeep,merge } from "lodash";
 import PersonIcon from "@material-ui/icons/Person";
 
 import { ListBuilder } from "./ListBuilder";
@@ -93,9 +93,15 @@ function isGlobalError(path,errors){
   }
 }
 
+const initial = {
+  charges: {
+    hourlyRate: null,
+  }
+}
 
 
-export default function JobForm({ initialValues, title, handleSubmit, schema }) {
+
+export default function JobForm({ initialValues={}, title, handleSubmit, schema }) {
   const classes = useStyles();
   const history = useHistory()
 
@@ -131,7 +137,7 @@ export default function JobForm({ initialValues, title, handleSubmit, schema }) 
         />
         <CardContent className={classes.content}>
           <Formik
-            initialValues={cloneDeep(initialValues || {})}
+            initialValues={merge(initial,initialValues)}
             onSubmit={handleSubmit}
             validate={validator}
           >

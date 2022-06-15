@@ -6,7 +6,7 @@ function markRequired(obj){
     const result = {...obj}
     return Object.entries(obj).reduce((accum,current)=>{
         const [key,value] = current
-        accum[key]={...value,required: true}
+        accum[key]={...value,required: [true, `${key} is required`]}
         return accum
     },{})
 }
