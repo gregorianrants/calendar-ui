@@ -34,7 +34,7 @@ export default function Hours({ className, date }) {
         date,
         { representation: "date" }
       )}`
-    );
+    ,{});
   };
 
   return (
