@@ -161,7 +161,7 @@ export default function JobForm({ initialValues={}, title, handleSubmit, schema 
               handleChange,setFieldTouched}) => {
               return (
                   //<Typography variant="h4">Create Job</Typography>
-                  <Form onSubmit={handleSubmit}>
+                  <Form onSubmit={handleSubmit}  autocomplete="off">
                     <Field
                         as={TextField}
                         className={classes.inputRow}
@@ -294,6 +294,7 @@ export default function JobForm({ initialValues={}, title, handleSubmit, schema 
                         onTouch={()=>setFieldTouched('addresses')}
                         touched={touched?.addresses}
                         Icon={HouseIcon}
+                        id='field1'
                     />
                     <ListBuilder
                         value={values.operatives}
@@ -305,6 +306,7 @@ export default function JobForm({ initialValues={}, title, handleSubmit, schema 
                         onTouch={()=>setFieldTouched('operatives')}
                         touched={touched?.operatives}
                         Icon={PersonIcon}
+                        id='field2'
                     />
                     <Field
                         className={classes.flexItem}

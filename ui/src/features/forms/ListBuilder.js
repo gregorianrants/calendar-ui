@@ -42,7 +42,8 @@ export function ListBuilder({
   itemName,
     onTouch,
     touched,
-    Icon
+    Icon,
+    id
 }) {
   //TODO should maybe be thinking about a shared constructor for this
   //we are making an object like this on api as well
@@ -140,6 +141,8 @@ export function ListBuilder({
       <Grid item>
         <Row>
           <TextField
+              autoComplete='off'
+              id={id}
               label={label}
               value={input}
               fullWidth
@@ -148,10 +151,11 @@ export function ListBuilder({
                 onTouch()
               }}
               onChange={(e) => {
-                console.log('fuck')
                 setInput(e.target.value);
               }}
-              InputProps={{endAdornment: <IconButton>
+              InputProps={{
+                autoComplete: 'new-password',
+                endAdornment: <IconButton>
                   <AddBoxIcon
                       color="primary"
                       onClick={(e) => {
