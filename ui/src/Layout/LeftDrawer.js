@@ -59,23 +59,23 @@ function LeftDrawer(){
             <div className={classes.drawerContainer}>
                <Toolbar/>
                 <List>
-                    <ListItem component={Link} to='/'>
+                    <ListItem button component={Link} to='/'>
                         <ListItemIcon><HomeIcon/></ListItemIcon>
                         <ListItemText>Home Page</ListItemText>
                     </ListItem>
-                    <ListItem component={Link} to='/calendar'>
+                    <ListItem  button component={Link} to='/calendar'>
                         <ListItemIcon><CalendarTodayIcon/></ListItemIcon>
                         <ListItemText>Calendar</ListItemText>
                     </ListItem>
-                    <ListItem component={Link} to='/list'>
+                    <ListItem button component={Link} to='/list'>
                         <ListItemIcon><TableChartIcon/></ListItemIcon>
                         <ListItemText>List</ListItemText>
                     </ListItem>
-                    <ListItem component={Link} to='/settings'>
+                    <ListItem button component={Link} to='/settings'>
                         <ListItemIcon><SettingsIcon/></ListItemIcon>
                         <ListItemText>Settings</ListItemText>
                     </ListItem>
-                    <ListItem component={Link} to='/privacy-policy'>
+                    <ListItem button component={Link} to='/privacy-policy'>
                         <ListItemIcon><PolicyIcon/></ListItemIcon>
                         <ListItemText>Privacy Policy</ListItemText>
                     </ListItem>
