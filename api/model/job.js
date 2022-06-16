@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import jobObj from "./jobObj.js";
-import {invoiceSchema} from "./invoice/invoice.js";
+import {invoiceSchemaFront} from "./invoice/invoice.js";
 import {sortBy,pipe,prop,last} from 'ramda'
 
 const opts = { toJSON: { virtuals: true } };
@@ -23,7 +23,7 @@ jobSchema.virtual('invoices',{
 
 jobSchema.virtual('readyForInvoice').get(function(){
   const docValues = JSON.parse(JSON.stringify(this._doc))
-  const invoiceDoc = new mongoose.Document(docValues,invoiceSchema)
+  const invoiceDoc = new mongoose.Document(docValues,invoiceSchemaFront)
   const validationResult = invoiceDoc.validateSync()
   if(typeof validationResult==='undefined'){
     return (true)

@@ -15,7 +15,7 @@ export async function sendInvoice({userId,invoiceId}){
     const invoiceCount = await getInvoiceCount(userId)
 
     const emailComposition = await composeEmail({
-        invoiceNumber: invoiceCount,
+        invoiceNumber: invoice.invoiceNumber,
         customerName: invoice.customer.name,
         date: invoice.start,
         collectionAddress: invoice.addresses[0].value,

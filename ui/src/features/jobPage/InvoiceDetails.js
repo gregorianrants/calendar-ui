@@ -3,7 +3,7 @@ import {ButtonSpacer, Container, Property, Title,TitleVoid, Value} from "./style
 
 
 export default function InvoiceDetails({invoice}){
-    const {customer,charges,addresses,bill,_id,status} = invoice
+    const {customer,charges,addresses,bill,_id,status,invoiceNumber} = invoice
 
     const {name,email} = customer
 
@@ -28,7 +28,10 @@ export default function InvoiceDetails({invoice}){
             }
 
             <table>
-
+                <tr>
+                    <Property>Invoice Number</Property>
+                    <Value>{invoiceNumber}</Value>
+                </tr>
                 <tr>
                     <Property>Name</Property>
                     <Value>{name}</Value>

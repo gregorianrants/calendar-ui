@@ -37,7 +37,11 @@ const invoiceObjFront = {
 
 const invoiceObj = {
     ...invoiceObjFront,
-    job: {type: mongoose.Schema.Types.ObjectId, ref: 'Job'}
+    job: {type: mongoose.Schema.Types.ObjectId, ref: 'Job'},
+    invoiceNumber: {
+        type: Number,
+        required: true
+    }
 }
 
 
